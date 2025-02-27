@@ -10,7 +10,7 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 image_api = Blueprint('image_api', __name__)
 
 @image_api.route("/api/image")
-def accountList():
+def image():
     client = OpenAI(api_key = OPENAI_API_KEY)
 
     # response = client.images.generate(
