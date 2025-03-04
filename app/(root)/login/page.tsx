@@ -12,6 +12,15 @@ const page = () => {
       >
         <button type="submit">Continue with GitHub</button>
       </form>
+      <form
+        className="inline bg-black text-white p-3 m-2"
+        action={async () => {
+          "use server";
+          await signIn("google");
+        }}
+      >
+        <button type="submit">Continue with Google</button>
+      </form>
     </div>
   );
 };
