@@ -2,8 +2,10 @@ import React from "react";
 import aiBookLogo from "../assets/aiBook.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { auth } from "@/auth";
 
-const Header = () => {
+const Header = async () => {
+  const session = await auth();
   return (
     <header className="fixed flex w-full m-w-inherit">
       <div className="grow-0 p-3 cursor-pointer">
@@ -15,11 +17,18 @@ const Header = () => {
         Searchbar
       </div>
       <div className="flex items-center mx-3 grow-0">
-        <Link href={"/login"}>
-          <button className="cursor-pointer bg-black text-white p-3">
-            Login
-          </button>
-        </Link>
+        {session && session?.user ? (
+          <>
+            <button></button>
+            <span>{session.user?.name}</span>
+          </>
+        ) : (
+          <Link href={"/login"}>
+            <button className="cursor-pointer bg-black text-white p-3">
+              Login
+            </button>
+          </Link>
+        )}
       </div>
     </header>
   );
