@@ -47,7 +47,7 @@ const Page = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-inherit p-4">
+    <div className="flex grow items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-center text-gray-800">
