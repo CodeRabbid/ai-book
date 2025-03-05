@@ -16,15 +16,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return { id: "some random id goes here" };
       },
     }),
-    Google({
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
-      },
-    }),
+    Google,
     Credentials({
       credentials: {
         email: { label: "Email", type: "email", placeholder: "Email" },
