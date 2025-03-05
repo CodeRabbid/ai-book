@@ -3,9 +3,12 @@ import aiBookLogo from "../assets/aiBook.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@/auth";
+import { handleSignOut } from "@/app/actions/authActions";
+import { Button } from "./ui/button";
 
 const Header = async () => {
   const session = await auth();
+  console.log(session);
   return (
     <header className="fixed flex w-full m-w-inherit">
       <div className="grow-0 p-3 cursor-pointer">
@@ -19,14 +22,18 @@ const Header = async () => {
       <div className="flex items-center mx-3 grow-0">
         {session && session?.user ? (
           <>
-            <button></button>
+            <form action={handleSignOut}>
+              <Button variant="default" type="submit">
+                Sing Out
+              </Button>
+            </form>
             <span>{session.user?.name}</span>
           </>
         ) : (
-          <Link href={"/login"}>
-            <button className="cursor-pointer bg-black text-white p-3">
-              Login
-            </button>
+          <Link href={"/auth/signin"}>
+            <Button variant="default" type="submit">
+              Sign in
+            </Button>
           </Link>
         )}
       </div>
