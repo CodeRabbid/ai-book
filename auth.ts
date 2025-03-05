@@ -6,7 +6,7 @@ import { signInSchema } from "./lib/zod";
 import prisma from "./lib/prisma";
 import bcryptjs from "bcryptjs";
 
-const publicRoutes = ["/auth/sigin", "/auth/signup"];
+const publicRoutes = ["/auth/sigin", "/auth/signup", "/", "/login"];
 const authRoutes = ["/auth/sigin", "/auth/signup"];
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
