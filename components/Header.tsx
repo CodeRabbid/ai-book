@@ -8,6 +8,7 @@ import { Button } from "./ui/button";
 
 const Header = async () => {
   const session = await auth();
+  console.log(session);
   return (
     <header className="fixed flex w-full m-w-inherit">
       <div className="grow-0 p-3 cursor-pointer">

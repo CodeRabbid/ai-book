@@ -11,11 +11,7 @@ const authRoutes = ["/auth/sigin", "/auth/signup"];
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
-    GitHub({
-      profile(profile) {
-        return { id: "some random id goes here" };
-      },
-    }),
+    GitHub,
     Google,
     Credentials({
       credentials: {
