@@ -86,7 +86,7 @@ export default function SignUp() {
                       <FormControl>
                         <Input
                           type={
-                            field.includes("password")
+                            ["password", "confirmPassword"].includes(field)
                               ? "password"
                               : field === "email"
                               ? "email"
