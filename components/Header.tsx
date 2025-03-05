@@ -5,10 +5,23 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { handleSignOut } from "@/app/actions/authActions";
 import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = async () => {
   const session = await auth();
-  console.log(session);
   return (
     <header className="fixed flex w-full m-w-inherit">
       <div className="grow-0 p-3 cursor-pointer">
@@ -21,14 +34,20 @@ const Header = async () => {
       </div>
       <div className="flex items-center mx-3 grow-0">
         {session && session?.user ? (
-          <>
-            <form action={handleSignOut}>
-              <Button variant="default" type="submit">
-                Sing Out
-              </Button>
-            </form>
-            <span>{session.user?.name}</span>
-          </>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">{session.user.name}</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <form action={handleSignOut} className="flex justify-end">
+                <Button variant="default" type="submit">
+                  Sing Out
+                </Button>
+              </form>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ) : (
           <div className="flex gap-1">
             <Link href={"/auth/signin"}>
