@@ -20,8 +20,13 @@ import { z } from "zod";
 import { signUpSchema } from "@/lib/zod";
 import {
   handleCredentialsSignin,
+  handleGithubSignin,
+  handleGoogleSignin,
   handleSignUp,
 } from "@/app/actions/authActions";
+import { Button } from "@/components/ui/button";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignUp() {
   const [globalError, setGlobalError] = useState("");
@@ -100,6 +105,21 @@ export default function SignUp() {
               </LoadingButton>
             </form>
           </Form>
+          <span className="text-sm text-gray-500 text-center block my-2">
+            or
+          </span>
+          <form className="w-full" action={handleGithubSignin}>
+            <Button variant="outline" className="w-full" type="submit">
+              <GitHubLogoIcon className="h-4 w-4 mr-2" />
+              Continue with GitHub
+            </Button>
+          </form>
+          <form className="w-full mt-2" action={handleGoogleSignin}>
+            <Button variant="outline" className="w-full" type="submit">
+              <FcGoogle className="h-4 w-4 mr-2" />
+              Continue with Google
+            </Button>
+          </form>
         </CardContent>
       </Card>
     </div>

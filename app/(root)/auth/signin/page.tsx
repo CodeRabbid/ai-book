@@ -24,6 +24,7 @@ import LoadingButton from "@/components/LoadingButton";
 import ErrorMessage from "@/components/ErrorMessage";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
+import { FcGoogle } from "react-icons/fc";
 
 const Page = () => {
   const [globalError, setGlobalError] = useState<string>("");
@@ -105,12 +106,13 @@ const Page = () => {
           <form className="w-full" action={handleGithubSignin}>
             <Button variant="outline" className="w-full" type="submit">
               <GitHubLogoIcon className="h-4 w-4 mr-2" />
-              Sign in with GitHub
+              Continue with GitHub
             </Button>
           </form>
-          <form className="w-full" action={handleGoogleSignin}>
+          <form className="w-full mt-2" action={handleGoogleSignin}>
             <Button variant="outline" className="w-full" type="submit">
-              Sign in with Google
+              <FcGoogle className="h-4 w-4 mr-2" />
+              Continue with Google
             </Button>
           </form>
         </CardContent>
