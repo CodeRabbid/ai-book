@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import {
   handleCredentialsSignin,
   handleGithubSignin,
+  handleGoogleSignin,
 } from "@/app/actions/authActions";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -105,6 +106,11 @@ const Page = () => {
             <Button variant="outline" className="w-full" type="submit">
               <GitHubLogoIcon className="h-4 w-4 mr-2" />
               Sign in with GitHub
+            </Button>
+          </form>
+          <form className="w-full" action={handleGoogleSignin}>
+            <Button variant="outline" className="w-full" type="submit">
+              Sign in with Google
             </Button>
           </form>
         </CardContent>
