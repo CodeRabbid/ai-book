@@ -79,7 +79,9 @@ export default function SignUp() {
                   render={({ field: fieldProps }) => (
                     <FormItem>
                       <FormLabel>
-                        {field.charAt(0).toUpperCase() + field.slice(1)}
+                        {field == "confirmPassword"
+                          ? "Confirm Pasword"
+                          : field.charAt(0).toUpperCase() + field.slice(1)}
                       </FormLabel>
                       <FormControl>
                         <Input
