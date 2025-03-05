@@ -26,7 +26,7 @@ const Header = async () => {
     <header className="fixed flex w-full m-w-inherit">
       <div className="grow-0 p-3 cursor-pointer">
         <Link href={"/"}>
-          <Image src={aiBookLogo} alt="logo" height={40} />
+          <Image src={aiBookLogo} alt="logo" height={35} />
         </Link>
       </div>
       <div className="flex items-center justify-center grow-100000">
