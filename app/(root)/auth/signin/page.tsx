@@ -24,7 +24,7 @@ import ErrorMessage from "@/components/ErrorMessage";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 
-const page = () => {
+const Page = () => {
   const [globalError, setGlobalError] = useState<string>("");
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -41,7 +41,7 @@ const page = () => {
         setGlobalError(result.message);
       }
     } catch (error) {
-      console.log("An unexpected error occurred. Please try again.");
+      console.log("An unexpected error occurred. Please try again." + error);
     }
   };
 
@@ -113,4 +113,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
