@@ -93,7 +93,9 @@ const page = () => {
                   </FormItem>
                 )}
               />
-              <LoadingButton pending={form.formState.isSubmitting} />
+              <LoadingButton pending={form.formState.isSubmitting}>
+                Sign in
+              </LoadingButton>
             </form>
           </Form>
           <span className="text-sm text-gray-500 text-center block my-2">

@@ -8,7 +8,6 @@ import { Button } from "./ui/button";
 
 const Header = async () => {
   const session = await auth();
-  console.log(session);
   return (
     <header className="fixed flex w-full m-w-inherit">
       <div className="grow-0 p-3 cursor-pointer">
@@ -30,11 +29,18 @@ const Header = async () => {
             <span>{session.user?.name}</span>
           </>
         ) : (
-          <Link href={"/auth/signin"}>
-            <Button variant="default" type="submit">
-              Sign in
-            </Button>
-          </Link>
+          <div className="flex gap-1">
+            <Link href={"/auth/signin"}>
+              <Button variant="default" type="submit">
+                Sign in
+              </Button>
+            </Link>
+            <Link href={"/auth/signup"}>
+              <Button variant="default" type="submit">
+                Sign up
+              </Button>
+            </Link>
+          </div>
         )}
       </div>
     </header>
