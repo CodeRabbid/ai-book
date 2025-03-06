@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 
 const Page = () => {
   const [generationError, setGenerationError] = useState<string | null>(null);
-  const [story, setStory] = useState<string[]>([]);
+  const [storyParagraphs, setStoryParagraphs] = useState<string[]>([]);
 
   const form = useForm({
     defaultValues: {
@@ -28,8 +28,8 @@ const Page = () => {
   const onSubmit = async ({ theme }: { theme: string }) => {
     try {
       setGenerationError(null);
-      const generated_story = await handleGenerate({ theme });
-      setStory(generated_story);
+      const generatedStoryParagraphs = await handleGenerate({ theme });
+      setStoryParagraphs(generatedStoryParagraphs);
     } catch (error) {
       setGenerationError("An unexpected error occurred. Please try again.");
       console.error(error);
@@ -69,8 +69,8 @@ const Page = () => {
           </form>
         </Form>
         <Card className="w-full px-8 mt-4 block">
-          {story.map((str) => (
-            <div>{str}</div>
+          {storyParagraphs.map((story_paragraph) => (
+            <div>{story_paragraph}</div>
           ))}
         </Card>
       </div>
