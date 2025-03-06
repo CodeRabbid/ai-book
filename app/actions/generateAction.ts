@@ -28,22 +28,24 @@ export async function handleGenerateStory({ theme }: { theme: string }) {
 }
 
 export async function handleGeneratePicture({ theme }: { theme: string }) {
-  const response = (await openai.images.generate({
-    model: "dall-e-3",
-    prompt: `Story about ${theme}`,
-    n: 1,
-    size: "1024x1024",
-  })) as ImagesResponse;
+  if (process.env.NODE_ENV === "development") {
+    return "https://res.cloudinary.com/dqckq3bjr/image/upload/v1741296430/story.png";
+  } else {
+    const response = (await openai.images.generate({
+      model: "dall-e-3",
+      prompt: `Story with a theme "${theme}"`,
+      n: 1,
+      size: "1024x1024",
+    })) as ImagesResponse;
 
-  const image_url = response.data[0].url as string;
+    const image_url = response.data[0].url as string;
 
-  const uploadResult = (await cloudinary.uploader
-    .upload(image_url, {
-      public_id: "story",
-    })
-    .catch((error) => {
-      console.log(error);
-    })) as UploadApiResponse;
+    const uploadResult = (await cloudinary.uploader
+      .upload(image_url)
+      .catch((error) => {
+        console.log(error);
+      })) as UploadApiResponse;
 
-  return uploadResult.url;
+    return uploadResult.url;
+  }
 }
