@@ -1,5 +1,5 @@
 "use server";
 
-export async function handleGenerate(values: any) {
-  return values;
+export async function handleGenerate({ theme }: { theme: string }) {
+  return theme;
 }

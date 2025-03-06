@@ -1,6 +1,7 @@
 "use client";
 
 import { handleGenerate } from "@/app/actions/generateAction";
+import ErrorMessage from "@/components/ErrorMessage";
 import LoadingButton from "@/components/LoadingButton";
 import {
   Form,
@@ -22,9 +23,9 @@ const Page = () => {
       theme: "",
     },
   });
-  const onSubmit = async (values: any) => {
+  const onSubmit = async ({ theme }: { theme: string }) => {
     try {
-      const result = await handleGenerate(values);
+      await handleGenerate({ theme });
     } catch (error) {
       setGenerationError(
         "An unexpected error occurred. Please try again." + error
@@ -34,6 +35,7 @@ const Page = () => {
 
   return (
     <div>
+      {generationError && <ErrorMessage error={generationError} />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
