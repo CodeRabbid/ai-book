@@ -7,11 +7,10 @@ export async function handleGenerate({ theme }: { theme: string }) {
   const genAI = new GoogleGenerativeAI(api_key);
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-  const prompt = `Write a story with the theme: "${theme}"`;
+  const prompt = `Write a complete story of about 150 words with the theme: "${theme}"`;
   const result = await model.generateContent(prompt);
 
   const story = result.response.text();
-  console.log(story);
 
   return story;
 }

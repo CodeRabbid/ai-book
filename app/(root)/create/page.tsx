@@ -3,6 +3,7 @@
 import { handleGenerate } from "@/app/actions/generateAction";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingButton from "@/components/LoadingButton";
+import { Card } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -67,7 +68,7 @@ const Page = () => {
             </LoadingButton>
           </form>
         </Form>
-        <div>{story}</div>
+        <Card className="w-full px-8 mt-4">{story}</Card>
       </div>
     </div>
   );
