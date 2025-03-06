@@ -16,7 +16,7 @@ import {
 const Header = async () => {
   const session = await auth();
   return (
-    <header className="fixed flex w-full m-w-inherit">
+    <header className="fixed flex w-full m-w-inherit bg-white">
       <div className="grow-0 p-3 cursor-pointer">
         <Link href={"/"}>
           <Image src={aiBookLogo} alt="logo" height={35} />
