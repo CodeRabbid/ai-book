@@ -82,8 +82,8 @@ const Page = () => {
           <img src={picture} />
         </Card>
         <Card className="w-full px-8 mt-4 block">
-          {storyParagraphs.map((story_paragraph) => (
-            <div>{story_paragraph}</div>
+          {storyParagraphs.map((story_paragraph, index) => (
+            <div key={index}>{story_paragraph}</div>
           ))}
         </Card>
       </div>
