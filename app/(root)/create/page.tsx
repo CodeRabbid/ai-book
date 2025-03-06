@@ -1,6 +1,9 @@
 "use client";
 
-import { handleGenerate } from "@/app/actions/generateAction";
+import {
+  handleGenerateStory,
+  handleGeneratePicture,
+} from "@/app/actions/generateAction";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingButton from "@/components/LoadingButton";
 import { Card } from "@/components/ui/card";
@@ -19,6 +22,7 @@ import { useForm } from "react-hook-form";
 const Page = () => {
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [storyParagraphs, setStoryParagraphs] = useState<string[]>([]);
+  const [picture, setPicture] = useState("");
 
   const form = useForm({
     defaultValues: {
@@ -28,8 +32,14 @@ const Page = () => {
   const onSubmit = async ({ theme }: { theme: string }) => {
     try {
       setGenerationError(null);
-      const generatedStoryParagraphs = await handleGenerate({ theme });
+      const generatedStoryParagraphs = await handleGenerateStory({ theme });
       setStoryParagraphs(generatedStoryParagraphs);
+
+      const generatedPicture = (await handleGeneratePicture({
+        theme,
+      })) as string;
+      console.log(generatedPicture);
+      setPicture(generatedPicture);
     } catch (error) {
       setGenerationError("An unexpected error occurred. Please try again.");
       console.error(error);
@@ -68,6 +78,9 @@ const Page = () => {
             </LoadingButton>
           </form>
         </Form>
+        <Card className="w-full px-8 mt-4 block">
+          <img src={picture} />
+        </Card>
         <Card className="w-full px-8 mt-4 block">
           {storyParagraphs.map((story_paragraph) => (
             <div>{story_paragraph}</div>
