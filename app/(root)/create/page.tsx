@@ -77,7 +77,7 @@ const Page = () => {
             </LoadingButton>
           </form>
         </Form>
-        {storyParagraphs.length > 0 && (
+        {(storyParagraphs.length > 0 || picture) && (
           <Card className="w-full px-8 mt-4 block">
             {picture && <img src={picture} />}
             <div className="mt-3">
