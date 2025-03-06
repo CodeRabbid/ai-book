@@ -29,7 +29,7 @@ const Header = async () => {
         {session && session?.user ? (
           <>
             <Link href={"/create"}>
-              <Button variant="black" className="mr-2">
+              <Button variant="default" className="mr-2">
                 + Create
               </Button>
             </Link>
