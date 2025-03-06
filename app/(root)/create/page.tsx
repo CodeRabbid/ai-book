@@ -36,35 +36,39 @@ const Page = () => {
   };
 
   return (
-    <div>
-      {generationError && <ErrorMessage error={generationError} />}
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="theme"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>What is your story about?</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Enter a theme for your story, e.g. 'Dragon chasing a princess' "
-                    autoComplete="off"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <div className="flex grow  justify-center p-4 ">
+      <div className="max-w-xl grow">
+        {generationError && <ErrorMessage error={generationError} />}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="theme"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <span className="text-2xl">What is your story about?</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Enter a theme for your story, e.g. 'Dragon chasing a princess' "
+                      autoComplete="off"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <LoadingButton pending={form.formState.isSubmitting}>
-            Generate
-          </LoadingButton>
-        </form>
-      </Form>
-      <div>{story}</div>
+            <LoadingButton pending={form.formState.isSubmitting}>
+              Generate
+            </LoadingButton>
+          </form>
+        </Form>
+        <div>{story}</div>
+      </div>
     </div>
   );
 };
