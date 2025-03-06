@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 
 const Page = () => {
   const [generationError, setGenerationError] = useState<string | null>(null);
-  const [story, setStory] = useState("");
+  const [story, setStory] = useState<string[]>([]);
 
   const form = useForm({
     defaultValues: {
@@ -68,7 +68,11 @@ const Page = () => {
             </LoadingButton>
           </form>
         </Form>
-        <Card className="w-full px-8 mt-4">{story}</Card>
+        <Card className="w-full px-8 mt-4 block">
+          {story.map((str) => (
+            <div>{str}</div>
+          ))}
+        </Card>
       </div>
     </div>
   );
