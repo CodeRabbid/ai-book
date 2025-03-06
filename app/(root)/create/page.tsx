@@ -16,7 +16,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const Page = () => {
-  const [generationError, setGenerationError] = useState("");
+  const [generationError, setGenerationError] = useState<string | null>(null);
+  const [story, setStory] = useState("");
 
   const form = useForm({
     defaultValues: {
@@ -25,11 +26,12 @@ const Page = () => {
   });
   const onSubmit = async ({ theme }: { theme: string }) => {
     try {
-      await handleGenerate({ theme });
+      setGenerationError(null);
+      const generated_story = await handleGenerate({ theme });
+      setStory(generated_story);
     } catch (error) {
-      setGenerationError(
-        "An unexpected error occurred. Please try again." + error
-      );
+      setGenerationError("An unexpected error occurred. Please try again.");
+      console.error(error);
     }
   };
 
@@ -62,6 +64,7 @@ const Page = () => {
           </LoadingButton>
         </form>
       </Form>
+      <div>{story}</div>
     </div>
   );
 };
