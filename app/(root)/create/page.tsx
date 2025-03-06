@@ -38,7 +38,6 @@ const Page = () => {
       const generatedPicture = (await handleGeneratePicture({
         theme,
       })) as string;
-      console.log(generatedPicture);
       setPicture(generatedPicture);
     } catch (error) {
       setGenerationError("An unexpected error occurred. Please try again.");
@@ -78,14 +77,16 @@ const Page = () => {
             </LoadingButton>
           </form>
         </Form>
-        <Card className="w-full px-8 mt-4 block">
-          <img src={picture} />
-        </Card>
-        <Card className="w-full px-8 mt-4 block">
-          {storyParagraphs.map((story_paragraph, index) => (
-            <div key={index}>{story_paragraph}</div>
-          ))}
-        </Card>
+        {storyParagraphs.length > 0 && (
+          <Card className="w-full px-8 mt-4 block">
+            {picture && <img src={picture} />}
+            <div className="mt-3">
+              {storyParagraphs.map((story_paragraph, index) => (
+                <div key={index}>{story_paragraph}</div>
+              ))}
+            </div>
+          </Card>
+        )}
       </div>
     </div>
   );
