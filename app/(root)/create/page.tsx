@@ -6,6 +6,7 @@ import {
 } from "@/app/actions/generateAction";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingButton from "@/components/LoadingButton";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Form,
@@ -87,6 +88,9 @@ const Page = () => {
             </div>
           </Card>
         )}
+        <div className="flex justify-end mt-3">
+          {storyParagraphs.length > 0 && picture && <Button>Post</Button>}
+        </div>
       </div>
     </div>
   );
