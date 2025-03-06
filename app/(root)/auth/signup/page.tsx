@@ -45,7 +45,6 @@ export default function SignUp() {
     try {
       const result: ServerActionResponse = await handleSignUp(values);
       if (result.success) {
-        console.log("Account created successfully.");
         const valuesForSignin = {
           email: values.email,
           password: values.password,
