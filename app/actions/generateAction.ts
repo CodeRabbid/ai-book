@@ -49,3 +49,7 @@ export async function handleGeneratePicture({ theme }: { theme: string }) {
     return uploadResult.url;
   }
 }
+
+export async function postStory() {
+  console.log("posting");
+}

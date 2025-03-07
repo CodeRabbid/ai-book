@@ -3,6 +3,7 @@
 import {
   handleGenerateStory,
   handleGeneratePicture,
+  postStory,
 } from "@/app/actions/generateAction";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingButton from "@/components/LoadingButton";
@@ -17,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -24,6 +26,7 @@ const Page = () => {
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [storyParagraphs, setStoryParagraphs] = useState<string[]>([]);
   const [picture, setPicture] = useState("");
+  const router = useRouter();
 
   const form = useForm({
     defaultValues: {
@@ -44,6 +47,13 @@ const Page = () => {
       setGenerationError("An unexpected error occurred. Please try again.");
       console.error(error);
     }
+  };
+
+  const handlePost = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    await postStory();
+    router.push("/");
+    return;
   };
 
   return (
@@ -89,7 +99,11 @@ const Page = () => {
           </Card>
         )}
         <div className="flex justify-end mt-3">
-          {storyParagraphs.length > 0 && picture && <Button>Post</Button>}
+          {storyParagraphs.length > 0 && picture && (
+            <form onSubmit={handlePost}>
+              <Button type="submit">Post</Button>
+            </form>
+          )}
         </div>
       </div>
     </div>
