@@ -59,7 +59,7 @@ const Page = () => {
 
   return (
     <div className="flex grow  justify-center p-4 ">
-      <div className="max-w-2xl grow">
+      <div className="max-w-xl grow">
         {generationError && <ErrorMessage error={generationError} />}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
