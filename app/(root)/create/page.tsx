@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -58,7 +59,7 @@ const Page = () => {
 
   return (
     <div className="flex grow  justify-center p-4 ">
-      <div className="max-w-xl grow">
+      <div className="max-w-2xl grow">
         {generationError && <ErrorMessage error={generationError} />}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -90,7 +91,16 @@ const Page = () => {
         </Form>
         {(storyParagraphs.length > 0 || picture) && (
           <Card className="w-full px-8 mt-4 block">
-            {picture && <img src={picture} />}
+            {picture && (
+              <Image
+                src={picture}
+                alt=""
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-full h-auto"
+              />
+            )}
             <div className="mt-3">
               {storyParagraphs.map((story_paragraph, index) => (
                 <div key={index}>{story_paragraph}</div>
