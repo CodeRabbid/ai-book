@@ -31,7 +31,7 @@ export async function handleGenerateStory({ theme }: { theme: string }) {
 
 export async function handleGeneratePicture({ theme }: { theme: string }) {
   if (process.env.NODE_ENV === "development") {
-    return "https://res.cloudinary.com/dqckq3bjr/image/upload/v1741296430/story.png";
+    return "http://res.cloudinary.com/dqckq3bjr/image/upload/v1741471807/kpgaoqpge5ntmmj3xyup.png";
   } else {
     const response = (await openai.images.generate({
       model: "dall-e-3",
