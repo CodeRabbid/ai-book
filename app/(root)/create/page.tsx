@@ -51,7 +51,7 @@ const Page = () => {
 
   const handlePost = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    await postStory();
+    await postStory({ storyParagraphs, picture });
     router.push("/");
     return;
   };

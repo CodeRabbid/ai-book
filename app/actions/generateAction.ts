@@ -4,6 +4,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import OpenAI from "openai";
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import { ImagesResponse } from "openai/resources/images.mjs";
+import prisma from "@/lib/prisma";
+import { auth } from "@/auth";
 
 const openai_api_key = process.env.OPENAI_API_KEY as string;
 const openai = new OpenAI({ apiKey: openai_api_key });
@@ -50,6 +52,21 @@ export async function handleGeneratePicture({ theme }: { theme: string }) {
   }
 }
 
-export async function postStory() {
-  console.log("posting");
+export async function postStory({
+  storyParagraphs,
+  picture,
+}: {
+  storyParagraphs: string[];
+  picture: string;
+}) {
+  const session = await auth();
+
+  await prisma.post.create({
+    data: {
+      storyParagraphs: storyParagraphs,
+      picture_url: picture,
+      authorId: session?.user.id as string,
+    },
+  });
+  console.log("success");
 }
