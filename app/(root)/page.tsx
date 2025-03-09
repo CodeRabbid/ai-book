@@ -2,8 +2,11 @@ import { Card } from "@/components/ui/card";
 import prisma from "@/lib/prisma";
 import React from "react";
 import Image from "next/image";
+import Likes from "@/components/Likes";
+import { auth } from "@/auth";
 
 const page = async () => {
+  const session = await auth();
   const posts = await prisma.post.findMany({
     orderBy: {
       updatedAt: "desc",
@@ -48,6 +51,11 @@ const page = async () => {
                 <div key={index}>{storyParagraph}</div>
               ))}
             </div>
+            <Likes
+              userId={session?.user.id as string}
+              currentLikes={post.likes}
+              postId={post.id}
+            ></Likes>
           </Card>
         ))}
       </div>

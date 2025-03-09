@@ -33,6 +33,7 @@ model Post{
   authorId        String    @db.ObjectId
   storyParagraphs String[]
   picture_url     String
+  likes           String[]  @default([])
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt 
 }
