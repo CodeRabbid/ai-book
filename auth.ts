@@ -66,6 +66,24 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
+    async signIn({ user }) {
+      let existingUser = await prisma.user.findFirst({
+        where: { email: user.email as string },
+      });
+
+      if (!existingUser) {
+        existingUser = await prisma.user.create({
+          data: {
+            name: user.name,
+            email: user.email as string,
+            image: user.image,
+          },
+        });
+      }
+      user.id = existingUser.id;
+
+      return true;
+    },
     authorized({ request: { nextUrl }, auth }) {
       const isLoggedIn = !!auth?.user;
       const { pathname } = nextUrl;

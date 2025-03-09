@@ -68,5 +68,4 @@ export async function postStory({
       authorId: session?.user.id as string,
     },
   });
-  console.log("success");
 }
