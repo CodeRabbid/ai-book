@@ -20,7 +20,10 @@ const Likes = ({
   return (
     <div className="flex items-center mt-3">
       <button onClick={handlePost} className="cursor-pointer">
-        <FaHeart color={currentLikes.includes(userId) ? "red" : "gray"} />
+        <FaHeart
+          color={currentLikes.includes(userId) ? "red" : "gray"}
+          className="w-5 h-5"
+        />
       </button>
       <span className="ml-2">{currentLikes.length}</span>
     </div>
