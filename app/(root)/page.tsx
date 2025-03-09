@@ -4,7 +4,11 @@ import React from "react";
 import Image from "next/image";
 
 const page = async () => {
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
 
   return (
     <div className="flex grow  justify-center ">
