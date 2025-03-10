@@ -4,20 +4,22 @@ import React from "react";
 import Image from "next/image";
 import Likes from "@/components/Likes";
 import { auth } from "@/auth";
+import CommentInput from "@/components/CommentInput";
 
 const page = async () => {
   const session = await auth();
   const posts = await prisma.post.findMany({
     orderBy: {
-      updatedAt: "desc",
+      createdAt: "desc",
     },
     include: {
       author: {},
+      comments: { orderBy: { createdAt: "desc" }, include: { author: {} } },
     },
   });
 
   return (
-    <div className="flex grow  justify-center ">
+    <div className="flex grow  justify-center">
       <div className="max-w-xl grow">
         {posts.map((post) => (
           <Card className="px-8 block mb-3" key={post.id}>
@@ -55,7 +57,33 @@ const page = async () => {
               userId={session?.user.id as string}
               currentLikes={post.likes}
               postId={post.id}
-            ></Likes>
+            />
+            <CommentInput
+              profilePicture={session?.user.image as string}
+              authorId={session?.user.id as string}
+              postId={post.id}
+            />
+            <div className="mt-5">
+              {post.comments.map((comment) => (
+                <div key={comment.id} className="mt-3">
+                  <div className="flex">
+                    <div className="h-10 w-10 rounded-full overflow-hidden">
+                      <Image
+                        src={comment.author.image as string}
+                        alt=""
+                        width={40}
+                        height={40}
+                      />
+                    </div>
+                    <div className="ml-3">
+                      <div>{comment.author.name}</div>
+                      <div>{comment.createdAt.toLocaleDateString("de-DE")}</div>
+                    </div>
+                  </div>
+                  <div>{comment.content}</div>
+                </div>
+              ))}{" "}
+            </div>
           </Card>
         ))}
       </div>
