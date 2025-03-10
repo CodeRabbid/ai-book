@@ -2,9 +2,9 @@
 
 import React from "react";
 import { FaHeart } from "react-icons/fa";
-import { addLikeAction } from "@/app/actions/likeActions";
+import { addLikeToPostAction } from "@/app/actions/likeActions";
 
-const Likes = ({
+const PostLikes = ({
   userId,
   postId,
   currentLikes,
@@ -13,13 +13,13 @@ const Likes = ({
   postId: string;
   currentLikes: string[];
 }) => {
-  function handlePost(): void {
-    addLikeAction({ postId });
+  function handlePostLike(): void {
+    addLikeToPostAction({ postId });
   }
 
   return (
     <div className="flex items-center mt-3">
-      <button onClick={handlePost} className="cursor-pointer">
+      <button onClick={handlePostLike} className="cursor-pointer">
         <FaHeart
           color={currentLikes.includes(userId) ? "red" : "gray"}
           className="w-5 h-5"
@@ -30,4 +30,4 @@ const Likes = ({
   );
 };
 
-export default Likes;
+export default PostLikes;

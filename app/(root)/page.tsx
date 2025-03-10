@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import prisma from "@/lib/prisma";
 import React from "react";
 import Image from "next/image";
-import Likes from "@/components/Likes";
+import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
 import CommentInput from "@/components/CommentInput";
 import CommentLikes from "@/components/CommentLikes";
@@ -54,7 +54,7 @@ const page = async () => {
                 <div key={index}>{storyParagraph}</div>
               ))}
             </div>
-            <Likes
+            <PostLikes
               userId={session?.user.id as string}
               currentLikes={post.likes}
               postId={post.id}
