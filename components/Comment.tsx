@@ -8,7 +8,7 @@ import { dateToPeriod } from "@/lib/utils";
 import { FaChevronDown } from "react-icons/fa";
 
 interface Comment {
-  author?: { name: string };
+  author?: { name: string; image: string };
   createdAt: Date;
   content: string;
   likes: string[];
@@ -20,10 +20,12 @@ const Comment = ({
   comment,
   userId,
   profilePicture,
+  authorName,
   size,
 }: {
   comment: Comment;
   userId: string;
+  authorName: string;
   profilePicture: string;
   size: string;
 }) => {
@@ -34,25 +36,37 @@ const Comment = ({
     <div className="flex w-full">
       {size === "large" ? (
         <div className="rounded-full overflow-hidden h-10 w-10 shrink-0">
-          <Image
-            src={profilePicture}
-            alt=""
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="h-10 w-10"
-          />
+          {comment.author?.image ? (
+            <Image
+              src={comment.author?.image as string}
+              alt=""
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="h-10 w-10"
+            />
+          ) : (
+            <div className="flex items-center justify-center text-white bg-purple-500 h-10 w-10">
+              {comment?.author?.name?.charAt(0)}
+            </div>
+          )}
         </div>
       ) : (
         <div className="rounded-full overflow-hidden h-6 w-6 shrink-0">
-          <Image
-            src={profilePicture}
-            alt=""
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="h-6 w-6"
-          />
+          {comment.author?.image ? (
+            <Image
+              src={comment.author?.image as string}
+              alt=""
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="h-6 w-6"
+            />
+          ) : (
+            <div className="flex items-center justify-center text-white bg-purple-500 h-6 w-6">
+              {comment?.author?.name?.charAt(0)}
+            </div>
+          )}
         </div>
       )}
 
@@ -81,6 +95,7 @@ const Comment = ({
           className={`${showCommentIntut ? "" : "hidden"}`}
           profilePicture={profilePicture as string}
           authorId={userId as string}
+          authorName={authorName}
           commentId={comment.id}
           setShowReplies={setShowReplies}
         />
@@ -104,6 +119,7 @@ const Comment = ({
             comment.comments?.map((reply) => (
               <div key={reply.id}>
                 <Comment
+                  authorName={authorName}
                   comment={reply}
                   userId={userId}
                   profilePicture={profilePicture}

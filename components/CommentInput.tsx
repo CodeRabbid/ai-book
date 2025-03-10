@@ -12,11 +12,13 @@ type HTMLElementEvent<T extends HTMLElement> = FormEvent & {
 const CommentInput = ({
   profilePicture,
   authorId,
+  authorName,
   postId,
 }: {
   profilePicture: string;
   authorId: string;
   postId: string;
+  authorName: string;
 }) => {
   const submitComment = async (e: HTMLElementEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,14 +32,20 @@ const CommentInput = ({
   return (
     <div className="flex mt-3 h-10 items-center gap-2">
       <div className="rounded-full overflow-hidden h-10 w-10 shrink-0">
-        <Image
-          src={profilePicture}
-          alt=""
-          width={0}
-          height={0}
-          sizes="100vw"
-          className="h-10 w-10"
-        />
+        {profilePicture ? (
+          <Image
+            src={profilePicture}
+            alt=""
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-10 w-10"
+          />
+        ) : (
+          <div className="flex items-center justify-center text-white bg-purple-500 h-10 w-10">
+            {authorName?.charAt(0)}
+          </div>
+        )}
       </div>
       <form onSubmit={submitComment} className="w-full">
         <Input name="comment" placeholder="Add a comment..."></Input>

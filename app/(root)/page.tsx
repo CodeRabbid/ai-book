@@ -6,6 +6,7 @@ import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
 import CommentInput from "@/components/CommentInput";
 import Comment from "@/components/Comment";
+import { dateToPeriod } from "@/lib/utils";
 
 const page = async () => {
   const session = await auth();
@@ -82,7 +83,12 @@ const page = async () => {
                   </div>
                 )}
               </div>
-              {post.author.name}
+              <div>
+                <div className="text-[14px]">{post.author.name}</div>
+                <div className="text-[14px]">
+                  {dateToPeriod(post.createdAt)}
+                </div>
+              </div>
             </div>
             <Image
               src={post.picture_url}
@@ -106,13 +112,15 @@ const page = async () => {
               profilePicture={session?.user.image as string}
               authorId={session?.user.id as string}
               postId={post.id}
+              authorName={post.author.name as string}
             />
             <div className="mt-5">
               {post.comments.map((comment) => (
                 <div key={comment.id} className="mt-3 w-full">
                   <Comment
                     size={"large"}
-                    comment={comment}
+                    comment={comment as Comment}
+                    authorName={session?.user.name as string}
                     userId={session?.user.id as string}
                     profilePicture={session?.user.image as string}
                   />

@@ -13,12 +13,14 @@ const CommentOnCommentInput = ({
   className,
   profilePicture,
   authorId,
+  authorName,
   commentId,
   setShowReplies,
 }: {
   className: string;
   profilePicture: string;
   authorId: string;
+  authorName: string;
   commentId: string;
   setShowReplies: (bool: boolean) => void;
 }) => {
@@ -36,14 +38,20 @@ const CommentOnCommentInput = ({
     <div className={className}>
       <div className="flex mt-3 mb-2 items-center gap-2">
         <div className="rounded-full overflow-hidden h-6 w-6 shrink-0">
-          <Image
-            src={profilePicture}
-            alt=""
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="h-6 w-6"
-          />
+          {profilePicture ? (
+            <Image
+              src={profilePicture}
+              alt=""
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="h-6 w-6"
+            />
+          ) : (
+            <div className="flex items-center text-xs justify-center text-white bg-purple-500 h-6 w-6">
+              {authorName?.charAt(0)}
+            </div>
+          )}
         </div>
         <form onSubmit={submitComment} className="w-full">
           <Input name="comment" placeholder="Add a comment..."></Input>
