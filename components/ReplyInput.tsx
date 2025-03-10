@@ -51,7 +51,7 @@ const CommentOnCommentInput = ({
             />
           ) : (
             <div
-              className="flex items-center text-xs justify-center text-white   h-6 w-6"
+              className="flex items-center text-xs capitalize justify-center text-white   h-6 w-6"
               style={{
                 backgroundColor: profileColor as string,
               }}

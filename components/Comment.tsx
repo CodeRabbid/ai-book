@@ -49,7 +49,7 @@ const Comment = ({
             />
           ) : (
             <div
-              className="flex items-center justify-center text-white  h-10 w-10"
+              className="flex items-center justify-center text-white h-10 w-10"
               style={{
                 backgroundColor: comment.author?.randomColor as string,
               }}
@@ -71,7 +71,7 @@ const Comment = ({
             />
           ) : (
             <div
-              className="flex items-center justify-center text-white h-6 w-6"
+              className="flex items-center justify-center text-xs capitalize text-white h-6 w-6"
               style={{
                 backgroundColor: comment.author?.randomColor as string,
               }}
