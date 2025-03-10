@@ -6,6 +6,7 @@ import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
 import CommentInput from "@/components/CommentInput";
 import CommentLikes from "@/components/CommentLikes";
+import { dateToPeriod } from "@/lib/utils";
 
 const page = async () => {
   const session = await auth();
@@ -80,7 +81,7 @@ const page = async () => {
                       <div className="flex items-center">
                         <div className="text-sm">{comment.author.name}</div>
                         <div className="text-sm ml-2">
-                          {comment.createdAt.toLocaleDateString("de-DE")}
+                          {dateToPeriod(comment.createdAt)}
                         </div>
                       </div>
                       <div className="mt-1">{comment.content}</div>
