@@ -37,11 +37,11 @@ const Page = () => {
   const onSubmit = async ({ theme }: { theme: string }) => {
     try {
       setGenerationError(null);
-      const generatedStoryParagraphs = await handleGenerateStory({ theme });
-      setStoryParagraphs(generatedStoryParagraphs);
+      const generatedStory = await handleGenerateStory({ theme });
+      setStoryParagraphs(generatedStory.split("\n"));
 
       const generatedPicture = (await handleGeneratePicture({
-        theme,
+        story: generatedStory,
       })) as string;
       setPicture(generatedPicture);
     } catch (error) {

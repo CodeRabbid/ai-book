@@ -25,17 +25,17 @@ export async function handleGenerateStory({ theme }: { theme: string }) {
   const prompt = `Write a complete story of about 150 words with the theme: "${theme}" and provide a title for that story.`;
   const result = await model.generateContent(prompt);
 
-  const story_paragraphs = result.response.text().split("\n");
-  return story_paragraphs;
+  return result.response.text();
 }
 
-export async function handleGeneratePicture({ theme }: { theme: string }) {
+export async function handleGeneratePicture({ story }: { story: string }) {
   if (process.env.NODE_ENV === "development") {
     return "http://res.cloudinary.com/dqckq3bjr/image/upload/v1741471807/kpgaoqpge5ntmmj3xyup.png";
   } else {
+    story = story.replace('"', "'");
     const response = (await openai.images.generate({
       model: "dall-e-3",
-      prompt: `Story with a theme "${theme}"`,
+      prompt: `Create an picture to the story "${story}". And don't add any text on the picture.`,
       n: 1,
       size: "1024x1024",
     })) as ImagesResponse;
