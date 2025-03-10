@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "./ui/input";
 import Image from "next/image";
 import { addCommentToPost } from "@/app/actions/commentAction";
@@ -22,6 +22,7 @@ const CommentInput = ({
     if (content !== "") {
       await addCommentToPost({ postId, content, authorId });
     }
+    e.target.reset();
   };
 
   return (
