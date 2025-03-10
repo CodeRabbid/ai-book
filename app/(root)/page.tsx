@@ -5,6 +5,7 @@ import Image from "next/image";
 import Likes from "@/components/Likes";
 import { auth } from "@/auth";
 import CommentInput from "@/components/CommentInput";
+import CommentLikes from "@/components/CommentLikes";
 
 const page = async () => {
   const session = await auth();
@@ -76,11 +77,20 @@ const page = async () => {
                       />
                     </div>
                     <div className="ml-3">
-                      <div>{comment.author.name}</div>
-                      <div>{comment.createdAt.toLocaleDateString("de-DE")}</div>
+                      <div className="flex items-center">
+                        <div className="text-sm">{comment.author.name}</div>
+                        <div className="text-sm ml-2">
+                          {comment.createdAt.toLocaleDateString("de-DE")}
+                        </div>
+                      </div>
+                      <div className="mt-1">{comment.content}</div>
+                      <CommentLikes
+                        userId={session?.user.id as string}
+                        currentLikes={comment.likes}
+                        commentId={comment.id}
+                      />
                     </div>
                   </div>
-                  <div>{comment.content}</div>
                 </div>
               ))}{" "}
             </div>

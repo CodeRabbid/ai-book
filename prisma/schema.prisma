@@ -47,6 +47,7 @@ model Comment{
   author          User      @relation(fields: [authorId], references: [id])
   authorId        String    @db.ObjectId
   content         String
+  likes           String[]  @default([])
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt 
 }

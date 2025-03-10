@@ -27,3 +27,35 @@ export const addLikeAction = async ({ postId }: { postId: string }) => {
 
   revalidatePath("/");
 };
+
+export const addLikeToCommentAction = async ({
+  userId,
+  commentId,
+}: {
+  userId: string;
+  commentId: string;
+}) => {
+  const session = await auth();
+
+  const comment = await prisma.comment.findFirst({
+    where: { id: commentId },
+  });
+
+  if (comment?.likes.includes(userId as string)) {
+    await prisma.comment.update({
+      where: { id: commentId },
+      data: {
+        likes: {
+          set: comment.likes.filter((like) => like !== session?.user.id),
+        },
+      },
+    });
+  } else {
+    await prisma.comment.update({
+      where: { id: commentId },
+      data: { likes: { push: session?.user.id } },
+    });
+  }
+
+  revalidatePath("/");
+};
