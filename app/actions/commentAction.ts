@@ -12,26 +12,13 @@ export const addCommentToPost = async ({
   content: string;
   authorId: string;
 }) => {
-  //   const session = await auth();
-
-  const comment = await prisma.comment.create({
+  await prisma.comment.create({
     data: {
       postId,
       authorId,
       content,
     },
   });
-
-  //   const post = await prisma.post.update({
-  //     where: { id: postId },
-  //     data: {
-  //       comments: {
-  //         push: comment,
-  //       },
-  //     },
-  //   });
-
-  //   post;
 
   revalidatePath("/");
 };

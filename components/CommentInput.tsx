@@ -1,8 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { FormEvent } from "react";
 import { Input } from "./ui/input";
 import Image from "next/image";
 import { addCommentToPost } from "@/app/actions/commentAction";
+
+type HTMLElementEvent<T extends HTMLElement> = FormEvent & {
+  target: T;
+  currentTarget: T;
+};
 
 const CommentInput = ({
   profilePicture,
@@ -13,10 +18,7 @@ const CommentInput = ({
   authorId: string;
   postId: string;
 }) => {
-  const submitComment = async (e: {
-    [x: string]: any;
-    preventDefault: () => void;
-  }) => {
+  const submitComment = async (e: HTMLElementEvent<HTMLFormElement>) => {
     e.preventDefault();
     const content = e.target.comment.value;
     if (content !== "") {
