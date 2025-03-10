@@ -17,7 +17,47 @@ const page = async () => {
       author: {},
       comments: {
         orderBy: { createdAt: "desc" },
-        include: { author: {}, comments: {} },
+        include: {
+          author: {},
+          comments: {
+            include: {
+              author: {},
+              comments: {
+                include: {
+                  author: {},
+                  comments: {
+                    include: {
+                      author: {},
+                      comments: {
+                        include: {
+                          author: {},
+                          comments: {
+                            include: {
+                              author: {},
+                              comments: {
+                                include: {
+                                  author: {},
+                                  comments: {
+                                    include: {
+                                      author: {},
+                                      comments: {
+                                        include: { author: {}, comments: {} },
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
   });

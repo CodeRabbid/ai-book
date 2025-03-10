@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import CommentOnCommentInput from "./CommentOnCommentInput";
+import ReplyInput from "./ReplyInput";
 import CommentLikes from "./CommentLikes";
 import Image from "next/image";
 import { dateToPeriod } from "@/lib/utils";
-import { getRepliesAction } from "@/app/actions/commentAction";
 import { FaChevronDown } from "react-icons/fa";
 
 interface Comment {
@@ -29,16 +28,7 @@ const Comment = ({
   size: string;
 }) => {
   const [showCommentIntut, setShowCommentIntut] = useState(false);
-  const [replies, setReplies] = useState<Comment[]>();
-
-  const handleGetReplies = async () => {
-    if (replies && replies.length > 0) {
-      setReplies([]);
-    } else {
-      const commentReplies = await getRepliesAction({ commentId: comment.id });
-      setReplies(commentReplies);
-    }
-  };
+  const [showReplies, setShowReplies] = useState(false);
 
   return (
     <div className="flex w-full">
@@ -87,7 +77,7 @@ const Comment = ({
             Reply
           </button>
         </div>
-        <CommentOnCommentInput
+        <ReplyInput
           className={`${showCommentIntut ? "" : "hidden"}`}
           profilePicture={profilePicture as string}
           authorId={userId as string}
@@ -97,13 +87,11 @@ const Comment = ({
           className={`text-[13px] flex items-center cursor-pointer rounded-full px-3 py-2 hover:bg-blue-100 ${
             comment.comments?.length == 0 ? "hidden" : ""
           }`}
-          onClick={() => handleGetReplies()}
+          onClick={() => setShowReplies(true)}
         >
           <FaChevronDown
             color={"#065fd4"}
-            className={`${
-              replies && replies.length > 0 ? "rotate-[180deg]" : ""
-            }`}
+            className={`${showReplies ? "rotate-[180deg]" : ""}`}
           />
           <span className="ml-2 text-[#065fd4] font-bold">
             {comment.comments?.length}
@@ -111,16 +99,20 @@ const Comment = ({
           </span>
         </button>
         <div className="mt-2">
-          {replies?.map((reply) => (
-            <div key={reply.id}>
-              <Comment
-                comment={reply}
-                userId={userId}
-                profilePicture={profilePicture}
-                size={"small"}
-              />
-            </div>
-          ))}
+          {showReplies ? (
+            comment.comments?.map((reply) => (
+              <div key={reply.id}>
+                <Comment
+                  comment={reply}
+                  userId={userId}
+                  profilePicture={profilePicture}
+                  size={"small"}
+                />
+              </div>
+            ))
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

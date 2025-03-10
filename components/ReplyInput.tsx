@@ -31,7 +31,7 @@ const CommentOnCommentInput = ({
 
   return (
     <div className={className}>
-      <div className="flex mt-3 h-6 items-center gap-2">
+      <div className="flex mt-3 mb-2 items-center gap-2">
         <div className="rounded-full overflow-hidden h-6 w-6 shrink-0">
           <Image
             src={profilePicture}

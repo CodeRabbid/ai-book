@@ -42,15 +42,3 @@ export const addCommentToComment = async ({
 
   revalidatePath("/");
 };
-
-export const getRepliesAction = async ({
-  commentId,
-}: {
-  commentId: string;
-}) => {
-  const replies = await prisma.comment.findMany({
-    where: { commentId },
-    include: { author: {}, comments: {} },
-  });
-  return replies;
-};
