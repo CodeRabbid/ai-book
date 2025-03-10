@@ -13,6 +13,7 @@ export function dateToPeriod(date: Date) {
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
+  const weeks = Math.floor(days / 7);
   const months = Math.floor(days / 30.5);
   const years = Math.floor(days / 365.25);
 
@@ -20,6 +21,8 @@ export function dateToPeriod(date: Date) {
     ? years + ` year${years > 1 ? "s" : ""} ago`
     : months > 0
     ? months + ` month${months > 1 ? "s" : ""} ago`
+    : weeks > 0
+    ? weeks + ` week${weeks > 1 ? "s" : ""} ago`
     : days > 0
     ? days + ` day${days > 1 ? "s" : ""} ago`
     : hours > 0
