@@ -82,12 +82,13 @@ const Comment = ({
           profilePicture={profilePicture as string}
           authorId={userId as string}
           commentId={comment.id}
+          setShowReplies={setShowReplies}
         />
         <button
           className={`text-[13px] flex items-center cursor-pointer rounded-full px-3 py-2 hover:bg-blue-100 ${
             comment.comments?.length == 0 ? "hidden" : ""
           }`}
-          onClick={() => setShowReplies(true)}
+          onClick={() => setShowReplies(!showReplies)}
         >
           <FaChevronDown
             color={"#065fd4"}

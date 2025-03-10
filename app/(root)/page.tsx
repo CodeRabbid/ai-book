@@ -109,7 +109,7 @@ const page = async () => {
             />
             <div className="mt-5">
               {post.comments.map((comment) => (
-                <div key={comment.id} className="mt-7 w-full">
+                <div key={comment.id} className="mt-3 w-full">
                   <Comment
                     size={"large"}
                     comment={comment}

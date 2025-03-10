@@ -14,11 +14,13 @@ const CommentOnCommentInput = ({
   profilePicture,
   authorId,
   commentId,
+  setShowReplies,
 }: {
   className: string;
   profilePicture: string;
   authorId: string;
   commentId: string;
+  setShowReplies: (bool: boolean) => void;
 }) => {
   const submitComment = async (e: HTMLElementEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,6 +28,7 @@ const CommentOnCommentInput = ({
     if (content !== "") {
       await addCommentToComment({ commentId, content, authorId });
     }
+    setShowReplies(true);
     e.target.reset();
   };
 
