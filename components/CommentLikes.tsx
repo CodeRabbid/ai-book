@@ -18,7 +18,7 @@ const Likes = ({
   }
 
   return (
-    <div className="flex items-center mt-1">
+    <div className="flex items-center">
       <button onClick={handleLikeComment} className="cursor-pointer">
         <FaHeart
           color={currentLikes.includes(userId) ? "red" : "gray"}

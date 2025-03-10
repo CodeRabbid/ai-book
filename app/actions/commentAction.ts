@@ -22,3 +22,35 @@ export const addCommentToPost = async ({
 
   revalidatePath("/");
 };
+
+export const addCommentToComment = async ({
+  commentId,
+  content,
+  authorId,
+}: {
+  commentId: string;
+  content: string;
+  authorId: string;
+}) => {
+  await prisma.comment.create({
+    data: {
+      commentId,
+      authorId,
+      content,
+    },
+  });
+
+  revalidatePath("/");
+};
+
+export const getRepliesAction = async ({
+  commentId,
+}: {
+  commentId: string;
+}) => {
+  const replies = await prisma.comment.findMany({
+    where: { commentId },
+    include: { author: {}, comments: {} },
+  });
+  return replies;
+};

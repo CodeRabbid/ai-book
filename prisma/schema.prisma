@@ -15,7 +15,7 @@ datasource db {
 
 model User {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  name            String?
+  name            String
   email           String    @unique
   emailVerified   DateTime?
   image           String?
@@ -42,12 +42,15 @@ model Post{
 
 model Comment{
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  post            Post      @relation(fields: [postId], references: [id])
-  postId          String    @db.ObjectId
+  post            Post?     @relation(fields: [postId], references: [id])
+  postId          String?   @db.ObjectId
   author          User      @relation(fields: [authorId], references: [id])
   authorId        String    @db.ObjectId
   content         String
   likes           String[]  @default([])
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt 
+  commentId       String?   @db.ObjectId
+  comment         Comment?  @relation("CommentComment", fields: [commentId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  comments        Comment[] @relation("CommentComment")
 }

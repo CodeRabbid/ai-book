@@ -5,8 +5,7 @@ import Image from "next/image";
 import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
 import CommentInput from "@/components/CommentInput";
-import CommentLikes from "@/components/CommentLikes";
-import { dateToPeriod } from "@/lib/utils";
+import Comment from "@/components/Comment";
 
 const page = async () => {
   const session = await auth();
@@ -16,7 +15,10 @@ const page = async () => {
     },
     include: {
       author: {},
-      comments: { orderBy: { createdAt: "desc" }, include: { author: {} } },
+      comments: {
+        orderBy: { createdAt: "desc" },
+        include: { author: {}, comments: {} },
+      },
     },
   });
 
@@ -67,33 +69,15 @@ const page = async () => {
             />
             <div className="mt-5">
               {post.comments.map((comment) => (
-                <div key={comment.id} className="mt-3">
-                  <div className="flex">
-                    <div className="h-10 w-10 rounded-full overflow-hidden">
-                      <Image
-                        src={comment.author.image as string}
-                        alt=""
-                        width={40}
-                        height={40}
-                      />
-                    </div>
-                    <div className="ml-3">
-                      <div className="flex items-center">
-                        <div className="text-sm">{comment.author.name}</div>
-                        <div className="text-sm ml-2">
-                          {dateToPeriod(comment.createdAt)}
-                        </div>
-                      </div>
-                      <div className="mt-1">{comment.content}</div>
-                      <CommentLikes
-                        userId={session?.user.id as string}
-                        currentLikes={comment.likes}
-                        commentId={comment.id}
-                      />
-                    </div>
-                  </div>
+                <div key={comment.id} className="mt-7 w-full">
+                  <Comment
+                    size={"large"}
+                    comment={comment}
+                    userId={session?.user.id as string}
+                    profilePicture={session?.user.image as string}
+                  />
                 </div>
-              ))}{" "}
+              ))}
             </div>
           </Card>
         ))}
