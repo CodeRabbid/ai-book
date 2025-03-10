@@ -80,13 +80,17 @@ export async function handleSignUp({
       };
     }
 
-    // hash the password
     const hashedPassword = await bcryptjs.hash(password, 10);
+
+    const randomColorHex =
+      "#" + (((1 << 24) * Math.random()) | 0).toString(16).padStart(6, "0");
+
     await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
+        randomColor: randomColorHex,
       },
     });
 

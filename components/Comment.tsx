@@ -8,7 +8,7 @@ import { dateToPeriod } from "@/lib/utils";
 import { FaChevronDown } from "react-icons/fa";
 
 interface Comment {
-  author?: { name: string; image: string };
+  author?: { name: string; image: string; randomColor: string };
   createdAt: Date;
   content: string;
   likes: string[];
@@ -20,12 +20,14 @@ const Comment = ({
   comment,
   userId,
   profilePicture,
+  profileColor,
   authorName,
   size,
 }: {
   comment: Comment;
   userId: string;
   authorName: string;
+  profileColor: string;
   profilePicture: string;
   size: string;
 }) => {
@@ -46,7 +48,12 @@ const Comment = ({
               className="h-10 w-10"
             />
           ) : (
-            <div className="flex items-center justify-center text-white bg-purple-500 h-10 w-10">
+            <div
+              className="flex items-center justify-center text-white  h-10 w-10"
+              style={{
+                backgroundColor: comment.author?.randomColor as string,
+              }}
+            >
               {comment?.author?.name?.charAt(0)}
             </div>
           )}
@@ -63,7 +70,12 @@ const Comment = ({
               className="h-6 w-6"
             />
           ) : (
-            <div className="flex items-center justify-center text-white bg-purple-500 h-6 w-6">
+            <div
+              className="flex items-center justify-center text-white h-6 w-6"
+              style={{
+                backgroundColor: comment.author?.randomColor as string,
+              }}
+            >
               {comment?.author?.name?.charAt(0)}
             </div>
           )}
@@ -94,6 +106,7 @@ const Comment = ({
         <ReplyInput
           className={`${showCommentIntut ? "" : "hidden"}`}
           profilePicture={profilePicture as string}
+          profileColor={profileColor}
           authorId={userId as string}
           authorName={authorName}
           commentId={comment.id}
@@ -123,6 +136,7 @@ const Comment = ({
                   comment={reply}
                   userId={userId}
                   profilePicture={profilePicture}
+                  profileColor={profileColor}
                   size={"small"}
                 />
               </div>

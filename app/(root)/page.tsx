@@ -10,6 +10,9 @@ import { dateToPeriod } from "@/lib/utils";
 
 const page = async () => {
   const session = await auth();
+  const user = await prisma.user.findFirst({
+    where: { id: session?.user.id },
+  });
   const posts = await prisma.post.findMany({
     orderBy: {
       createdAt: "desc",
@@ -78,7 +81,12 @@ const page = async () => {
                     alt=""
                   />
                 ) : (
-                  <div className="flex items-center justify-center text-white bg-purple-500 h-10 w-10">
+                  <div
+                    className="flex items-center justify-center text-white  h-10 w-10"
+                    style={{
+                      backgroundColor: post.author.randomColor as string,
+                    }}
+                  >
                     {post.author.name?.charAt(0)}
                   </div>
                 )}
@@ -111,6 +119,7 @@ const page = async () => {
             <CommentInput
               profilePicture={session?.user.image as string}
               authorId={session?.user.id as string}
+              profileColor={user?.randomColor as string}
               postId={post.id}
               authorName={post.author.name as string}
             />
@@ -122,6 +131,7 @@ const page = async () => {
                     comment={comment as Comment}
                     authorName={session?.user.name as string}
                     userId={session?.user.id as string}
+                    profileColor={user?.randomColor as string}
                     profilePicture={session?.user.image as string}
                   />
                 </div>

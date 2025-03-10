@@ -13,10 +13,12 @@ const CommentInput = ({
   profilePicture,
   authorId,
   authorName,
+  profileColor,
   postId,
 }: {
   profilePicture: string;
   authorId: string;
+  profileColor: string;
   postId: string;
   authorName: string;
 }) => {
@@ -42,7 +44,12 @@ const CommentInput = ({
             className="h-10 w-10"
           />
         ) : (
-          <div className="flex items-center justify-center text-white bg-purple-500 h-10 w-10">
+          <div
+            className="flex items-center justify-center text-white  h-10 w-10"
+            style={{
+              backgroundColor: profileColor as string,
+            }}
+          >
             {authorName?.charAt(0)}
           </div>
         )}

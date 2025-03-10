@@ -66,7 +66,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user }: { user: any }) {
       let existingUser = await prisma.user.findFirst({
         where: { email: user.email as string },
       });
@@ -81,6 +81,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         });
       }
       user.id = existingUser.id;
+      user.randomColor = existingUser.randomColor;
 
       return true;
     },

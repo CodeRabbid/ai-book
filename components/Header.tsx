@@ -12,9 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import prisma from "@/lib/prisma";
 
 const Header = async () => {
   const session = await auth();
+  const user = await prisma.user.findFirst({
+    where: { id: session?.user.id },
+  });
   return (
     <header className="fixed flex w-full m-w-inherit bg-white">
       <div className="grow-0 p-3 cursor-pointer">
@@ -35,7 +39,27 @@ const Header = async () => {
             </Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline">{session.user.name}</Button>
+                <div className="rounded-full overflow-hidden h-10 w-10 cursor-pointer">
+                  {user?.image ? (
+                    <Image
+                      src={user.image as string}
+                      alt=""
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="h-10 w-10"
+                    />
+                  ) : (
+                    <div
+                      className="flex items-center justify-center text-white  h-10 w-10"
+                      style={{
+                        backgroundColor: user?.randomColor as string,
+                      }}
+                    >
+                      {user?.name?.charAt(0)}
+                    </div>
+                  )}
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>

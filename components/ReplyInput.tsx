@@ -14,6 +14,7 @@ const CommentOnCommentInput = ({
   profilePicture,
   authorId,
   authorName,
+  profileColor,
   commentId,
   setShowReplies,
 }: {
@@ -21,6 +22,7 @@ const CommentOnCommentInput = ({
   profilePicture: string;
   authorId: string;
   authorName: string;
+  profileColor?: string;
   commentId: string;
   setShowReplies: (bool: boolean) => void;
 }) => {
@@ -48,7 +50,12 @@ const CommentOnCommentInput = ({
               className="h-6 w-6"
             />
           ) : (
-            <div className="flex items-center text-xs justify-center text-white bg-purple-500 h-6 w-6">
+            <div
+              className="flex items-center text-xs justify-center text-white   h-6 w-6"
+              style={{
+                backgroundColor: profileColor as string,
+              }}
+            >
               {authorName?.charAt(0)}
             </div>
           )}
