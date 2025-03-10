@@ -35,7 +35,7 @@ export async function handleGeneratePicture({ story }: { story: string }) {
     story = story.replace('"', "'");
     const response = (await openai.images.generate({
       model: "dall-e-3",
-      prompt: `Create an picture to the story "${story}". And don't add any text on the picture. Remove any text from the picture, if any present.`,
+      prompt: `Create an picture without text to the story "${story}". `,
       n: 1,
       size: "1024x1024",
     })) as ImagesResponse;
