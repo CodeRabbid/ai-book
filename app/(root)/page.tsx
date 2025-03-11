@@ -116,13 +116,15 @@ const page = async () => {
               currentLikes={post.likes}
               postId={post.id}
             />
-            <CommentInput
-              profilePicture={session?.user.image as string}
-              authorId={session?.user.id as string}
-              profileColor={user?.randomColor as string}
-              postId={post.id}
-              authorName={post.author.name as string}
-            />
+            {session?.user && (
+              <CommentInput
+                profilePicture={session?.user.image as string}
+                authorId={session?.user.id as string}
+                profileColor={user?.randomColor as string}
+                postId={post.id}
+                authorName={post.author.name as string}
+              />
+            )}
             <div className="mt-5">
               {post.comments.map((comment) => (
                 <div key={comment.id} className="mt-3 w-full">

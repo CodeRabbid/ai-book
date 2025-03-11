@@ -6,6 +6,7 @@ import CommentLikes from "./CommentLikes";
 import Image from "next/image";
 import { dateToPeriod } from "@/lib/utils";
 import { FaChevronDown } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 interface Comment {
   author?: { name: string; image: string; randomColor: string };
@@ -33,6 +34,16 @@ const Comment = ({
 }) => {
   const [showCommentIntut, setShowCommentIntut] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
+
+  const router = useRouter();
+
+  const handleReplyClick = () => {
+    if (!userId) {
+      router.push("/auth/signin");
+    } else {
+      setShowCommentIntut(true);
+    }
+  };
 
   return (
     <div className="flex w-full">
@@ -97,7 +108,7 @@ const Comment = ({
             commentId={comment.id}
           />
           <button
-            onClick={() => setShowCommentIntut(true)}
+            onClick={handleReplyClick}
             className="rounded-full ml-2 text-xs py-2 px-3 hover:bg-gray-100"
           >
             Reply
