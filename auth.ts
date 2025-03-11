@@ -6,7 +6,7 @@ import { signInSchema } from "./lib/zod";
 import prisma from "./lib/prisma";
 import bcryptjs from "bcryptjs";
 
-const publicRoutes = ["/auth/signin", "/auth/signup", "/"];
+const publicRoutesRegex = /^\/(auth\/signin|auth\/signup|story\/\S+)*$/g;
 const authRoutes = ["/auth/signin", "/auth/signup"];
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -90,7 +90,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       const { pathname } = nextUrl;
 
       // Allow access to public routes for all users
-      if (publicRoutes.includes(pathname)) {
+      if (pathname.match(publicRoutesRegex)) {
         return true;
       }
 
