@@ -7,67 +7,21 @@ import { auth } from "@/auth";
 import CommentInput from "@/components/CommentInput";
 import Comment from "@/components/Comment";
 import { dateToPeriod } from "@/lib/utils";
+import PostImage from "@/components/PostImage";
 
 const page = async () => {
   const session = await auth();
-  const user = await prisma.user.findFirst({
-    where: { id: session?.user.id },
-  });
   const posts = await prisma.post.findMany({
     orderBy: {
       createdAt: "desc",
     },
     include: {
       author: {},
-      comments: {
-        orderBy: { createdAt: "desc" },
-        include: {
-          author: {},
-          comments: {
-            include: {
-              author: {},
-              comments: {
-                include: {
-                  author: {},
-                  comments: {
-                    include: {
-                      author: {},
-                      comments: {
-                        include: {
-                          author: {},
-                          comments: {
-                            include: {
-                              author: {},
-                              comments: {
-                                include: {
-                                  author: {},
-                                  comments: {
-                                    include: {
-                                      author: {},
-                                      comments: {
-                                        include: { author: {}, comments: {} },
-                                      },
-                                    },
-                                  },
-                                },
-                              },
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
     },
   });
 
   return (
-    <div className="flex grow  justify-center">
+    <div className="flex grow justify-center">
       <div className="max-w-xl grow">
         {posts.map((post) => (
           <Card className="px-8 block mb-3" key={post.id}>
@@ -98,14 +52,7 @@ const page = async () => {
                 </div>
               </div>
             </div>
-            <Image
-              src={post.picture_url}
-              alt=""
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-full h-auto mt-3"
-            />
+            <PostImage pictureUrl={post.picture_url} postId={post.id} />
             <div className="mt-4">
               {post.storyParagraphs.map((storyParagraph, index) => (
                 <div key={index}>{storyParagraph}</div>
@@ -116,29 +63,6 @@ const page = async () => {
               currentLikes={post.likes}
               postId={post.id}
             />
-            {session?.user && (
-              <CommentInput
-                profilePicture={session?.user.image as string}
-                authorId={session?.user.id as string}
-                profileColor={user?.randomColor as string}
-                postId={post.id}
-                authorName={post.author.name as string}
-              />
-            )}
-            <div className="mt-5">
-              {post.comments.map((comment) => (
-                <div key={comment.id} className="mt-3 w-full">
-                  <Comment
-                    size={"large"}
-                    comment={comment as Comment}
-                    authorName={session?.user.name as string}
-                    userId={session?.user.id as string}
-                    profileColor={user?.randomColor as string}
-                    profilePicture={session?.user.image as string}
-                  />
-                </div>
-              ))}
-            </div>
           </Card>
         ))}
       </div>
