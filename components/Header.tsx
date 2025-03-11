@@ -27,7 +27,7 @@ const Header = async () => {
         </Link>
       </div>
       <div className="flex items-center justify-center grow-100000">
-        Searchbar
+        {/* Searchbar */}
       </div>
       <div className="flex items-center mx-3 grow-0">
         {session && session?.user ? (
@@ -62,7 +62,9 @@ const Header = async () => {
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>
+                  <div className="flex justify-end">{user?.name}</div>
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <form action={handleSignOut} className="flex justify-end">
                   <Button variant="default" type="submit">
