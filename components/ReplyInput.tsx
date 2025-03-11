@@ -1,15 +1,9 @@
 "use client";
-import React, {
-  ChangeEvent,
-  KeyboardEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 
 import Image from "next/image";
 import { addReply } from "@/app/actions/commentAction";
-import { generateComment, generateReply } from "@/app/actions/generateAction";
+import { generateReply } from "@/app/actions/generateAction";
 
 const ReplyInput = ({
   previousComments,
