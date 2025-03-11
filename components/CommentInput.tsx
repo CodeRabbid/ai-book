@@ -22,15 +22,6 @@ const CommentInput = ({
   const [inputValue, setInputValue] = useState("");
   const textInput = useRef<HTMLInputElement>(null);
 
-  // const submitComment = async (e: HTMLElementEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const content = e.target.comment.value;
-  //   if (content !== "") {
-  //     await addCommentToPost({ postId, content, authorId });
-  //   }
-  //   e.target.reset();
-  // };
-
   const handleGenerate = async () => {
     const generatedComment = await generateComment(postStory);
     setInputValue(generatedComment);
@@ -51,12 +42,6 @@ const CommentInput = ({
       setInputValue("");
     }
   };
-
-  // const handleKeyDown = (event: KeyboardEvent) => {
-  //   if (event.key === "Enter") {
-  //     alert("");
-  //   }
-  // };
 
   return (
     <div className="flex mt-3 h-10 items-center gap-2 w-full grow">

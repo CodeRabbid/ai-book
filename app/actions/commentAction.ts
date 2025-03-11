@@ -23,7 +23,7 @@ export const addCommentToPost = async ({
   revalidatePath("/");
 };
 
-export const addCommentToComment = async ({
+export const addReply = async ({
   commentId,
   content,
   authorId,

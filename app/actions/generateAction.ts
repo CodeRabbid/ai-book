@@ -71,7 +71,24 @@ export async function postStory({
 
 export const generateComment = async (postStory: string) => {
   postStory = postStory.replace('"', "'");
-  const prompt = `Generate a short comment to this story: ${postStory}.`;
+  const prompt = `Generate a short comment to this story: "${postStory}".`;
+  const result = await model.generateContent(prompt);
+
+  return result.response.text();
+};
+
+export const generateReply = async (
+  postStory: string,
+  previousComments: string[]
+) => {
+  postStory = postStory.replace('"', "'");
+  let prompt = `This is the post: "${postStory}". These were the consecutive comments:\n`;
+  previousComments.forEach((comment, index) => {
+    prompt = `${prompt} ${index + 1}. ${comment}\n`;
+  });
+  prompt = `${prompt}\n Come up with a short rude comment commenting on the lastest comment.`;
+
+  console.log(prompt);
   const result = await model.generateContent(prompt);
 
   return result.response.text();

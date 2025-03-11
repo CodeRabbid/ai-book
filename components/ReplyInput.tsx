@@ -1,39 +1,60 @@
 "use client";
-import React, { FormEvent } from "react";
-import { Input } from "./ui/input";
+import React, {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
 import Image from "next/image";
-import { addCommentToComment } from "@/app/actions/commentAction";
+import { addReply } from "@/app/actions/commentAction";
+import { generateComment, generateReply } from "@/app/actions/generateAction";
 
-type HTMLElementEvent<T extends HTMLElement> = FormEvent & {
-  target: T;
-  currentTarget: T;
-};
-
-const CommentOnCommentInput = ({
+const ReplyInput = ({
+  previousComments,
   className,
   profilePicture,
   authorId,
   authorName,
   profileColor,
-  commentId,
+  comment,
+  postStory,
   setShowReplies,
 }: {
+  previousComments: string[];
   className: string;
   profilePicture: string;
   authorId: string;
   authorName: string;
   profileColor?: string;
-  commentId: string;
+  comment: CommentType;
+  postStory: string;
   setShowReplies: (bool: boolean) => void;
 }) => {
-  const submitComment = async (e: HTMLElementEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const content = e.target.comment.value;
-    if (content !== "") {
-      await addCommentToComment({ commentId, content, authorId });
+  const [inputValue, setInputValue] = useState("");
+  const textInput = useRef<HTMLInputElement>(null);
+
+  const handleGenerate = async () => {
+    const generatedComment = await generateReply(postStory, previousComments);
+    setInputValue(generatedComment);
+    textInput.current?.focus();
+  };
+
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const content = event.currentTarget.value;
+      if (content !== "") {
+        await addReply({ commentId: comment.id, content, authorId });
+      }
+      setShowReplies(true);
+      setInputValue("");
     }
-    setShowReplies(true);
-    e.target.reset();
   };
 
   return (
@@ -60,12 +81,26 @@ const CommentOnCommentInput = ({
             </div>
           )}
         </div>
-        <form onSubmit={submitComment} className="w-full">
-          <Input name="comment" placeholder="Add a comment..."></Input>
-        </form>
+        <div className="rounded-full border-solid border-[1px] justify-between pl-4 flex w-full">
+          <input
+            className="w-full text-[14px] focus:outline-none "
+            name="comment"
+            ref={textInput}
+            placeholder="Add a reply..."
+            value={inputValue}
+            onChange={handleInput}
+            onKeyDown={handleKeyDown}
+          />
+          <button
+            className="rounded-full border-solid border-[2px] border-white bg-black text-white cursor-pointer py-2 px-4 text-[14px]"
+            onClick={handleGenerate}
+          >
+            Generate
+          </button>
+        </div>
       </div>
     </div>
   );
 };
 
-export default CommentOnCommentInput;
+export default ReplyInput;

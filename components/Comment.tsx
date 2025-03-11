@@ -8,28 +8,23 @@ import { dateToPeriod } from "@/lib/utils";
 import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
-interface Comment {
-  author?: { name: string; image: string; randomColor: string };
-  createdAt: Date;
-  content: string;
-  likes: string[];
-  id: string;
-  comments?: Comment[];
-}
-
 const Comment = ({
+  previousComments,
   comment,
   userId,
   profilePicture,
   profileColor,
   authorName,
+  postStory,
   size,
 }: {
-  comment: Comment;
+  previousComments: string[];
+  comment: CommentType;
   userId: string;
   authorName: string;
   profileColor: string;
   profilePicture: string;
+  postStory: string;
   size: string;
 }) => {
   const [showCommentIntut, setShowCommentIntut] = useState(false);
@@ -44,6 +39,8 @@ const Comment = ({
       setShowCommentIntut(true);
     }
   };
+
+  console.log(previousComments);
 
   return (
     <div className="flex w-full">
@@ -115,12 +112,14 @@ const Comment = ({
           </button>
         </div>
         <ReplyInput
+          previousComments={[...previousComments, comment.content]}
           className={`${showCommentIntut ? "" : "hidden"}`}
           profilePicture={profilePicture as string}
           profileColor={profileColor}
           authorId={userId as string}
           authorName={authorName}
-          commentId={comment.id}
+          comment={comment}
+          postStory={postStory}
           setShowReplies={setShowReplies}
         />
         <button
@@ -143,11 +142,13 @@ const Comment = ({
             comment.comments?.map((reply) => (
               <div key={reply.id}>
                 <Comment
+                  previousComments={[...previousComments, comment.content]}
                   authorName={authorName}
                   comment={reply}
                   userId={userId}
                   profilePicture={profilePicture}
                   profileColor={profileColor}
+                  postStory={postStory}
                   size={"small"}
                 />
               </div>

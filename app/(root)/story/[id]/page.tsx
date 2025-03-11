@@ -135,12 +135,14 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
               {post.comments.map((comment) => (
                 <div key={comment.id} className="mt-3 w-full">
                   <Comment
+                    previousComments={[]}
                     size={"large"}
-                    comment={comment as Comment}
+                    comment={comment as CommentType}
                     authorName={session?.user.name as string}
                     userId={session?.user.id as string}
                     profileColor={user?.randomColor as string}
                     profilePicture={session?.user.image as string}
+                    postStory={post.story}
                   />
                 </div>
               ))}
