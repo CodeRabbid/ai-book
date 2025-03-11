@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 
 const Page = () => {
   const [generationError, setGenerationError] = useState<string | null>(null);
-  const [storyParagraphs, setStoryParagraphs] = useState<string[]>([]);
+  const [story, setStory] = useState<string>("");
   const [picture, setPicture] = useState("");
   const router = useRouter();
 
@@ -38,7 +38,7 @@ const Page = () => {
     try {
       setGenerationError(null);
       const generatedStory = await handleGenerateStory({ theme });
-      setStoryParagraphs(generatedStory.split("\n"));
+      setStory(generatedStory);
 
       const generatedPicture = (await handleGeneratePicture({
         story: generatedStory,
@@ -52,7 +52,7 @@ const Page = () => {
 
   const handlePost = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    await postStory({ storyParagraphs, picture });
+    await postStory({ story, picture });
     router.push("/");
     return;
   };
@@ -89,7 +89,7 @@ const Page = () => {
             </LoadingButton>
           </form>
         </Form>
-        {(storyParagraphs.length > 0 || picture) && (
+        {(story != "" || picture) && (
           <Card className="w-full px-8 mt-4 block">
             {picture && (
               <Image
@@ -102,14 +102,14 @@ const Page = () => {
               />
             )}
             <div className="mt-3">
-              {storyParagraphs.map((story_paragraph, index) => (
+              {story?.split("\n").map((story_paragraph, index) => (
                 <div key={index}>{story_paragraph}</div>
               ))}
             </div>
           </Card>
         )}
         <div className="flex justify-end mt-3">
-          {storyParagraphs.length > 0 && picture && (
+          {story?.split("\n").length > 0 && picture && (
             <form onSubmit={handlePost}>
               <Button type="submit">Post</Button>
             </form>

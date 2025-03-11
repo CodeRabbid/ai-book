@@ -33,7 +33,7 @@ model Post{
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
   author          User      @relation(fields: [authorId], references: [id])
   authorId        String    @db.ObjectId
-  storyParagraphs String[]
+  story           String
   picture_url     String
   likes           String[]  @default([])
   comments        Comment[]  

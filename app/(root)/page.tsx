@@ -52,7 +52,7 @@ const page = async () => {
             </div>
             <PostImage pictureUrl={post.picture_url} postId={post.id} />
             <div className="mt-4">
-              {post.storyParagraphs.map((storyParagraph, index) => (
+              {post.story.split("\n").map((storyParagraph, index) => (
                 <div key={index}>{storyParagraph}</div>
               ))}
             </div>

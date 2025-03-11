@@ -112,7 +112,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
               className="w-full h-auto mt-3"
             />
             <div className="mt-4">
-              {post.storyParagraphs.map((storyParagraph, index) => (
+              {post.story?.split("\n").map((storyParagraph, index) => (
                 <div key={index}>{storyParagraph}</div>
               ))}
             </div>
@@ -123,6 +123,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             />
             {session?.user && (
               <CommentInput
+                postStory={post.story}
                 profilePicture={session?.user.image as string}
                 authorId={session?.user.id as string}
                 profileColor={user?.randomColor as string}

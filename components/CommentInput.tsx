@@ -1,8 +1,14 @@
 "use client";
-import React, { FormEvent } from "react";
-import { Input } from "./ui/input";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useRef,
+  useState,
+  KeyboardEvent,
+} from "react";
 import Image from "next/image";
 import { addCommentToPost } from "@/app/actions/commentAction";
+import { generateComment } from "@/app/actions/generateAction";
 
 type HTMLElementEvent<T extends HTMLElement> = FormEvent & {
   target: T;
@@ -10,29 +16,61 @@ type HTMLElementEvent<T extends HTMLElement> = FormEvent & {
 };
 
 const CommentInput = ({
+  postStory,
   profilePicture,
   authorId,
   authorName,
   profileColor,
   postId,
 }: {
+  postStory: string;
   profilePicture: string;
   authorId: string;
   profileColor: string;
   postId: string;
   authorName: string;
 }) => {
-  const submitComment = async (e: HTMLElementEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const content = e.target.comment.value;
-    if (content !== "") {
-      await addCommentToPost({ postId, content, authorId });
-    }
-    e.target.reset();
+  const [inputValue, setInputValue] = useState("");
+  const textInput = useRef<HTMLInputElement>(null);
+
+  // const submitComment = async (e: HTMLElementEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const content = e.target.comment.value;
+  //   if (content !== "") {
+  //     await addCommentToPost({ postId, content, authorId });
+  //   }
+  //   e.target.reset();
+  // };
+
+  const handleGenerate = async () => {
+    const generatedComment = await generateComment(postStory);
+    setInputValue(generatedComment);
+    textInput.current?.focus();
   };
 
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const content = event.currentTarget.value;
+      if (content !== "") {
+        await addCommentToPost({ postId, content, authorId });
+      }
+      setInputValue("");
+    }
+  };
+
+  // const handleKeyDown = (event: KeyboardEvent) => {
+  //   if (event.key === "Enter") {
+  //     alert("");
+  //   }
+  // };
+
   return (
-    <div className="flex mt-3 h-10 items-center gap-2">
+    <div className="flex mt-3 h-10 items-center gap-2 w-full grow">
       <div className="rounded-full overflow-hidden h-10 w-10 shrink-0">
         {profilePicture ? (
           <Image
@@ -54,11 +92,28 @@ const CommentInput = ({
           </div>
         )}
       </div>
-      <form onSubmit={submitComment} className="w-full">
-        <Input name="comment" placeholder="Add a comment..."></Input>
-      </form>
+      <div className="rounded-full border-solid border-[1px] justify-between pl-4 flex w-full">
+        <input
+          className="w-full text-[14px] focus:outline-none "
+          name="comment"
+          ref={textInput}
+          placeholder="Add a comment..."
+          value={inputValue}
+          onChange={handleInput}
+          onKeyDown={handleKeyDown}
+        />
+        <button
+          className="rounded-full border-solid border-[2px] border-white bg-black text-white cursor-pointer py-2 px-4 text-[14px]"
+          onClick={handleGenerate}
+        >
+          Generate
+        </button>
+      </div>
     </div>
   );
 };
 
 export default CommentInput;
+function useFocus(): [any, any] {
+  throw new Error("Function not implemented.");
+}
