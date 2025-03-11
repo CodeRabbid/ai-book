@@ -1,19 +1,8 @@
 "use client";
-import React, {
-  ChangeEvent,
-  FormEvent,
-  useRef,
-  useState,
-  KeyboardEvent,
-} from "react";
+import React, { ChangeEvent, useRef, useState, KeyboardEvent } from "react";
 import Image from "next/image";
 import { addCommentToPost } from "@/app/actions/commentAction";
 import { generateComment } from "@/app/actions/generateAction";
-
-type HTMLElementEvent<T extends HTMLElement> = FormEvent & {
-  target: T;
-  currentTarget: T;
-};
 
 const CommentInput = ({
   postStory,
@@ -114,6 +103,3 @@ const CommentInput = ({
 };
 
 export default CommentInput;
-function useFocus(): [any, any] {
-  throw new Error("Function not implemented.");
-}
