@@ -4,8 +4,6 @@ import React from "react";
 import Image from "next/image";
 import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
-import CommentInput from "@/components/CommentInput";
-import Comment from "@/components/Comment";
 import { dateToPeriod } from "@/lib/utils";
 import PostImage from "@/components/PostImage";
 
