@@ -44,7 +44,6 @@ const GenerateForm = ({
       setGenerationError(null);
       const generatedStory = await handleGenerateSequel({
         theme,
-        prequelId,
         prequels,
       });
       setStory(generatedStory);
