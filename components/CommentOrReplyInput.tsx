@@ -75,11 +75,12 @@ const ReplyInput = ({
     }
 
     setInputValue(generatedComment);
-    handleTextAreaLineHeight();
+    adjustTextAreaLineHeight();
+    adjustTextAreaLineHeight();
     textInput.current?.focus();
   };
 
-  const handleTextAreaLineHeight = () => {
+  const adjustTextAreaLineHeight = () => {
     if (textInput.current) {
       textInput.current.style.height = "inherit";
       textInput.current.style.height = ` ${textInput.current.scrollHeight}px`;
@@ -88,7 +89,7 @@ const ReplyInput = ({
 
   const handleInput = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(event.target.value);
-    handleTextAreaLineHeight();
+    adjustTextAreaLineHeight();
   };
 
   const handleKeyDown = async (event: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -150,7 +151,7 @@ const ReplyInput = ({
               className="w-full text-[14px] focus:outline-none resize-none"
               name="comment"
               ref={textInput}
-              placeholder="Add a reply..."
+              placeholder={`Add a ${type}...`}
               value={inputValue}
               onChange={handleInput}
               onKeyDown={handleKeyDown}
