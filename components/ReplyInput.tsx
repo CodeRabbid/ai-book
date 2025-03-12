@@ -4,6 +4,17 @@ import React, { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 import Image from "next/image";
 import { addReply } from "@/app/actions/commentAction";
 import { generateReply } from "@/app/actions/generateAction";
+import { DropdownMenu, DropdownMenuContent } from "./ui/dropdown-menu";
+import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { FaChevronDown } from "react-icons/fa";
+
+const moodList = [
+  { value: "neutral", label: "Neutral" },
+  { value: "rude", label: "Rude" },
+  { value: "dad-joke", label: "Dad joke" },
+  { value: "deep", label: "Deep" },
+  { value: "silly", label: "Silly" },
+];
 
 const ReplyInput = ({
   previousComments,
@@ -27,10 +38,24 @@ const ReplyInput = ({
   setShowReplies: (bool: boolean) => void;
 }) => {
   const [inputValue, setInputValue] = useState("");
+  const [checkedState, setCheckedState] = useState(
+    new Array(moodList.length).fill(false)
+  );
   const textInput = useRef<HTMLInputElement>(null);
 
   const handleGenerate = async () => {
-    const generatedComment = await generateReply(postStory, previousComments);
+    const generatedComment = await generateReply({
+      postStory,
+      previousComments,
+      moods: moodList
+        .map((mood, index) => {
+          if (checkedState[index]) return mood.value;
+        })
+        .filter((mood) => {
+          return mood !== undefined;
+        }),
+    });
+
     setInputValue(generatedComment);
     textInput.current?.focus();
   };
@@ -49,6 +74,13 @@ const ReplyInput = ({
       setShowReplies(true);
       setInputValue("");
     }
+  };
+
+  const handleOnChange = (position: number) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+    setCheckedState(updatedCheckedState);
   };
 
   return (
@@ -86,11 +118,39 @@ const ReplyInput = ({
             onKeyDown={handleKeyDown}
           />
           <button
-            className="rounded-full border-solid border-[2px] border-white bg-black text-white cursor-pointer py-2 px-4 text-[14px]"
+            className="rounded-l-full border-y-solid border-y-[2px] border-y-white border-l-solid border-l-[2px] border-l-white bg-black text-white cursor-pointer py-2 px-4 text-[14px]"
             onClick={handleGenerate}
           >
             Generate
           </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="ml-[1px] rounded-r-full border-y-solid border-y-[2px] border-y-white border-r-solid border-r-[2px] border-r-white bg-black text-white cursor-pointer py-2 p pr-4 pl-3 text-[14px]">
+                <FaChevronDown size={13} />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <div className="flex flex-col m-1">
+                {moodList.map((mood, index) => (
+                  <div className="flex items-center mx-1 my-1" key={mood.value}>
+                    <input
+                      type="checkbox"
+                      name={mood.value}
+                      value={mood.value}
+                      checked={checkedState[index]}
+                      onChange={() => handleOnChange(index)}
+                    />
+                    <label
+                      htmlFor={mood.value}
+                      className="ml-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                    >
+                      {mood.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>

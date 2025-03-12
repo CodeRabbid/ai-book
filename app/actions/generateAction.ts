@@ -69,24 +69,39 @@ export async function postStory({
   });
 }
 
-export const generateComment = async (postStory: string) => {
+export const generateComment = async ({
+  postStory,
+  moods,
+}: {
+  postStory: string;
+  moods: string[];
+}) => {
   postStory = postStory.replace('"', "'");
-  const prompt = `Generate a short comment to this story: "${postStory}".`;
-  const result = await model.generateContent(prompt);
 
+  const prompt = `Generate a single ${moods.join(
+    ", "
+  )} comment of about 3-12 words to this story: "${postStory}".`;
+  const result = await model.generateContent(prompt);
   return result.response.text();
 };
 
-export const generateReply = async (
-  postStory: string,
-  previousComments: string[]
-) => {
+export const generateReply = async ({
+  postStory,
+  previousComments,
+  moods,
+}: {
+  postStory: string;
+  previousComments: string[];
+  moods: string[];
+}) => {
   postStory = postStory.replace('"', "'");
   let prompt = `This is the post: "${postStory}". These were the consecutive comments:\n`;
   previousComments.forEach((comment, index) => {
     prompt = `${prompt} ${index + 1}. ${comment}\n`;
   });
-  prompt = `${prompt}\n Come up with a short rude comment commenting on the lastest comment.`;
+  prompt = `${prompt}\n Come up with a single ${moods.join(
+    ", "
+  )} comment of about 3-12 words commenting on the lastest comment.`;
 
   console.log(prompt);
   const result = await model.generateContent(prompt);
