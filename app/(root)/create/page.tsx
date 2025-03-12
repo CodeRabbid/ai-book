@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { BaseSyntheticEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const Page = () => {
@@ -50,12 +50,22 @@ const Page = () => {
     }
   };
 
-  const handlePost = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const handlePost = async (
+    data: { theme: string },
+    event: BaseSyntheticEvent<object, any, any> | undefined
+  ) => {
+    // event.preventDefault();
     await postStory({ story, picture });
     router.push("/");
     return;
   };
+
+  // const handlePost = async () => {
+  //   // e.preventDefault();
+  //   await postStory({ story, picture });
+  //   router.push("/");
+  //   return;
+  // };
 
   return (
     <div className="flex grow  justify-center p-4 ">
@@ -111,11 +121,18 @@ const Page = () => {
             </div>
           </Card>
         )}
-        <div className="flex justify-end mt-3">
+        <div className="flex justify-end mt-3 w-full">
           {story?.split("\n").length > 0 && picture && (
-            <form onSubmit={handlePost}>
-              <Button type="submit">Post</Button>
-            </form>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handlePost)} className="w-full">
+                <LoadingButton
+                  pending={form.formState.isSubmitting}
+                  className="w-full cursor-pointer"
+                >
+                  Post
+                </LoadingButton>
+              </form>
+            </Form>
           )}
         </div>
       </div>

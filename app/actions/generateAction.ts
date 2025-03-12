@@ -28,7 +28,7 @@ export async function handleGenerateStory({ theme }: { theme: string }) {
 }
 
 export async function handleGeneratePicture({ story }: { story: string }) {
-  if (process.env.NODE_ENV === "development" && false) {
+  if (process.env.NODE_ENV === "development") {
     return "http://res.cloudinary.com/dqckq3bjr/image/upload/v1741471807/kpgaoqpge5ntmmj3xyup.png";
   } else {
     story = story.replace('"', "'");
