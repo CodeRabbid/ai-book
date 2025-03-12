@@ -33,3 +33,7 @@ export function dateToPeriod(date: Date) {
     ? seconds + ` second${seconds > 1 ? "s" : ""} ago`
     : "Just now";
 }
+
+export const timeout = (delay: number) => {
+  return new Promise((res) => setTimeout(res, delay));
+};

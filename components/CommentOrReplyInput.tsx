@@ -7,6 +7,7 @@ import { generateComment, generateReply } from "@/app/actions/generateAction";
 import { DropdownMenu, DropdownMenuContent } from "./ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { FaChevronDown } from "react-icons/fa";
+import { timeout } from "@/lib/utils";
 
 const moodList = [
   { value: "neutral", label: "Neutral" },
@@ -75,7 +76,7 @@ const ReplyInput = ({
     }
 
     setInputValue(generatedComment);
-    adjustTextAreaLineHeight();
+    await timeout(1000);
     adjustTextAreaLineHeight();
     textInput.current?.focus();
   };
