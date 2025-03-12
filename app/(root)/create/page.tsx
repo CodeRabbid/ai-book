@@ -84,7 +84,10 @@ const Page = () => {
               )}
             />
 
-            <LoadingButton pending={form.formState.isSubmitting}>
+            <LoadingButton
+              pending={form.formState.isSubmitting}
+              className="w-full"
+            >
               Generate
             </LoadingButton>
           </form>

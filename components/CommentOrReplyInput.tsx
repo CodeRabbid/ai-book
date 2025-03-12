@@ -10,6 +10,9 @@ import { FaChevronDown } from "react-icons/fa";
 import { timeout } from "@/lib/utils";
 import { IoSend } from "react-icons/io5";
 import { CustomSlider } from "./CustomSlider";
+import LoadingButton from "./LoadingButton";
+import { Form } from "./ui/form";
+import { useForm } from "react-hook-form";
 
 const moodList = [
   { value: "neutral", label: "Neutral" },
@@ -50,6 +53,8 @@ const ReplyInput = ({
   );
   const [wordCount, setWordcount] = useState<number>(12);
   const textInput = useRef<HTMLTextAreaElement>(null);
+
+  const form = useForm();
 
   const handleGenerate = async () => {
     let generatedComment;
@@ -164,12 +169,19 @@ const ReplyInput = ({
             ></textarea>
           </div>
           <div className="flex justify-end">
-            <button
-              className="rounded-l-full border-y-solid border-y-[2px] border-y-white border-l-solid border-l-[2px] border-l-white bg-black text-white cursor-pointer py-2 px-4 text-[14px]"
-              onClick={handleGenerate}
-            >
-              Generate
-            </button>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(handleGenerate)}
+                className="space-y-8"
+              >
+                <LoadingButton
+                  className="rounded-l-full border-y-solid border-y-[2px] border-y-white border-l-solid border-l-[2px] border-l-white bg-black text-white cursor-pointer pb-[19px] pt-[18px] pr-[14px] text-[14px] w-23"
+                  pending={form.formState.isSubmitting}
+                >
+                  Generate
+                </LoadingButton>
+              </form>
+            </Form>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="ml-[1px] rounded-r-full border-y-solid border-y-[2px] border-y-white   bg-black text-white cursor-pointer py-2 p pr-4 pl-3 text-[14px]">

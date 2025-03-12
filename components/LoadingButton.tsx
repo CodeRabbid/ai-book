@@ -1,14 +1,17 @@
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export default function LoadingButton({
   pending,
+  className,
   children,
 }: {
+  className?: string;
   pending: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <Button className="w-full" type="submit" disabled={pending}>
+    <Button className={cn(className)} type="submit" disabled={pending}>
       {pending ? (
         <div className="flex items-center justify-center">
           <svg
