@@ -22,7 +22,13 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-const GenerateForm = ({ prequelId }: { prequelId: string }) => {
+const GenerateForm = ({
+  prequelId,
+  prequels,
+}: {
+  prequelId: string;
+  prequels: { story: string }[];
+}) => {
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [story, setStory] = useState<string>("");
   const [picture, setPicture] = useState("");
@@ -36,7 +42,11 @@ const GenerateForm = ({ prequelId }: { prequelId: string }) => {
   const onSubmit = async ({ theme }: { theme: string }) => {
     try {
       setGenerationError(null);
-      const generatedStory = await handleGenerateSequel({ theme, prequelId });
+      const generatedStory = await handleGenerateSequel({
+        theme,
+        prequelId,
+        prequels,
+      });
       setStory(generatedStory);
 
       const generatedPicture = (await handleGeneratePicture({
@@ -67,12 +77,14 @@ const GenerateForm = ({ prequelId }: { prequelId: string }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <span className="text-2xl">What is your story about?</span>
+                    <span className="text-2xl">
+                      What should be the theme for the sequel?
+                    </span>
                   </FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder="Enter a theme for your story, e.g. 'Dragon chasing a princess' "
+                      placeholder={`Enter a theme for the sequel, e.g. "come back" or "ironic twist"`}
                       autoComplete="off"
                       {...field}
                     />

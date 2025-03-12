@@ -30,9 +30,11 @@ export async function handleGenerateStory({ theme }: { theme: string }) {
 export async function handleGenerateSequel({
   prequelId,
   theme,
+  prequels,
 }: {
   prequelId: string;
   theme: string;
+  prequels: { story: any }[];
 }) {
   const prequelPost = await prisma.post.findFirst({
     where: { id: prequelId },
@@ -40,11 +42,23 @@ export async function handleGenerateSequel({
       story: true,
     },
   });
+
+  let chapters = "";
+  prequels.forEach(
+    (prequel: { story: string }, index: number) =>
+      (chapters =
+        chapters + "Chapter " + (index + 1) + ".:\n\n" + prequel.story + "\n\n")
+  );
+
   const prequel = prequelPost?.story.replace('"', "'");
-  const prompt = `Write a sequel of about 150 words to this story:\n"${prequel}",\n with a theme "${theme.replace(
+  // const prompt = `Write a sequel of about 150 words to this story:\n"${prequel}",\n with a theme "${theme.replace(
+  //   '"',
+  //   "'"
+  // )} and provide a title for that sequel.`;
+  const prompt = `Write a sequel of about 150 words to this story:\n"${chapters}",\n with a theme "${theme.replace(
     '"',
     "'"
-  )} and provide a title for that sequel.`;
+  )}".`;
 
   const result = await model.generateContent(prompt);
 
