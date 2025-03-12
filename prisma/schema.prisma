@@ -37,6 +37,9 @@ model Post{
   picture_url     String
   likes           String[]  @default([])
   comments        Comment[]  
+  prequel         Post?     @relation("PrequelSequel", fields: [prequelId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  prequelId       String?   @db.ObjectId
+  sequels         Post[]    @relation("PrequelSequel")
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt 
 }

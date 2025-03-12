@@ -6,6 +6,7 @@ import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
 import { dateToPeriod } from "@/lib/utils";
 import PostImage from "@/components/PostImage";
+import { Button } from "@/components/ui/button";
 
 const page = async () => {
   const session = await auth();
@@ -56,11 +57,16 @@ const page = async () => {
                 <div key={index}>{storyParagraph}</div>
               ))}
             </div>
-            <PostLikes
-              userId={session?.user.id as string}
-              currentLikes={post.likes}
-              postId={post.id}
-            />
+            <div className="flex justify-between items-center mt-3">
+              <PostLikes
+                userId={session?.user.id as string}
+                currentLikes={post.likes}
+                postId={post.id}
+              />
+              <a href={`/create/sequel/${post.id}`}>
+                <Button>Generate Sequel</Button>
+              </a>
+            </div>
           </Card>
         ))}
       </div>

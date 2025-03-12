@@ -27,8 +27,32 @@ export async function handleGenerateStory({ theme }: { theme: string }) {
   return result.response.text();
 }
 
+export async function handleGenerateSequel({
+  prequelId,
+  theme,
+}: {
+  prequelId: string;
+  theme: string;
+}) {
+  const prequelPost = await prisma.post.findFirst({
+    where: { id: prequelId },
+    select: {
+      story: true,
+    },
+  });
+  const prequel = prequelPost?.story.replace('"', "'");
+  const prompt = `Write a sequel of about 150 words to this story:\n"${prequel}",\n with a theme "${theme.replace(
+    '"',
+    "'"
+  )} and provide a title for that sequel.`;
+
+  const result = await model.generateContent(prompt);
+
+  return result.response.text();
+}
+
 export async function handleGeneratePicture({ story }: { story: string }) {
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === "development" && false) {
     return "http://res.cloudinary.com/dqckq3bjr/image/upload/v1741471807/kpgaoqpge5ntmmj3xyup.png";
   } else {
     story = story.replace('"', "'");
@@ -52,9 +76,11 @@ export async function handleGeneratePicture({ story }: { story: string }) {
 }
 
 export async function postStory({
+  prequelId,
   story,
   picture,
 }: {
+  prequelId?: string;
   story: string;
   picture: string;
 }) {
@@ -62,6 +88,7 @@ export async function postStory({
 
   await prisma.post.create({
     data: {
+      prequelId,
       story: story,
       picture_url: picture,
       authorId: session?.user.id as string,

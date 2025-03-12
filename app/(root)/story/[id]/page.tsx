@@ -6,7 +6,7 @@ import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
 import Comment from "@/components/Comment";
 import { dateToPeriod } from "@/lib/utils";
-import ReplyInput from "@/components/CommentOrReplyInput";
+import CommentInput from "@/components/CommentOrReplyInput";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const session = await auth();
@@ -24,6 +24,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
       createdAt: "desc",
     },
     include: {
+      sequels: true,
       author: {},
       comments: {
         include: {
@@ -70,6 +71,8 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
       },
     },
   });
+
+  console.log(post);
 
   return (
     <div className="flex grow justify-center">
@@ -123,7 +126,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             />
             {session?.user && (
               <>
-                <ReplyInput
+                <CommentInput
                   type="comment"
                   previousComments={[]}
                   postStory={post.story}

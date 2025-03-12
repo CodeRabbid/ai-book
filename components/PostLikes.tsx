@@ -3,12 +3,15 @@
 import React, { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { addLikeToPostAction } from "@/app/actions/likeActions";
+import { cn } from "@/lib/utils";
 
 const PostLikes = ({
+  className,
   userId,
   postId,
   currentLikes,
 }: {
+  className?: string;
   userId: string;
   postId: string;
   currentLikes: string[];
@@ -25,14 +28,16 @@ const PostLikes = ({
   };
 
   return (
-    <div className="flex items-center mt-3">
-      <button onClick={handlePostLike} className="cursor-pointer">
-        <FaHeart
-          color={currentLikesLocal.includes(userId) ? "red" : "gray"}
-          className="w-5 h-5"
-        />
-      </button>
-      <span className="ml-2">{currentLikesLocal.length}</span>
+    <div className={cn(className)}>
+      <div className="flex items-center">
+        <button onClick={handlePostLike} className="cursor-pointer">
+          <FaHeart
+            color={currentLikesLocal.includes(userId) ? "red" : "gray"}
+            className="w-5 h-5"
+          />
+        </button>
+        <span className="ml-2">{currentLikesLocal.length}</span>
+      </div>
     </div>
   );
 };
