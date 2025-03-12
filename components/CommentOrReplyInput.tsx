@@ -104,17 +104,23 @@ const ReplyInput = ({
   };
 
   const handleSend = async () => {
-    if (type === "reply" && comment && setShowReplies && inputValue !== "") {
-      await addReply({ commentId: comment.id, content: inputValue, authorId });
-      setShowReplies(true);
-    } else if (type === "comment" && postId) {
-      await addCommentToPost({
-        postId,
-        content: inputValue,
-        authorId,
-      });
+    if (inputValue !== "") {
+      if (type === "reply" && comment && setShowReplies) {
+        await addReply({
+          commentId: comment.id,
+          content: inputValue,
+          authorId,
+        });
+        setShowReplies(true);
+      } else if (type === "comment" && postId) {
+        await addCommentToPost({
+          postId,
+          content: inputValue,
+          authorId,
+        });
+      }
+      setInputValue("");
     }
-    setInputValue("");
   };
 
   const handleOnChange = (position: number) => {
