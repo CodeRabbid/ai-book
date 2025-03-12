@@ -172,11 +172,13 @@ const ReplyInput = ({
                 <div className="flex flex-col m-1">
                   {moodList.map((mood, index) => (
                     <div
-                      className="flex items-center mx-1 my-1"
+                      className="flex items-center mx-2 my-2"
                       key={mood.value}
                     >
                       <input
+                        className="accent-black cursor-pointer h-5 w-5"
                         type="checkbox"
+                        id={mood.value}
                         name={mood.value}
                         value={mood.value}
                         checked={checkedState[index]}
