@@ -15,7 +15,6 @@ import { Form } from "./ui/form";
 import { useForm } from "react-hook-form";
 
 const moodList = [
-  { value: "neutral", label: "Neutral" },
   { value: "rude", label: "Rude" },
   { value: "dad-joke", label: "Dad joke" },
   { value: "deep", label: "Deep" },
@@ -189,27 +188,29 @@ const ReplyInput = ({
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
-                <div className="flex flex-col  mx-2 my-2">
-                  {moodList.map((mood, index) => (
-                    <div className="flex items-center" key={mood.value}>
-                      <input
-                        className="accent-black cursor-pointer h-5 w-5 my-2"
-                        type="checkbox"
-                        id={mood.value}
-                        name={mood.value}
-                        value={mood.value}
-                        checked={checkedState[index]}
-                        onChange={() => handleOnChange(index)}
-                      />
-                      <label
-                        htmlFor={mood.value}
-                        className="ml-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                      >
-                        {mood.label}
-                      </label>
-                    </div>
-                  ))}
-                  <div>Words:</div>
+                <div className="flex flex-col  px-3 pt-3 pb-2">
+                  <div className="grid grid-cols-2 gap-3">
+                    {moodList.map((mood, index) => (
+                      <div className="flex items-center" key={mood.value}>
+                        <input
+                          className="accent-black cursor-pointer h-5 w-5 "
+                          type="checkbox"
+                          id={mood.value}
+                          name={mood.value}
+                          value={mood.value}
+                          checked={checkedState[index]}
+                          onChange={() => handleOnChange(index)}
+                        />
+                        <label
+                          htmlFor={mood.value}
+                          className="ml-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                        >
+                          {mood.label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-2 text-sm font-bold">Words:</div>
                   <CustomSlider
                     min={3}
                     max={120}
