@@ -76,6 +76,7 @@ const ReplyInput = ({
     }
 
     setInputValue(generatedComment);
+    adjustTextAreaLineHeight();
     await timeout(1000);
     adjustTextAreaLineHeight();
     textInput.current?.focus();
