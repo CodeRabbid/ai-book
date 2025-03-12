@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import ReplyInput from "./ReplyInput";
+import ReplyInput from "./CommentOrReplyInput";
 import CommentLikes from "./CommentLikes";
 import Image from "next/image";
 import { dateToPeriod } from "@/lib/utils";
@@ -112,6 +112,7 @@ const Comment = ({
           </button>
         </div>
         <ReplyInput
+          type="reply"
           previousComments={[...previousComments, comment.content]}
           className={`${showCommentIntut ? "" : "hidden"}`}
           profilePicture={profilePicture as string}

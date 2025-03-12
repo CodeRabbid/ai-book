@@ -4,9 +4,9 @@ import React from "react";
 import Image from "next/image";
 import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
-import CommentInput from "@/components/CommentInput";
 import Comment from "@/components/Comment";
 import { dateToPeriod } from "@/lib/utils";
+import ReplyInput from "@/components/CommentOrReplyInput";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const session = await auth();
@@ -122,14 +122,18 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
               postId={post.id as string}
             />
             {session?.user && (
-              <CommentInput
-                postStory={post.story}
-                profilePicture={session?.user.image as string}
-                authorId={session?.user.id as string}
-                profileColor={user?.randomColor as string}
-                postId={post.id as string}
-                authorName={post.author.name as string}
-              />
+              <>
+                <ReplyInput
+                  type="comment"
+                  previousComments={[]}
+                  postStory={post.story}
+                  postId={post.id as string}
+                  profilePicture={session?.user.image as string}
+                  profileColor={user?.randomColor as string}
+                  authorId={session?.user.id as string}
+                  authorName={post.author.name as string}
+                />
+              </>
             )}
             <div className="mt-5">
               {post.comments.map((comment) => (

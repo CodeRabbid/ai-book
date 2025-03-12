@@ -2,7 +2,7 @@
 import React, { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 
 import Image from "next/image";
-import { addReply } from "@/app/actions/commentAction";
+import { addCommentToPost, addReply } from "@/app/actions/commentAction";
 import { generateReply } from "@/app/actions/generateAction";
 import { DropdownMenu, DropdownMenuContent } from "./ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
@@ -17,25 +17,29 @@ const moodList = [
 ];
 
 const ReplyInput = ({
+  type,
   previousComments,
   className,
   profilePicture,
   authorId,
   authorName,
+  postId,
   profileColor,
   comment,
   postStory,
   setShowReplies,
 }: {
+  type: string;
   previousComments: string[];
-  className: string;
+  className?: string;
   profilePicture: string;
   authorId: string;
   authorName: string;
   profileColor?: string;
-  comment: CommentType;
+  comment?: CommentType;
   postStory: string;
-  setShowReplies: (bool: boolean) => void;
+  postId?: string;
+  setShowReplies?: (bool: boolean) => void;
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [checkedState, setCheckedState] = useState(
@@ -65,13 +69,19 @@ const ReplyInput = ({
   };
 
   const handleKeyDown = async (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      const content = event.currentTarget.value;
-      if (content !== "") {
+    event.preventDefault();
+    const content = event.currentTarget.value;
+    if (event.key === "Enter" && content !== "") {
+      if (type === "reply" && comment && setShowReplies) {
         await addReply({ commentId: comment.id, content, authorId });
+        setShowReplies(true);
+      } else if (type === "comment" && postId) {
+        await addCommentToPost({
+          postId,
+          content,
+          authorId,
+        });
       }
-      setShowReplies(true);
       setInputValue("");
     }
   };
@@ -86,7 +96,11 @@ const ReplyInput = ({
   return (
     <div className={className}>
       <div className="flex mt-3 mb-2 items-center gap-2">
-        <div className="rounded-full overflow-hidden h-6 w-6 shrink-0">
+        <div
+          className={`rounded-full overflow-hidden ${
+            type === "comment" ? "h-10 w-10" : "h-6 w-6"
+          } shrink-0`}
+        >
           {profilePicture ? (
             <Image
               src={profilePicture}
@@ -94,7 +108,7 @@ const ReplyInput = ({
               width={0}
               height={0}
               sizes="100vw"
-              className="h-6 w-6"
+              className={type === "comment" ? "h-10 w-10" : "h-6 w-6"}
             />
           ) : (
             <div
