@@ -187,8 +187,8 @@ const ReplyInput = ({
                   <FaChevronDown size={13} />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <div className="flex flex-col  px-3 pt-3 pb-2">
+              <DropdownMenuContent className=" ">
+                <div className="flex flex-col  px-4 pt-4 pb-2">
                   <div className="grid grid-cols-2 gap-3">
                     {moodList.map((mood, index) => (
                       <div className="flex items-center" key={mood.value}>
@@ -210,7 +210,7 @@ const ReplyInput = ({
                       </div>
                     ))}
                   </div>
-                  <div className="mt-2 text-sm font-bold">Words:</div>
+                  <div className="mt-4 text-sm font-bold">Words:</div>
                   <CustomSlider
                     min={3}
                     max={120}
