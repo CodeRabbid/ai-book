@@ -40,8 +40,6 @@ const Comment = ({
     }
   };
 
-  console.log(previousComments);
-
   return (
     <div className="flex w-full">
       {size === "large" ? (
