@@ -120,11 +120,7 @@ const ReplyInput = ({
     setCheckedState(updatedCheckedState);
   };
 
-  const handleSetWordCount = (
-    event: Event,
-    value: number | number[],
-    activeThumb: number
-  ) => {
+  const handleSetWordCount = (event: Event, value: number | number[]) => {
     setWordcount(value as number);
   };
 
