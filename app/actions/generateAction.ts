@@ -80,7 +80,7 @@ export const generateComment = async ({
 
   const prompt = `Generate a single ${moods.join(
     ", "
-  )} comment of about 3-12 words to this story: "${postStory}".`;
+  )} comment of about 120-220 words to this story: "${postStory}".`;
   const result = await model.generateContent(prompt);
   return result.response.text();
 };
