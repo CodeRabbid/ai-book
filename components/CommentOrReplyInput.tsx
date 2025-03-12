@@ -9,6 +9,47 @@ import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { FaChevronDown } from "react-icons/fa";
 import { timeout } from "@/lib/utils";
 import { IoSend } from "react-icons/io5";
+import Slider from "@mui/material/Slider";
+import { styled } from "@mui/material/styles";
+
+const PrettoSlider = styled(Slider)({
+  color: "#000000",
+  height: 8,
+  "& .MuiSlider-track": {
+    border: "none",
+  },
+  "& .MuiSlider-thumb": {
+    height: 24,
+    width: 24,
+    backgroundColor: "#fff",
+    border: "2px solid currentColor",
+    "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
+      boxShadow: "inherit",
+    },
+    "&::before": {
+      // display: "none",
+    },
+  },
+  "& .MuiSlider-valueLabel": {
+    lineHeight: 1.2,
+    fontSize: 12,
+    background: "unset",
+    padding: 0,
+    width: 32,
+    height: 32,
+    borderRadius: "50% 50% 50% 0",
+    backgroundColor: "#000000",
+    transformOrigin: "bottom left",
+    transform: "translate(50%, -100%) rotate(-45deg) scale(0)",
+    "&::before": { display: "none" },
+    "&.MuiSlider-valueLabelOpen": {
+      transform: "translate(50%, -100%) rotate(-45deg) scale(1)",
+    },
+    "& > *": {
+      transform: "rotate(45deg)",
+    },
+  },
+});
 
 const moodList = [
   { value: "neutral", label: "Neutral" },
@@ -47,6 +88,7 @@ const ReplyInput = ({
   const [checkedState, setCheckedState] = useState(
     new Array(moodList.length).fill(false)
   );
+  const [wordCount, setWordcount] = useState<number>(12);
   const textInput = useRef<HTMLTextAreaElement>(null);
 
   const handleGenerate = async () => {
@@ -61,6 +103,7 @@ const ReplyInput = ({
           .filter((mood) => {
             return mood !== undefined;
           }),
+        wordCount,
       });
     } else {
       generatedComment = await generateReply({
@@ -73,6 +116,7 @@ const ReplyInput = ({
           .filter((mood) => {
             return mood !== undefined;
           }),
+        wordCount,
       });
     }
 
@@ -114,6 +158,14 @@ const ReplyInput = ({
       index === position ? !item : item
     );
     setCheckedState(updatedCheckedState);
+  };
+
+  const handleSetWordCount = (
+    event: Event,
+    value: number | number[],
+    activeThumb: number
+  ) => {
+    setWordcount(value as number);
   };
 
   return (
@@ -169,14 +221,11 @@ const ReplyInput = ({
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
-                <div className="flex flex-col m-1">
+                <div className="flex flex-col  mx-2 my-2">
                   {moodList.map((mood, index) => (
-                    <div
-                      className="flex items-center mx-2 my-2"
-                      key={mood.value}
-                    >
+                    <div className="flex items-center" key={mood.value}>
                       <input
-                        className="accent-black cursor-pointer h-5 w-5"
+                        className="accent-black cursor-pointer h-5 w-5 my-2"
                         type="checkbox"
                         id={mood.value}
                         name={mood.value}
@@ -192,6 +241,15 @@ const ReplyInput = ({
                       </label>
                     </div>
                   ))}
+                  <div>Words:</div>
+                  <PrettoSlider
+                    min={3}
+                    max={120}
+                    aria-label="Default"
+                    valueLabelDisplay="auto"
+                    value={wordCount}
+                    onChange={handleSetWordCount}
+                  />
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>

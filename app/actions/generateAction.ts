@@ -72,15 +72,17 @@ export async function postStory({
 export const generateComment = async ({
   postStory,
   moods,
+  wordCount,
 }: {
   postStory: string;
   moods: string[];
+  wordCount: number;
 }) => {
   postStory = postStory.replace('"', "'");
 
   const prompt = `Generate a single ${moods.join(
     ", "
-  )} comment of about 13-22 words to this story: "${postStory}".`;
+  )} comment of about ${wordCount} words to this story: "${postStory}".`;
   const result = await model.generateContent(prompt);
   return result.response.text();
 };
@@ -89,10 +91,12 @@ export const generateReply = async ({
   postStory,
   previousComments,
   moods,
+  wordCount,
 }: {
   postStory: string;
   previousComments: string[];
   moods: string[];
+  wordCount: number;
 }) => {
   postStory = postStory.replace('"', "'");
   let prompt = `This is the post: "${postStory}". These were the consecutive comments:\n`;
@@ -101,7 +105,7 @@ export const generateReply = async ({
   });
   prompt = `${prompt}\n Come up with a single ${moods.join(
     ", "
-  )} comment of about 3-12 words commenting on the lastest comment.`;
+  )} comment of about ${wordCount} words commenting on the lastest comment.`;
 
   console.log(prompt);
   const result = await model.generateContent(prompt);
