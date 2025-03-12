@@ -7,7 +7,6 @@ import {
 } from "@/app/actions/generateAction";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingButton from "@/components/LoadingButton";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Form,
@@ -20,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { BaseSyntheticEvent, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const Page = () => {
@@ -50,22 +49,11 @@ const Page = () => {
     }
   };
 
-  const handlePost = async (
-    data: { theme: string },
-    event: BaseSyntheticEvent<object, any, any> | undefined
-  ) => {
-    // event.preventDefault();
+  const handlePost = async () => {
     await postStory({ story, picture });
     router.push("/");
     return;
   };
-
-  // const handlePost = async () => {
-  //   // e.preventDefault();
-  //   await postStory({ story, picture });
-  //   router.push("/");
-  //   return;
-  // };
 
   return (
     <div className="flex grow  justify-center p-4 ">
