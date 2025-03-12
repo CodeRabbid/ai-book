@@ -8,6 +8,7 @@ import { DropdownMenu, DropdownMenuContent } from "./ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { FaChevronDown } from "react-icons/fa";
 import { timeout } from "@/lib/utils";
+import { IoSend } from "react-icons/io5";
 
 const moodList = [
   { value: "neutral", label: "Neutral" },
@@ -94,22 +95,18 @@ const ReplyInput = ({
     adjustTextAreaLineHeight();
   };
 
-  const handleKeyDown = async (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    const content = event.currentTarget.value;
-    if (event.key === "Enter" && content !== "") {
-      event.preventDefault();
-      if (type === "reply" && comment && setShowReplies) {
-        await addReply({ commentId: comment.id, content, authorId });
-        setShowReplies(true);
-      } else if (type === "comment" && postId) {
-        await addCommentToPost({
-          postId,
-          content,
-          authorId,
-        });
-      }
-      setInputValue("");
+  const handleSend = async () => {
+    if (type === "reply" && comment && setShowReplies && inputValue !== "") {
+      await addReply({ commentId: comment.id, content: inputValue, authorId });
+      setShowReplies(true);
+    } else if (type === "comment" && postId) {
+      await addCommentToPost({
+        postId,
+        content: inputValue,
+        authorId,
+      });
     }
+    setInputValue("");
   };
 
   const handleOnChange = (position: number) => {
@@ -156,7 +153,6 @@ const ReplyInput = ({
               placeholder={`Add a ${type}...`}
               value={inputValue}
               onChange={handleInput}
-              onKeyDown={handleKeyDown}
             ></textarea>
           </div>
           <div className="flex justify-end">
@@ -168,7 +164,7 @@ const ReplyInput = ({
             </button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="ml-[1px] rounded-r-full border-y-solid border-y-[2px] border-y-white border-r-solid border-r-[2px] border-r-white bg-black text-white cursor-pointer py-2 p pr-4 pl-3 text-[14px]">
+                <button className="ml-[1px] rounded-r-full border-y-solid border-y-[2px] border-y-white   bg-black text-white cursor-pointer py-2 p pr-4 pl-3 text-[14px]">
                   <FaChevronDown size={13} />
                 </button>
               </DropdownMenuTrigger>
@@ -197,6 +193,12 @@ const ReplyInput = ({
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
+            <button
+              className="ml-[1px] rounded-full  border-white border-solid border-[2px]   bg-black text-white cursor-pointer py-2 p px-3 text-[14px]"
+              onClick={handleSend}
+            >
+              <IoSend size={13} />
+            </button>
           </div>
         </div>
       </div>
