@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 
 import Image from "next/image";
 import { addCommentToPost, addReply } from "@/app/actions/commentAction";
