@@ -101,7 +101,10 @@ export default function SignUp() {
                   )}
                 />
               ))}
-              <LoadingButton pending={form.formState.isSubmitting}>
+              <LoadingButton
+                className="w-full"
+                pending={form.formState.isSubmitting}
+              >
                 Sign up
               </LoadingButton>
             </form>

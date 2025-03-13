@@ -96,6 +96,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <GenerateForm
           prequelId={prequelId}
           prequels={prequels as { story: string }[]}
+          session={session}
         />
       </div>
     </div>

@@ -4,27 +4,37 @@ import React, { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { addLikeToPostAction } from "@/app/actions/likeActions";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const PostLikes = ({
   className,
   userId,
   postId,
   currentLikes,
+  session,
 }: {
   className?: string;
   userId: string;
   postId: string;
   currentLikes: string[];
+  session?: any;
 }) => {
   const [currentLikesLocal, setCurrentLikesLocal] = useState(currentLikes);
+  const router = useRouter();
 
   const handlePostLike = async () => {
-    if (currentLikesLocal.includes(userId)) {
-      setCurrentLikesLocal(currentLikesLocal.filter((like) => like !== userId));
+    if (!session?.user) {
+      router.push("/auth/sigin");
     } else {
-      setCurrentLikesLocal([...currentLikesLocal, userId]);
+      if (currentLikesLocal.includes(userId)) {
+        setCurrentLikesLocal(
+          currentLikesLocal.filter((like) => like !== userId)
+        );
+      } else {
+        setCurrentLikesLocal([...currentLikesLocal, userId]);
+      }
+      addLikeToPostAction({ postId });
     }
-    addLikeToPostAction({ postId });
   };
 
   return (

@@ -5,6 +5,7 @@ import {
   postStory,
   handleGenerateSequel,
 } from "@/app/actions/generateAction";
+import { auth } from "@/auth";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingButton from "@/components/LoadingButton";
 import { Card } from "@/components/ui/card";
@@ -19,13 +20,15 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const GenerateForm = ({
   prequelId,
   prequels,
+  session,
 }: {
+  session: any;
   prequelId: string;
   prequels: { story: string }[];
 }) => {
@@ -39,22 +42,27 @@ const GenerateForm = ({
       theme: "",
     },
   });
-  const onSubmit = async ({ theme }: { theme: string }) => {
-    try {
-      setGenerationError(null);
-      const generatedStory = await handleGenerateSequel({
-        theme,
-        prequels,
-      });
-      setStory(generatedStory);
 
-      const generatedPicture = (await handleGeneratePicture({
-        story: generatedStory,
-      })) as string;
-      setPicture(generatedPicture);
-    } catch (error) {
-      setGenerationError("An unexpected error occurred. Please try again.");
-      console.error(error);
+  const onSubmit = async ({ theme }: { theme: string }) => {
+    if (!session?.user) {
+      router.push("/auth/sigin");
+    } else {
+      try {
+        setGenerationError(null);
+        const generatedStory = await handleGenerateSequel({
+          theme,
+          prequels,
+        });
+        setStory(generatedStory);
+
+        const generatedPicture = (await handleGeneratePicture({
+          story: generatedStory,
+        })) as string;
+        setPicture(generatedPicture);
+      } catch (error) {
+        setGenerationError("An unexpected error occurred. Please try again.");
+        console.error(error);
+      }
     }
   };
 
@@ -65,7 +73,7 @@ const GenerateForm = ({
   };
 
   return (
-    <div className="flex grow  justify-center p-4 ">
+    <div className="flex grow justify-center p-4 ">
       <div className="max-w-xl grow">
         {generationError && <ErrorMessage error={generationError} />}
         <Form {...form}>

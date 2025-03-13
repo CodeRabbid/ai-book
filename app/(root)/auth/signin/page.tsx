@@ -95,7 +95,10 @@ const Page = () => {
                   </FormItem>
                 )}
               />
-              <LoadingButton pending={form.formState.isSubmitting}>
+              <LoadingButton
+                className="w-full"
+                pending={form.formState.isSubmitting}
+              >
                 Sign in
               </LoadingButton>
             </form>

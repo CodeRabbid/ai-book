@@ -6,7 +6,8 @@ import { signInSchema } from "./lib/zod";
 import prisma from "./lib/prisma";
 import bcryptjs from "bcryptjs";
 
-const publicRoutesRegex = /^\/(auth\/signin|auth\/signup|story\/\S+)*$/g;
+const publicRoutesRegex =
+  /^\/(auth\/signin|auth\/signup|story\/\S+|create\/sequel\/\S+)*$/g;
 const authRoutes = ["/auth/signin", "/auth/signup"];
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
