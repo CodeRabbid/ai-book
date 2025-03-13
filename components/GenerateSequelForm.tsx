@@ -112,7 +112,7 @@ const GenerateForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <span className="text-2xl">{question}</span>
+                    <span className="text-xl">{question}</span>
                   </FormLabel>
                   <FormControl>
                     <Input
