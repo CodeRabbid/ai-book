@@ -20,8 +20,14 @@ cloudinary.config({
 });
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-export async function handleGenerateStory({ theme }: { theme: string }) {
-  const prompt = `Write the first chapter of about 150 words with the theme: "${theme}".`;
+export async function handleGenerateStory({
+  theme,
+  wordCount,
+}: {
+  theme: string;
+  wordCount: number[];
+}) {
+  const prompt = `Write the first chapter of about ${wordCount[0]}-${wordCount[1]} words, but not more than 3800 characters, with the theme: "${theme}".`;
   const result = await model.generateContent(prompt);
 
   return result.response.text();
@@ -30,9 +36,11 @@ export async function handleGenerateStory({ theme }: { theme: string }) {
 export async function handleGenerateSequel({
   theme,
   prequels,
+  wordCount,
 }: {
   theme: string;
   prequels: { story: string }[];
+  wordCount: number[];
 }) {
   let chapters = "";
   prequels.forEach(
@@ -41,7 +49,9 @@ export async function handleGenerateSequel({
         chapters + "Chapter " + (index + 1) + ".:\n\n" + prequel.story + "\n\n")
   );
 
-  const prompt = `Write a sequel of about 150 words to this story:\n"${chapters}",\n with a theme "${theme.replace(
+  const prompt = `Write a sequel of ${wordCount[0]}-${
+    wordCount[1]
+  } words, but not more than 3800 characters, to this story:\n"${chapters}",\n with a theme "${theme.replace(
     '"',
     "'"
   )}".`;

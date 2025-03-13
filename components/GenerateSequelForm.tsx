@@ -23,6 +23,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { CustomSlider2 } from "./CustomSlider2";
 
 const GenerateForm = ({
   question,
@@ -38,6 +39,7 @@ const GenerateForm = ({
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [story, setStory] = useState<string>("");
   const [picture, setPicture] = useState("");
+  const [wordCount, setWordCount] = useState<number[]>([395, 695]);
   const router = useRouter();
 
   const form = useForm({
@@ -57,9 +59,10 @@ const GenerateForm = ({
           generatedStory = await handleGenerateSequel({
             theme,
             prequels,
+            wordCount,
           });
         } else {
-          generatedStory = await handleGenerateStory({ theme });
+          generatedStory = await handleGenerateStory({ theme, wordCount });
         }
         setStory(generatedStory);
 
@@ -78,7 +81,7 @@ const GenerateForm = ({
     const post = await postStory({
       story,
       picture,
-      prequelId: prequels ? prequels[-1].id : undefined,
+      prequelId: prequels ? prequels[prequels.length - 1].id : undefined,
     });
     router.push(`/create/sequel/${post.id}#${post.id}`);
     return;
@@ -110,7 +113,17 @@ const GenerateForm = ({
                 </FormItem>
               )}
             />
-
+            <div>How many words should it have? (min, max)</div>
+            <CustomSlider2
+              value={wordCount}
+              scale={(x) => Math.floor(Math.pow(1.007655, x))}
+              onChange={(event: Event, value: number | number[]) => {
+                setWordCount(value as number[]);
+              }}
+              min={395}
+              max={815}
+              valueLabelDisplay="on"
+            />
             <LoadingButton
               pending={form.formState.isSubmitting}
               className="w-full"

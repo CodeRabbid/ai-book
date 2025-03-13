@@ -13,7 +13,7 @@ export const CustomSlider = styled(Slider)({
     backgroundColor: "#fff",
     border: "2px solid currentColor",
     "&:focus, &:hover, &.Mui-active, &.Mui-focusVisible": {
-      boxShadow: "inherit",
+      boxShadow: "0 0 0 12px rgba(133, 133, 133, 0.16)",
     },
     "&::before": {
       display: "none",

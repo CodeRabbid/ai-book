@@ -7,16 +7,66 @@ import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
 import { dateToPeriod } from "@/lib/utils";
 import { User } from "@prisma/client";
+import Comment from "@/components/Comment";
+import CommentInput from "@/components/CommentOrReplyInput";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const session = await auth();
+  const user = await prisma.user.findFirst({
+    where: { id: session?.user.id },
+  });
   const prequelId = (await params).id;
 
   let p = await prisma.post.findFirst({
     where: {
       id: prequelId,
     },
-    include: { author: true },
+    include: {
+      author: true,
+      comments: {
+        include: {
+          author: {},
+          comments: {
+            include: {
+              author: {},
+              comments: {
+                include: {
+                  author: {},
+                  comments: {
+                    include: {
+                      author: {},
+                      comments: {
+                        include: {
+                          author: {},
+                          comments: {
+                            include: {
+                              author: {},
+                              comments: {
+                                include: {
+                                  author: {},
+                                  comments: {
+                                    include: {
+                                      author: {},
+                                      comments: {
+                                        include: { author: {}, comments: {} },
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
 
   const prequels = [p];
@@ -26,7 +76,52 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
       where: {
         id: p.prequelId,
       },
-      include: { author: true },
+      include: {
+        author: true,
+        comments: {
+          include: {
+            author: {},
+            comments: {
+              include: {
+                author: {},
+                comments: {
+                  include: {
+                    author: {},
+                    comments: {
+                      include: {
+                        author: {},
+                        comments: {
+                          include: {
+                            author: {},
+                            comments: {
+                              include: {
+                                author: {},
+                                comments: {
+                                  include: {
+                                    author: {},
+                                    comments: {
+                                      include: {
+                                        author: {},
+                                        comments: {
+                                          include: { author: {}, comments: {} },
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
     prequels.push(p2);
     p = p2;
@@ -91,6 +186,35 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                   currentLikes={prequel.likes as string[]}
                   postId={prequel.id as string}
                 />
+                {session?.user && (
+                  <CommentInput
+                    className="mt-5"
+                    type="comment"
+                    previousComments={[]}
+                    postStory={prequel.story}
+                    postId={prequel.id as string}
+                    profilePicture={session?.user.image as string}
+                    profileColor={user?.randomColor as string}
+                    authorId={session?.user.id as string}
+                    authorName={prequel.author.name as string}
+                  />
+                )}
+                <div className="mt-5">
+                  {prequel.comments.map((comment) => (
+                    <div key={comment.id} className="mt-3 w-full">
+                      <Comment
+                        previousComments={[]}
+                        size={"large"}
+                        comment={comment as CommentType}
+                        authorName={session?.user.name as string}
+                        userId={session?.user.id as string}
+                        profileColor={user?.randomColor as string}
+                        profilePicture={session?.user.image as string}
+                        postStory={prequel.story}
+                      />
+                    </div>
+                  ))}
+                </div>
               </Card>
             )
         )}
