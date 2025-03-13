@@ -5,7 +5,6 @@ import {
   postStory,
   handleGenerateSequel,
 } from "@/app/actions/generateAction";
-import { auth } from "@/auth";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingButton from "@/components/LoadingButton";
 import { Card } from "@/components/ui/card";
@@ -20,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const GenerateForm = ({
@@ -28,7 +27,7 @@ const GenerateForm = ({
   prequels,
   session,
 }: {
-  session: any;
+  session: { user: { id: string } };
   prequelId: string;
   prequels: { story: string }[];
 }) => {

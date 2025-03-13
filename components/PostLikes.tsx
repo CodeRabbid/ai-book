@@ -17,7 +17,7 @@ const PostLikes = ({
   userId: string;
   postId: string;
   currentLikes: string[];
-  session?: any;
+  session?: { user: { id: string } };
 }) => {
   const [currentLikesLocal, setCurrentLikesLocal] = useState(currentLikes);
   const router = useRouter();
