@@ -131,7 +131,7 @@ const GenerateForm = ({
               name="form"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Form</FormLabel>
+                  <FormLabel>What form should it have?</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -174,7 +174,7 @@ const GenerateForm = ({
                 </FormItem>
               )}
             />
-            <div>About how many words should it have?</div>
+            <FormLabel> About how many words should it have?</FormLabel>
             <div className="px-5">
               <CustomSlider2
                 value={wordCount}
