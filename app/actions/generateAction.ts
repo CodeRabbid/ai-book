@@ -27,9 +27,9 @@ export async function handleGenerateStory({
 }: {
   theme: string;
   form: string;
-  wordCount: number[];
+  wordCount: number;
 }) {
-  const prompt = `Write the first chapter of exactly ${wordCount[0]}-${wordCount[1]} words and not more than 3800 characters, with the theme: "${theme}". The chapter must be a ${form}.`;
+  const prompt = `Write the first chapter of about ${wordCount} words and not more than 3800 characters, with the theme: "${theme}". The chapter must be a ${form}.`;
   console.log(prompt);
   const result = await model.generateContent(prompt);
 
@@ -45,7 +45,7 @@ export async function handleGenerateSequel({
   theme: string;
   form: string;
   prequels: { story: string }[];
-  wordCount: number[];
+  wordCount: number;
 }) {
   let chapters = "";
   prequels.forEach(
@@ -54,9 +54,7 @@ export async function handleGenerateSequel({
         chapters + "Chapter " + (index + 1) + ".:\n\n" + prequel.story + "\n\n")
   );
 
-  const prompt = `Write a sequel of ${wordCount[0]}-${
-    wordCount[1]
-  } words, but not more than 3800 characters, to this story:\n"${chapters}",\n with a theme "${theme.replace(
+  const prompt = `Write a sequel of about ${wordCount} words, but not more than 3800 characters, to this story:\n"${chapters}",\n with a theme "${theme.replace(
     '"',
     "'"
   )}". The chapter must be a ${form}.`;

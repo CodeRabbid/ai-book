@@ -41,7 +41,7 @@ const GenerateForm = ({
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [story, setStory] = useState<string>("");
   const [picture, setPicture] = useState("");
-  const [wordCount, setWordCount] = useState<number[]>([605, 695]);
+  const [wordCount, setWordCount] = useState<number>(695);
   const router = useRouter();
 
   type FormType = {
@@ -68,19 +68,13 @@ const GenerateForm = ({
             theme: values.theme,
             form: values.form,
             prequels,
-            wordCount: [
-              Math.floor(Math.pow(1.007655, wordCount[0])),
-              Math.floor(Math.pow(1.007655, wordCount[1])),
-            ],
+            wordCount: Math.floor(Math.pow(1.007655, wordCount)),
           });
         } else {
           generatedStory = await handleGenerateStory({
             theme: values.theme,
             form: values.form,
-            wordCount: [
-              Math.floor(Math.pow(1.007655, wordCount[0])),
-              Math.floor(Math.pow(1.007655, wordCount[1])),
-            ],
+            wordCount: Math.floor(Math.pow(1.007655, wordCount)),
           });
         }
         setStory(generatedStory);
@@ -152,6 +146,12 @@ const GenerateForm = ({
                       </FormItem>
                       <FormItem className="flex items-center space-x-1 space-y-0">
                         <FormControl>
+                          <RadioGroupItem value="dialogue" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Dialogue</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-1 space-y-0">
+                        <FormControl>
                           <RadioGroupItem value="poem" />
                         </FormControl>
                         <FormLabel className="font-normal">Poem</FormLabel>
@@ -174,13 +174,13 @@ const GenerateForm = ({
                 </FormItem>
               )}
             />
-            <div>How many words should it have? (min, max)</div>
+            <div>About how many words should it have?</div>
             <div className="px-5">
               <CustomSlider2
                 value={wordCount}
                 scale={(x) => Math.floor(Math.pow(1.007655, x))}
                 onChange={(event: Event, value: number | number[]) => {
-                  setWordCount(value as number[]);
+                  setWordCount(value as number);
                 }}
                 min={395}
                 max={839}
