@@ -117,16 +117,18 @@ const GenerateForm = ({
               )}
             />
             <div>How many words should it have? (min, max)</div>
-            <CustomSlider2
-              value={wordCount}
-              scale={(x) => Math.floor(Math.pow(1.007655, x))}
-              onChange={(event: Event, value: number | number[]) => {
-                setWordCount(value as number[]);
-              }}
-              min={395}
-              max={839}
-              valueLabelDisplay="on"
-            />
+            <div className="px-5">
+              <CustomSlider2
+                value={wordCount}
+                scale={(x) => Math.floor(Math.pow(1.007655, x))}
+                onChange={(event: Event, value: number | number[]) => {
+                  setWordCount(value as number[]);
+                }}
+                min={395}
+                max={839}
+                valueLabelDisplay="on"
+              />
+            </div>
             <LoadingButton
               pending={form.formState.isSubmitting}
               className="w-full"
