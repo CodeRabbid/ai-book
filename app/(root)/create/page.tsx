@@ -50,8 +50,8 @@ const Page = () => {
   };
 
   const handlePost = async () => {
-    await postStory({ story, picture });
-    router.push("/");
+    const post = await postStory({ story, picture });
+    router.push(`/create/sequel/${post.id}#${post.id}`);
     return;
   };
 
