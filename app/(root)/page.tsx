@@ -7,15 +7,63 @@ import { auth } from "@/auth";
 import { dateToPeriod } from "@/lib/utils";
 import PostImage from "@/components/PostImage";
 import { Button } from "@/components/ui/button";
+import Comment from "@/components/Comment";
+import CommentInput from "@/components/CommentOrReplyInput";
 
 const page = async () => {
   const session = await auth();
+  const user = await prisma.user.findFirst({
+    where: { id: session?.user.id },
+  });
   const posts = await prisma.post.findMany({
     orderBy: {
       createdAt: "desc",
     },
     include: {
       author: {},
+      comments: {
+        include: {
+          author: {},
+          comments: {
+            include: {
+              author: {},
+              comments: {
+                include: {
+                  author: {},
+                  comments: {
+                    include: {
+                      author: {},
+                      comments: {
+                        include: {
+                          author: {},
+                          comments: {
+                            include: {
+                              author: {},
+                              comments: {
+                                include: {
+                                  author: {},
+                                  comments: {
+                                    include: {
+                                      author: {},
+                                      comments: {
+                                        include: { author: {}, comments: {} },
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
   });
 
@@ -66,6 +114,35 @@ const page = async () => {
               <a href={`/create/sequel/${post.id}#${post.id}`}>
                 <Button>Generate Sequel</Button>
               </a>
+            </div>
+            {session?.user && (
+              <CommentInput
+                className="mt-5"
+                type="comment"
+                previousComments={[]}
+                postStory={post.story}
+                postId={post.id as string}
+                profilePicture={session?.user.image as string}
+                profileColor={user?.randomColor as string}
+                authorId={session?.user.id as string}
+                authorName={post.author.name as string}
+              />
+            )}
+            <div className="mt-5">
+              {post.comments.map((comment) => (
+                <div key={comment.id} className="mt-3 w-full">
+                  <Comment
+                    previousComments={[]}
+                    size={"large"}
+                    comment={comment as CommentType}
+                    authorName={session?.user.name as string}
+                    userId={session?.user.id as string}
+                    profileColor={user?.randomColor as string}
+                    profilePicture={session?.user.image as string}
+                    postStory={post.story}
+                  />
+                </div>
+              ))}
             </div>
           </Card>
         ))}
