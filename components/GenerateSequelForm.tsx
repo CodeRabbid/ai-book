@@ -59,7 +59,10 @@ const GenerateForm = ({
           generatedStory = await handleGenerateSequel({
             theme,
             prequels,
-            wordCount,
+            wordCount: [
+              Math.floor(Math.pow(1.007655, wordCount[0])),
+              Math.floor(Math.pow(1.007655, wordCount[1])),
+            ],
           });
         } else {
           generatedStory = await handleGenerateStory({ theme, wordCount });
@@ -121,7 +124,7 @@ const GenerateForm = ({
                 setWordCount(value as number[]);
               }}
               min={395}
-              max={815}
+              max={839}
               valueLabelDisplay="on"
             />
             <LoadingButton
