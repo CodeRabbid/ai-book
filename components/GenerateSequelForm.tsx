@@ -41,7 +41,7 @@ const GenerateForm = ({
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [story, setStory] = useState<string>("");
   const [picture, setPicture] = useState("");
-  const [wordCount, setWordCount] = useState<number>(695);
+  const [wordCount, setWordCount] = useState<number>(605);
   const router = useRouter();
 
   type FormType = {
