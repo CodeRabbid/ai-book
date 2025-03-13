@@ -4,6 +4,7 @@ import {
   handleGeneratePicture,
   postStory,
   handleGenerateSequel,
+  handleGenerateStory,
 } from "@/app/actions/generateAction";
 import ErrorMessage from "@/components/ErrorMessage";
 import LoadingButton from "@/components/LoadingButton";
@@ -24,13 +25,15 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const GenerateForm = ({
-  prequelId,
+  question,
+  placeholder,
   prequels,
   user,
 }: {
+  question: string;
+  placeholder: string;
   user?: User;
-  prequelId: string;
-  prequels: { story: string }[];
+  prequels?: { id: string; story: string }[];
 }) => {
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [story, setStory] = useState<string>("");
@@ -49,10 +52,15 @@ const GenerateForm = ({
     } else {
       try {
         setGenerationError(null);
-        const generatedStory = await handleGenerateSequel({
-          theme,
-          prequels,
-        });
+        let generatedStory = "";
+        if (prequels) {
+          generatedStory = await handleGenerateSequel({
+            theme,
+            prequels,
+          });
+        } else {
+          generatedStory = await handleGenerateStory({ theme });
+        }
         setStory(generatedStory);
 
         const generatedPicture = (await handleGeneratePicture({
@@ -67,7 +75,11 @@ const GenerateForm = ({
   };
 
   const handlePost = async () => {
-    const post = await postStory({ story, picture, prequelId });
+    const post = await postStory({
+      story,
+      picture,
+      prequelId: prequels ? prequels[-1].id : undefined,
+    });
     router.push(`/create/sequel/${post.id}#${post.id}`);
     return;
   };
@@ -84,14 +96,12 @@ const GenerateForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    <span className="text-2xl">
-                      What should be the theme for the sequel?
-                    </span>
+                    <span className="text-2xl">{question}</span>
                   </FormLabel>
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder={`Enter a theme for the sequel, e.g. "come back" or "ironic twist"`}
+                      placeholder={placeholder}
                       autoComplete="off"
                       {...field}
                     />

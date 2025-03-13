@@ -21,7 +21,7 @@ cloudinary.config({
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 export async function handleGenerateStory({ theme }: { theme: string }) {
-  const prompt = `Write the first chapter of about 150 words with the theme: "${theme}" and provide a title for that story.`;
+  const prompt = `Write the first chapter of about 150 words with the theme: "${theme}".`;
   const result = await model.generateContent(prompt);
 
   return result.response.text();

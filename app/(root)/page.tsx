@@ -63,7 +63,7 @@ const page = async () => {
                 currentLikes={post.likes}
                 postId={post.id}
               />
-              <a href={`/create/sequel/${post.id}`}>
+              <a href={`/create/sequel/${post.id}#${post.id}`}>
                 <Button>Generate Sequel</Button>
               </a>
             </div>
