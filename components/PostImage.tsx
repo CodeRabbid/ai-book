@@ -13,7 +13,7 @@ const PostImage = ({
 }) => {
   const router = useRouter();
   const handleRedirectToStory = () => {
-    router.push(`/story/${postId}`);
+    router.push(`/create/sequel/${postId}#${postId}`);
   };
   return (
     <div className="cursor-pointer">

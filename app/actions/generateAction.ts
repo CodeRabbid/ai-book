@@ -86,7 +86,7 @@ export async function postStory({
 }) {
   const session = await auth();
 
-  await prisma.post.create({
+  const post = await prisma.post.create({
     data: {
       prequelId,
       story: story,
@@ -94,6 +94,8 @@ export async function postStory({
       authorId: session?.user.id as string,
     },
   });
+
+  return post;
 }
 
 export const generateComment = async ({

@@ -39,7 +39,11 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         {prequels.map(
           (prequel) =>
             prequel && (
-              <Card className="px-8 block mb-3" key={prequel.id}>
+              <Card
+                className="px-8 block mb-3"
+                key={prequel.id}
+                id={prequel.id}
+              >
                 <div className="flex  items-center gap-2">
                   <div className="rounded-full overflow-hidden h-10 w-10">
                     {prequel.author.image ? (
