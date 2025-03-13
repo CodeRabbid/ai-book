@@ -6,6 +6,7 @@ import Image from "next/image";
 import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
 import { dateToPeriod } from "@/lib/utils";
+import { User } from "@prisma/client";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const session = await auth();
@@ -96,7 +97,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         <GenerateForm
           prequelId={prequelId}
           prequels={prequels as { story: string }[]}
-          session={session}
+          user={session?.user as User}
         />
       </div>
     </div>

@@ -11,19 +11,17 @@ const PostLikes = ({
   userId,
   postId,
   currentLikes,
-  session,
 }: {
   className?: string;
-  userId: string;
+  userId?: string;
   postId: string;
   currentLikes: string[];
-  session?: { user: { id: string } };
 }) => {
   const [currentLikesLocal, setCurrentLikesLocal] = useState(currentLikes);
   const router = useRouter();
 
   const handlePostLike = async () => {
-    if (!session?.user) {
+    if (!userId) {
       router.push("/auth/sigin");
     } else {
       if (currentLikesLocal.includes(userId)) {
@@ -42,7 +40,9 @@ const PostLikes = ({
       <div className="flex items-center">
         <button onClick={handlePostLike} className="cursor-pointer">
           <FaHeart
-            color={currentLikesLocal.includes(userId) ? "red" : "gray"}
+            color={
+              userId && currentLikesLocal.includes(userId) ? "red" : "gray"
+            }
             className="w-5 h-5"
           />
         </button>

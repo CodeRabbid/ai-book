@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { User } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -25,9 +26,9 @@ import { useForm } from "react-hook-form";
 const GenerateForm = ({
   prequelId,
   prequels,
-  session,
+  user,
 }: {
-  session: { user: { id: string } };
+  user?: User;
   prequelId: string;
   prequels: { story: string }[];
 }) => {
@@ -43,7 +44,7 @@ const GenerateForm = ({
   });
 
   const onSubmit = async ({ theme }: { theme: string }) => {
-    if (!session?.user) {
+    if (!user) {
       router.push("/auth/sigin");
     } else {
       try {
