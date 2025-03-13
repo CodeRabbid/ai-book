@@ -153,7 +153,11 @@ const ReplyInput = ({
             />
           ) : (
             <div
-              className="flex items-center text-xs capitalize justify-center text-white   h-6 w-6"
+              className={`flex items-center ${
+                type === "comment" ? "text-l" : "text-xs"
+              }  capitalize justify-center text-white  ${
+                type === "comment" ? "h-10 w-10" : "h-6 w-6"
+              }`}
               style={{
                 backgroundColor: profileColor as string,
               }}
