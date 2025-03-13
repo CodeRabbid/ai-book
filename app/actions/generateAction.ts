@@ -51,11 +51,6 @@ export async function handleGenerateSequel({
   prequels: { story: string }[];
   wordCount: number;
 }) {
-  if (theme === "") {
-    theme = (
-      await model.generateContent("Generate one random word")
-    ).response.text();
-  }
   let chapters = "";
   prequels.forEach(
     (prequel: { story: string }, index: number) =>
