@@ -57,8 +57,6 @@ const GenerateForm = ({
   });
 
   const onSubmit = async (values: z.infer<ZodType<FormType>>) => {
-    console.log(values);
-    // return;
     if (!user) {
       router.push("/auth/sigin");
     } else {
