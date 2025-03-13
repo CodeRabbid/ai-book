@@ -22,12 +22,15 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 export async function handleGenerateStory({
   theme,
+  form,
   wordCount,
 }: {
   theme: string;
+  form: string;
   wordCount: number[];
 }) {
-  const prompt = `Write the first chapter of about ${wordCount[0]}-${wordCount[1]} words, but not more than 3800 characters, with the theme: "${theme}".`;
+  const prompt = `Write the first chapter of exactly ${wordCount[0]}-${wordCount[1]} words and not more than 3800 characters, with the theme: "${theme}". The chapter must be a ${form}.`;
+  console.log(prompt);
   const result = await model.generateContent(prompt);
 
   return result.response.text();
@@ -35,10 +38,12 @@ export async function handleGenerateStory({
 
 export async function handleGenerateSequel({
   theme,
+  form,
   prequels,
   wordCount,
 }: {
   theme: string;
+  form: string;
   prequels: { story: string }[];
   wordCount: number[];
 }) {
@@ -54,7 +59,7 @@ export async function handleGenerateSequel({
   } words, but not more than 3800 characters, to this story:\n"${chapters}",\n with a theme "${theme.replace(
     '"',
     "'"
-  )}".`;
+  )}". The chapter must be a ${form}.`;
 
   const result = await model.generateContent(prompt);
 

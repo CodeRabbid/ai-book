@@ -1,5 +1,6 @@
 "use client";
 
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   handleGeneratePicture,
   postStory,
@@ -24,6 +25,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomSlider2 } from "./CustomSlider2";
+import { z, ZodType } from "zod";
 
 const GenerateForm = ({
   question,
@@ -42,13 +44,21 @@ const GenerateForm = ({
   const [wordCount, setWordCount] = useState<number[]>([605, 695]);
   const router = useRouter();
 
+  type FormType = {
+    theme: string;
+    form: string;
+  };
+
   const form = useForm({
     defaultValues: {
       theme: "",
+      form: "prose",
     },
   });
 
-  const onSubmit = async ({ theme }: { theme: string }) => {
+  const onSubmit = async (values: z.infer<ZodType<FormType>>) => {
+    console.log(values);
+    // return;
     if (!user) {
       router.push("/auth/sigin");
     } else {
@@ -57,7 +67,8 @@ const GenerateForm = ({
         let generatedStory = "";
         if (prequels) {
           generatedStory = await handleGenerateSequel({
-            theme,
+            theme: values.theme,
+            form: values.form,
             prequels,
             wordCount: [
               Math.floor(Math.pow(1.007655, wordCount[0])),
@@ -66,7 +77,8 @@ const GenerateForm = ({
           });
         } else {
           generatedStory = await handleGenerateStory({
-            theme,
+            theme: values.theme,
+            form: values.form,
             wordCount: [
               Math.floor(Math.pow(1.007655, wordCount[0])),
               Math.floor(Math.pow(1.007655, wordCount[1])),
@@ -122,6 +134,48 @@ const GenerateForm = ({
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="form"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>Form</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex"
+                    >
+                      <FormItem className="flex items-center space-x-1 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="prose" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Prose</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-1 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="poem" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Poem</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-1 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="hokku" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Hokku</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-1 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="song" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Song</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div>How many words should it have? (min, max)</div>
             <div className="px-5">
               <CustomSlider2
@@ -135,6 +189,7 @@ const GenerateForm = ({
                 valueLabelDisplay="on"
               />
             </div>
+
             <LoadingButton
               pending={form.formState.isSubmitting}
               className="w-full"
