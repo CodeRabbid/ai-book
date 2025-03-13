@@ -65,7 +65,13 @@ const GenerateForm = ({
             ],
           });
         } else {
-          generatedStory = await handleGenerateStory({ theme, wordCount });
+          generatedStory = await handleGenerateStory({
+            theme,
+            wordCount: [
+              Math.floor(Math.pow(1.007655, wordCount[0])),
+              Math.floor(Math.pow(1.007655, wordCount[1])),
+            ],
+          });
         }
         setStory(generatedStory);
 
