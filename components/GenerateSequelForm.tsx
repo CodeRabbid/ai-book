@@ -41,7 +41,7 @@ const GenerateForm = ({
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [story, setStory] = useState<string>("");
   const [picture, setPicture] = useState("");
-  const [wordCount, setWordCount] = useState<number>(605);
+  const [wordCount, setWordCount] = useState<number>(150);
   const router = useRouter();
 
   type FormType = {
@@ -68,13 +68,13 @@ const GenerateForm = ({
             theme: values.theme,
             form: values.form,
             prequels,
-            wordCount: Math.floor(Math.pow(1.007655, wordCount)),
+            wordCount,
           });
         } else {
           generatedStory = await handleGenerateStory({
             theme: values.theme,
             form: values.form,
-            wordCount: Math.floor(Math.pow(1.007655, wordCount)),
+            wordCount,
           });
         }
         setStory(generatedStory);
@@ -178,12 +178,11 @@ const GenerateForm = ({
             <div className="px-5">
               <CustomSlider2
                 value={wordCount}
-                scale={(x) => Math.floor(Math.pow(1.007655, x))}
                 onChange={(event: Event, value: number | number[]) => {
                   setWordCount(value as number);
                 }}
-                min={395}
-                max={839}
+                min={3}
+                max={600}
                 valueLabelDisplay="on"
               />
             </div>

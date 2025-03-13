@@ -29,8 +29,12 @@ export async function handleGenerateStory({
   form: string;
   wordCount: number;
 }) {
+  if (theme === "") {
+    theme = (
+      await model.generateContent("Generate one random word")
+    ).response.text();
+  }
   const prompt = `Write the first chapter of about ${wordCount} words and not more than 3800 characters, with the theme: "${theme}". The chapter must be a ${form}.`;
-  console.log(prompt);
   const result = await model.generateContent(prompt);
 
   return result.response.text();
@@ -47,6 +51,11 @@ export async function handleGenerateSequel({
   prequels: { story: string }[];
   wordCount: number;
 }) {
+  if (theme === "") {
+    theme = (
+      await model.generateContent("Generate one random word")
+    ).response.text();
+  }
   let chapters = "";
   prequels.forEach(
     (prequel: { story: string }, index: number) =>
