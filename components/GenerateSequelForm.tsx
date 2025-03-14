@@ -26,6 +26,12 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomSlider2 } from "./CustomSlider2";
 import { z, ZodType } from "zod";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const formList = [
   { value: "prose", label: "Prose" },
@@ -63,6 +69,51 @@ const levelList = [
   { value: "native", label: "Native" },
 ];
 
+const marks = [
+  {
+    value: 0,
+    label: "0°C",
+  },
+  {
+    value: 20,
+    label: "20°C",
+  },
+  {
+    value: 37,
+    label: "37°C",
+  },
+  {
+    value: 100,
+    label: "100°C",
+  },
+  {
+    value: 100,
+    label: "100°C",
+  },
+  {
+    value: 100,
+    label: "100°C",
+  },
+];
+const levels = ["A0", "A1", "A2", "B1", "B2", "C1", "native"];
+function valueLabelFormat(value: any) {
+  const units = ["KB", "MB", "GB", "TB"];
+
+  let unitIndex = 0;
+  let scaledValue = value;
+
+  while (scaledValue >= 1024 && unitIndex < units.length - 1) {
+    unitIndex += 1;
+    scaledValue /= 1024;
+  }
+
+  return levels[value];
+}
+
+function calculateValue(value: number) {
+  return value;
+}
+
 const GenerateForm = ({
   question,
   placeholder,
@@ -79,6 +130,7 @@ const GenerateForm = ({
   const [picture, setPicture] = useState("");
   const [wordCount, setWordCount] = useState<number>(150);
   const router = useRouter();
+  const [value, setValue] = React.useState(10);
 
   type FormType = {
     theme: string;
@@ -148,6 +200,10 @@ const GenerateForm = ({
     return;
   };
 
+  const handleChange = (_event: Event, value: number | number[]) => {
+    setValue(value as number);
+  };
+
   return (
     <div className="flex grow justify-center p-4 ">
       <div className="max-w-xl grow">
@@ -205,8 +261,10 @@ const GenerateForm = ({
                 </FormItem>
               )}
             />
-            <FormLabel> About how many words should it have?</FormLabel>
-            <div className="px-5">
+            <FormLabel className="mb-6">
+              About how many words should it have?
+            </FormLabel>
+            <div className="px-5 my-0 ">
               <CustomSlider2
                 value={wordCount}
                 onChange={(event: Event, value: number | number[]) => {
@@ -218,103 +276,102 @@ const GenerateForm = ({
               />
             </div>
 
-            <FormField
-              control={form.control}
-              name="stage"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>
-                    What stage within the whole story should it have?
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="flex justify-center bg-gray-100 text-[15px]">
+                  Advanced
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="mt-6">
+                    <FormField
+                      control={form.control}
+                      name="stage"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel>
+                            What stage within the whole story should it have?
+                          </FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              className="flex  flex-wrap"
+                            >
+                              {stageList.map((stage) => (
+                                <FormItem
+                                  className="flex items-center space-x-1 space-y-0"
+                                  key={stage.value}
+                                >
+                                  <FormControl>
+                                    <RadioGroupItem value={stage.value} />
+                                  </FormControl>
+                                  <FormLabel className="font-normal whitespace-nowrap">
+                                    {stage.label}
+                                  </FormLabel>
+                                </FormItem>
+                              ))}
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="mt-5">
+                    <FormField
+                      control={form.control}
+                      name="language"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel>
+                            What language should it be written in?
+                          </FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              className="flex  flex-wrap"
+                            >
+                              {languageList.map((language) => (
+                                <FormItem
+                                  className="flex items-center space-x-1 space-y-0"
+                                  key={language.value}
+                                >
+                                  <FormControl>
+                                    <RadioGroupItem value={language.value} />
+                                  </FormControl>
+                                  <FormLabel className="font-normal whitespace-nowrap">
+                                    {language.label}
+                                  </FormLabel>
+                                </FormItem>
+                              ))}
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <FormLabel className=" mb-0  mt-6">
+                    What language level should it have?
                   </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex  flex-wrap"
-                    >
-                      {stageList.map((stage) => (
-                        <FormItem
-                          className="flex items-center space-x-1 space-y-0"
-                          key={stage.value}
-                        >
-                          <FormControl>
-                            <RadioGroupItem value={stage.value} />
-                          </FormControl>
-                          <FormLabel className="font-normal whitespace-nowrap">
-                            {stage.label}
-                          </FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="language"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>What language should it be written in?</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex  flex-wrap"
-                    >
-                      {languageList.map((language) => (
-                        <FormItem
-                          className="flex items-center space-x-1 space-y-0"
-                          key={language.value}
-                        >
-                          <FormControl>
-                            <RadioGroupItem value={language.value} />
-                          </FormControl>
-                          <FormLabel className="font-normal whitespace-nowrap">
-                            {language.label}
-                          </FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="level"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>What language level should it have?</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex  flex-wrap"
-                    >
-                      {levelList.map((level) => (
-                        <FormItem
-                          className="flex items-center space-x-1 space-y-0"
-                          key={level.value}
-                        >
-                          <FormControl>
-                            <RadioGroupItem value={level.value} />
-                          </FormControl>
-                          <FormLabel className="font-normal whitespace-nowrap">
-                            {level.label}
-                          </FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <div className="px-5 mb-0 mt-5">
+                    <CustomSlider2
+                      valueLabelDisplay="on"
+                      value={value}
+                      min={0}
+                      step={1}
+                      max={levels.length - 1}
+                      scale={calculateValue}
+                      getAriaValueText={valueLabelFormat}
+                      valueLabelFormat={valueLabelFormat}
+                      onChange={handleChange}
+                      aria-labelledby="non-linear-slider"
+                    />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
             <LoadingButton
               pending={form.formState.isSubmitting}
