@@ -59,59 +59,10 @@ const languageList = [
   { value: "chinese", label: "中文" },
 ];
 
-const levelList = [
-  { value: "A0", label: "A0" },
-  { value: "A1", label: "A1" },
-  { value: "A2", label: "A2" },
-  { value: "B1", label: "B1" },
-  { value: "B2", label: "B2" },
-  { value: "C1", label: "C1" },
-  { value: "native", label: "Native" },
-];
-
-const marks = [
-  {
-    value: 0,
-    label: "0°C",
-  },
-  {
-    value: 20,
-    label: "20°C",
-  },
-  {
-    value: 37,
-    label: "37°C",
-  },
-  {
-    value: 100,
-    label: "100°C",
-  },
-  {
-    value: 100,
-    label: "100°C",
-  },
-  {
-    value: 100,
-    label: "100°C",
-  },
-];
 const levels = ["A0", "A1", "A2", "B1", "B2", "C1", "native"];
-function valueLabelFormat(value: any) {
-  const units = ["KB", "MB", "GB", "TB"];
 
-  let unitIndex = 0;
-  let scaledValue = value;
-
-  while (scaledValue >= 1024 && unitIndex < units.length - 1) {
-    unitIndex += 1;
-    scaledValue /= 1024;
-  }
-
+function valueLabelFormat(value: number) {
   return levels[value];
-}
-
-function calculateValue(value: number) {
-  return value;
 }
 
 const GenerateForm = ({
@@ -130,7 +81,7 @@ const GenerateForm = ({
   const [picture, setPicture] = useState("");
   const [wordCount, setWordCount] = useState<number>(150);
   const router = useRouter();
-  const [value, setValue] = React.useState(10);
+  const [languageLevel, setLanguageLevel] = React.useState(levels.length - 1);
 
   type FormType = {
     theme: string;
@@ -201,7 +152,7 @@ const GenerateForm = ({
   };
 
   const handleChange = (_event: Event, value: number | number[]) => {
-    setValue(value as number);
+    setLanguageLevel(value as number);
   };
 
   return (
@@ -358,11 +309,10 @@ const GenerateForm = ({
                   <div className="px-5 mb-0 mt-5">
                     <CustomSlider2
                       valueLabelDisplay="on"
-                      value={value}
+                      value={languageLevel}
                       min={0}
                       step={1}
                       max={levels.length - 1}
-                      scale={calculateValue}
                       getAriaValueText={valueLabelFormat}
                       valueLabelFormat={valueLabelFormat}
                       onChange={handleChange}
