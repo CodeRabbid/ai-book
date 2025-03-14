@@ -47,6 +47,7 @@ const stageList = [
 const languageList = [
   { value: "english", label: "English" },
   { value: "german", label: "Deutsch" },
+  { value: "french", label: "Française" },
   { value: "russian", label: "Русский" },
   { value: "chinese", label: "中文" },
 ];
