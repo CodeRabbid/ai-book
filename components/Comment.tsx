@@ -8,7 +8,6 @@ import { cn, dateToPeriod } from "@/lib/utils";
 import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { CommentInterface } from "@/types/types";
-import { ClassNames } from "@emotion/react";
 
 const Comment = ({
   className,
