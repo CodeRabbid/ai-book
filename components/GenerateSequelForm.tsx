@@ -48,6 +48,7 @@ const languageList = [
   { value: "english", label: "English" },
   { value: "german", label: "Deutsch" },
   { value: "french", label: "Française" },
+  { value: "spanish", label: "Español" },
   { value: "russian", label: "Русский" },
   { value: "chinese", label: "中文" },
 ];
