@@ -1,5 +1,5 @@
 export interface CommentInterface {
-  author?: AuthorInterface;
+  author: AuthorInterface;
   createdAt: Date;
   content: string;
   likes: string[];

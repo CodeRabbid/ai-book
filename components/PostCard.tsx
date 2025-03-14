@@ -14,17 +14,22 @@ import {
   UserInterface,
 } from "@/types/types";
 import { FaCommentDots } from "react-icons/fa";
+import { fetchComments } from "@/app/actions/fetchAction";
 
 const PostCard = ({
   post,
   session,
   user,
   setShowComments,
+  setPost,
+  setComments,
 }: {
   post: PostInterface;
   session: SessionInterface;
   user: UserInterface;
   setShowComments: (showComments: boolean) => void;
+  setPost: (post: PostInterface) => void;
+  setComments: (newComments: CommentInterface[]) => void;
 }) => {
   return (
     <Card className="px-8 block mb-3" key={post.id}>
@@ -71,7 +76,12 @@ const PostCard = ({
             color="gray"
             size={21.86}
             onClick={() => {
+              console.log("click");
               setShowComments(true);
+              setPost(post);
+              fetchComments(post.id).then((newComments) =>
+                setComments(newComments)
+              );
             }}
           />
         </div>
