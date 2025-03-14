@@ -60,9 +60,12 @@ const LoadMore = ({
           className="absolute top-2 right-2"
           size={30}
           color={"gray"}
-          onClick={() => setShowComments(false)}
+          onClick={() => {
+            setComments([]);
+            setShowComments(false);
+          }}
         />
-        <div className="flex justify-center pr-2 pt-2 font-bold text-[19px]">
+        <div className="flex justify-center pt-4 font-bold text-[19px]">
           Comments
         </div>
         <div className="p-4">
@@ -77,20 +80,23 @@ const LoadMore = ({
             authorId={session?.user.id as string}
             authorName={post?.author.name as string}
           />
-          {comments.map((comment) => (
-            <Comment
-              className="mt-3"
-              previousComments={[]}
-              comment={comment}
-              userId={user.id}
-              authorName={comment.author.name}
-              profileColor={comment.author.randomColor as string}
-              profilePicture={comment.author.image as string}
-              postStory={post?.story as string}
-              size={"large"}
-              key={comment.id}
-            />
-          ))}
+          {comments.map(
+            (comment) =>
+              showComments && (
+                <Comment
+                  className="mt-3"
+                  previousComments={[]}
+                  comment={comment}
+                  userId={user.id}
+                  authorName={comment.author.name}
+                  profileColor={comment.author.randomColor as string}
+                  profilePicture={comment.author.image as string}
+                  postStory={post?.story as string}
+                  size={"large"}
+                  key={comment.id}
+                />
+              )
+          )}
         </div>
       </div>
     </>
