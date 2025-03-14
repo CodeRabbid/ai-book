@@ -44,6 +44,23 @@ const stageList = [
   { value: "resolution", label: "Resolution" },
 ];
 
+const languageList = [
+  { value: "english", label: "English" },
+  { value: "german", label: "Deutsch" },
+  { value: "russian", label: "Русский" },
+  { value: "chinese", label: "中文" },
+];
+
+const levelList = [
+  { value: "A0", label: "A0" },
+  { value: "A1", label: "A1" },
+  { value: "A2", label: "A2" },
+  { value: "B1", label: "B1" },
+  { value: "B2", label: "B2" },
+  { value: "C1", label: "C1" },
+  { value: "native", label: "Native" },
+];
+
 const GenerateForm = ({
   question,
   placeholder,
@@ -65,6 +82,8 @@ const GenerateForm = ({
     theme: string;
     form: string;
     stage: string;
+    language: string;
+    level: string;
   };
 
   const form = useForm({
@@ -72,6 +91,8 @@ const GenerateForm = ({
       theme: "",
       form: "prose",
       stage: "none",
+      language: "english",
+      level: "native",
     },
   });
 
@@ -89,6 +110,8 @@ const GenerateForm = ({
             prequels,
             wordCount,
             stage: values.stage,
+            lang: values.language,
+            level: values.level,
           });
         } else {
           generatedStory = await handleGenerateStory({
@@ -96,6 +119,8 @@ const GenerateForm = ({
             form: values.form,
             wordCount,
             stage: values.stage,
+            lang: values.language,
+            level: values.level,
           });
         }
         setStory(generatedStory);
@@ -215,6 +240,70 @@ const GenerateForm = ({
                           </FormControl>
                           <FormLabel className="font-normal whitespace-nowrap">
                             {stage.label}
+                          </FormLabel>
+                        </FormItem>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="language"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>What language should it be written in?</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex  flex-wrap"
+                    >
+                      {languageList.map((language) => (
+                        <FormItem
+                          className="flex items-center space-x-1 space-y-0"
+                          key={language.value}
+                        >
+                          <FormControl>
+                            <RadioGroupItem value={language.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal whitespace-nowrap">
+                            {language.label}
+                          </FormLabel>
+                        </FormItem>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="level"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>What language level should it have?</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex  flex-wrap"
+                    >
+                      {levelList.map((level) => (
+                        <FormItem
+                          className="flex items-center space-x-1 space-y-0"
+                          key={level.value}
+                        >
+                          <FormControl>
+                            <RadioGroupItem value={level.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal whitespace-nowrap">
+                            {level.label}
                           </FormLabel>
                         </FormItem>
                       ))}

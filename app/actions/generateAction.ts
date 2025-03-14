@@ -26,11 +26,15 @@ export async function handleGenerateStory({
   form,
   wordCount,
   stage,
+  lang,
+  level,
 }: {
   theme: string;
   form: string;
   wordCount: number;
   stage: string;
+  lang: string;
+  level: string;
 }) {
   if (theme === "") {
     theme = generate(1) as string;
@@ -41,7 +45,10 @@ export async function handleGenerateStory({
       ? ""
       : `The stage within the story structure must be ${stage}.`;
 
-  const prompt = `Write the first chapter of approximately ${wordCount} words and not more than 3800 characters, with the theme: "${theme}". The chapter must be a ${form}. ${stageSpecification}`;
+  const levelSepcification =
+    level === "native" ? "" : `The language level must be ${level}.`;
+
+  const prompt = `Write the first chapter of approximately ${wordCount} words and not more than 3800 characters, with the theme: "${theme}". The chapter must be a ${form}. ${stageSpecification} The language of the chapter must be ${lang}. ${levelSepcification}`;
   console.log(prompt);
   const result = await model.generateContent(prompt);
 
@@ -54,12 +61,16 @@ export async function handleGenerateSequel({
   prequels,
   wordCount,
   stage,
+  lang,
+  level,
 }: {
   theme: string;
   form: string;
   prequels: { story: string }[];
   wordCount: number;
   stage: string;
+  lang: string;
+  level: string;
 }) {
   let chapters = "";
   prequels.forEach(
@@ -73,10 +84,13 @@ export async function handleGenerateSequel({
       ? ""
       : `The stage within the story structure must be ${stage}.`;
 
+  const levelSepcification =
+    level === "native" ? "" : `The language level must be ${level}.`;
+
   const prompt = `Write a sequel of approximately ${wordCount} words, but not more than 3800 characters, to this story:\n"${chapters}",\n with a theme "${theme.replace(
     '"',
     "'"
-  )}". The chapter must be a ${form}. ${stageSpecification}`;
+  )}". The chapter must be a ${form}. ${stageSpecification} The language of the chapter must be ${lang}. ${levelSepcification}`;
   console.log(prompt);
   const result = await model.generateContent(prompt);
 
