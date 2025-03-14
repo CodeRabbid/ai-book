@@ -10,9 +10,6 @@ import { User } from "@prisma/client";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const session = await auth();
-  const user = await prisma.user.findFirst({
-    where: { id: session?.user.id },
-  });
   const prequelId = (await params).id;
 
   let p = await prisma.post.findFirst({

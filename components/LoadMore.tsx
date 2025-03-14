@@ -43,7 +43,6 @@ const LoadMore = ({
         <PostCard
           post={post}
           session={session}
-          user={user}
           key={post.id}
           setShowComments={setShowComments}
           setPost={setPost}
