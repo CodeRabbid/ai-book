@@ -11,14 +11,16 @@ const page = async () => {
   });
 
   return (
-    <div className="flex grow justify-center">
-      <div className="max-w-xl grow">
-        <LoadMore
-          session={session as SessionInterface}
-          user={user as UserInterface}
-        />
+    <>
+      <div className="flex grow justify-center">
+        <div className="max-w-xl grow">
+          <LoadMore
+            session={session as SessionInterface}
+            user={user as UserInterface}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

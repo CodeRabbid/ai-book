@@ -13,15 +13,18 @@ import {
   SessionInterface,
   UserInterface,
 } from "@/types/types";
+import { FaCommentDots } from "react-icons/fa";
 
 const PostCard = ({
   post,
   session,
   user,
+  setShowComments,
 }: {
   post: PostInterface;
   session: SessionInterface;
   user: UserInterface;
+  setShowComments: (showComments: boolean) => void;
 }) => {
   return (
     <Card className="px-8 block mb-3" key={post.id}>
@@ -57,11 +60,21 @@ const PostCard = ({
         ))}
       </div>
       <div className="flex justify-between items-center mt-3">
-        <PostLikes
-          userId={session?.user.id as string}
-          currentLikes={post.likes}
-          postId={post.id}
-        />
+        <div className="flex gap-4">
+          <PostLikes
+            userId={session?.user.id as string}
+            currentLikes={post.likes}
+            postId={post.id}
+          />
+          <FaCommentDots
+            className="cursor-pointer"
+            color="gray"
+            size={21.86}
+            onClick={() => {
+              setShowComments(true);
+            }}
+          />
+        </div>
         <a href={`/create/sequel/${post.id}#${post.id}`}>
           <Button>Generate Sequel</Button>
         </a>

@@ -26,7 +26,7 @@ const Header = async () => {
           <Image src={aiBookLogo} alt="logo" height={35} />
         </Link>
       </div>
-      <div className="flex items-center justify-center grow-100000">
+      <div className="flex items-center justify-center grow-100000 ">
         {/* Searchbar */}
       </div>
       <div className="flex items-center mx-3 grow-0">

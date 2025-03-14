@@ -49,8 +49,16 @@
   max-width: inherit;
 }
 
+.w-inherit {
+  width: inherit;
+}
+
 .h-inherit {
   height: inherit;
+}
+
+.show {
+  transform: translateY(-400px);
 }
 
 :root {
