@@ -1,24 +1,27 @@
 import { Card } from "@/components/ui/card";
-import prisma from "@/lib/prisma";
 import React from "react";
 import Image from "next/image";
 import PostLikes from "@/components/PostLikes";
-import { auth } from "@/auth";
 import { dateToPeriod } from "@/lib/utils";
 import PostImage from "@/components/PostImage";
 import { Button } from "@/components/ui/button";
 import Comment from "@/components/Comment";
 import CommentInput from "@/components/CommentOrReplyInput";
-import LoadMore from "@/components/LoadMore";
+import {
+  CommentInterface,
+  PostInterface,
+  SessionInterface,
+  UserInterface,
+} from "@/types/types";
 
 const PostCard = ({
   post,
   session,
   user,
 }: {
-  post: any;
-  session: any;
-  user: any;
+  post: PostInterface;
+  session: SessionInterface;
+  user: UserInterface;
 }) => {
   return (
     <Card className="px-8 block mb-3" key={post.id}>
@@ -49,11 +52,9 @@ const PostCard = ({
       </div>
       <PostImage pictureUrl={post.picture_url} postId={post.id} />
       <div className="mt-4">
-        {post.story
-          .split("\n")
-          .map((storyParagraph: string[], index: number) => (
-            <div key={index}>{storyParagraph}</div>
-          ))}
+        {post.story.split("\n").map((storyParagraph: string, index: number) => (
+          <div key={index}>{storyParagraph}</div>
+        ))}
       </div>
       <div className="flex justify-between items-center mt-3">
         <PostLikes
@@ -79,12 +80,12 @@ const PostCard = ({
         />
       )}
       <div className="mt-5">
-        {post.comments.map((comment: CommentType) => (
+        {post.comments.map((comment: CommentInterface) => (
           <div key={comment.id} className="mt-3 w-full">
             <Comment
               previousComments={[]}
               size={"large"}
-              comment={comment as CommentType}
+              comment={comment as CommentInterface}
               authorName={session?.user.name as string}
               userId={session?.user.id as string}
               profileColor={user?.randomColor as string}

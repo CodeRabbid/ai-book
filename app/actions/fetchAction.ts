@@ -1,15 +1,12 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-
-export interface PostType {
-  id: string;
-}
+import { PostInterface } from "@/types/types";
 
 const PAGE_SIZE = 5;
 
 export const fetchPosts = async (page: number) => {
-  const posts: PostType[] = await prisma.post.findMany({
+  const posts: PostInterface[] = await prisma.post.findMany({
     orderBy: {
       createdAt: "desc",
     },

@@ -7,6 +7,7 @@ import { auth } from "@/auth";
 import Comment from "@/components/Comment";
 import { dateToPeriod } from "@/lib/utils";
 import CommentInput from "@/components/CommentOrReplyInput";
+import { CommentInterface } from "@/types/types";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const session = await auth();
@@ -142,7 +143,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                   <Comment
                     previousComments={[]}
                     size={"large"}
-                    comment={comment as CommentType}
+                    comment={comment as CommentInterface}
                     authorName={session?.user.name as string}
                     userId={session?.user.id as string}
                     profileColor={user?.randomColor as string}

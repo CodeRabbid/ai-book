@@ -7,6 +7,7 @@ import Image from "next/image";
 import { dateToPeriod } from "@/lib/utils";
 import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { CommentInterface } from "@/types/types";
 
 const Comment = ({
   previousComments,
@@ -19,7 +20,7 @@ const Comment = ({
   size,
 }: {
   previousComments: string[];
-  comment: CommentType;
+  comment: CommentInterface;
   userId: string;
   authorName: string;
   profileColor: string;

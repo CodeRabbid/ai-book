@@ -1,14 +1,21 @@
 "use client";
-import { fetchPosts, PostType } from "@/app/actions/fetchAction";
+import { fetchPosts } from "@/app/actions/fetchAction";
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import PostCard from "./PostCard";
+import { PostInterface, SessionInterface, UserInterface } from "@/types/types";
 
 let page = 0;
 
-const LoadMore = ({ session, user }: { session: any; user: any }) => {
+const LoadMore = ({
+  session,
+  user,
+}: {
+  session: SessionInterface;
+  user: UserInterface;
+}) => {
   const { ref, inView } = useInView();
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useState<PostInterface[]>([]);
 
   useEffect(() => {
     if (inView) {

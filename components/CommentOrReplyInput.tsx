@@ -13,6 +13,7 @@ import { CustomSlider } from "./CustomSlider";
 import LoadingButton from "./LoadingButton";
 import { Form } from "./ui/form";
 import { useForm } from "react-hook-form";
+import { CommentInterface } from "@/types/types";
 
 const moodList = [
   { value: "rude", label: "Rude" },
@@ -41,7 +42,7 @@ const ReplyInput = ({
   authorId: string;
   authorName: string;
   profileColor?: string;
-  comment?: CommentType;
+  comment?: CommentInterface;
   postStory: string;
   postId?: string;
   setShowReplies?: (bool: boolean) => void;
