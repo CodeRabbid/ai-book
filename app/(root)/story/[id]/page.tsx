@@ -4,16 +4,10 @@ import React from "react";
 import Image from "next/image";
 import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
-import Comment from "@/components/Comment";
 import { dateToPeriod } from "@/lib/utils";
-import CommentInput from "@/components/CommentOrReplyInput";
-import { CommentInterface } from "@/types/types";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const session = await auth();
-  const user = await prisma.user.findFirst({
-    where: { id: session?.user.id },
-  });
 
   const id = (await params).id;
 
@@ -27,49 +21,6 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     include: {
       sequels: true,
       author: {},
-      comments: {
-        include: {
-          author: {},
-          comments: {
-            include: {
-              author: {},
-              comments: {
-                include: {
-                  author: {},
-                  comments: {
-                    include: {
-                      author: {},
-                      comments: {
-                        include: {
-                          author: {},
-                          comments: {
-                            include: {
-                              author: {},
-                              comments: {
-                                include: {
-                                  author: {},
-                                  comments: {
-                                    include: {
-                                      author: {},
-                                      comments: {
-                                        include: { author: {}, comments: {} },
-                                      },
-                                    },
-                                  },
-                                },
-                              },
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
     },
   });
 
@@ -124,35 +75,6 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
               currentLikes={post.likes as string[]}
               postId={post.id as string}
             />
-            {session?.user && (
-              <CommentInput
-                className="mt-5"
-                type="comment"
-                previousComments={[]}
-                postStory={post.story}
-                postId={post.id as string}
-                profilePicture={session?.user.image as string}
-                profileColor={user?.randomColor as string}
-                authorId={session?.user.id as string}
-                authorName={post.author.name as string}
-              />
-            )}
-            <div className="mt-5">
-              {post.comments.map((comment) => (
-                <div key={comment.id} className="mt-3 w-full">
-                  <Comment
-                    previousComments={[]}
-                    size={"large"}
-                    comment={comment as CommentInterface}
-                    authorName={session?.user.name as string}
-                    userId={session?.user.id as string}
-                    profileColor={user?.randomColor as string}
-                    profilePicture={session?.user.image as string}
-                    postStory={post.story}
-                  />
-                </div>
-              ))}
-            </div>
           </Card>
         )}
       </div>

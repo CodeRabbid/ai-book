@@ -7,9 +7,6 @@ import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
 import { dateToPeriod } from "@/lib/utils";
 import { User } from "@prisma/client";
-import Comment from "@/components/Comment";
-import CommentInput from "@/components/CommentOrReplyInput";
-import { CommentInterface } from "@/types/types";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const session = await auth();
@@ -187,35 +184,6 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                   currentLikes={prequel.likes as string[]}
                   postId={prequel.id as string}
                 />
-                {session?.user && (
-                  <CommentInput
-                    className="mt-5"
-                    type="comment"
-                    previousComments={[]}
-                    postStory={prequel.story}
-                    postId={prequel.id as string}
-                    profilePicture={session?.user.image as string}
-                    profileColor={user?.randomColor as string}
-                    authorId={session?.user.id as string}
-                    authorName={prequel.author.name as string}
-                  />
-                )}
-                <div className="mt-5">
-                  {prequel.comments.map((comment) => (
-                    <div key={comment.id} className="mt-3 w-full">
-                      <Comment
-                        previousComments={[]}
-                        size={"large"}
-                        comment={comment as CommentInterface}
-                        authorName={session?.user.name as string}
-                        userId={session?.user.id as string}
-                        profileColor={user?.randomColor as string}
-                        profilePicture={session?.user.image as string}
-                        postStory={prequel.story}
-                      />
-                    </div>
-                  ))}
-                </div>
               </Card>
             )
         )}

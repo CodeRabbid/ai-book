@@ -34,6 +34,7 @@ const ReplyInput = ({
   comment,
   postStory,
   setShowReplies,
+  updateComments,
 }: {
   type: string;
   previousComments: string[];
@@ -46,6 +47,7 @@ const ReplyInput = ({
   postStory: string;
   postId?: string;
   setShowReplies?: (bool: boolean) => void;
+  updateComments: () => void;
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [checkedState, setCheckedState] = useState(
@@ -120,6 +122,7 @@ const ReplyInput = ({
           authorId,
         });
       }
+      updateComments();
       setInputValue("");
     }
   };

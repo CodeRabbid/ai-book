@@ -1,5 +1,5 @@
 "use client";
-import { fetchPosts } from "@/app/actions/fetchAction";
+import { fetchComments, fetchPosts } from "@/app/actions/fetchAction";
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import PostCard from "./PostCard";
@@ -79,6 +79,11 @@ const LoadMore = ({
             profileColor={user?.randomColor as string}
             authorId={session?.user.id as string}
             authorName={post?.author.name as string}
+            updateComments={() =>
+              fetchComments(post?.id as string).then((newComments) =>
+                setComments(newComments)
+              )
+            }
           />
           {comments.map(
             (comment) =>
@@ -94,6 +99,11 @@ const LoadMore = ({
                   postStory={post?.story as string}
                   size={"large"}
                   key={comment.id}
+                  updateComments={() =>
+                    fetchComments(post?.id as string).then((newComments) =>
+                      setComments(newComments)
+                    )
+                  }
                 />
               )
           )}

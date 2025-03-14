@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export const addCommentToPost = async ({
   postId,
@@ -20,6 +20,7 @@ export const addCommentToPost = async ({
     },
   });
 
+  revalidateTag("my-app-user");
   revalidatePath("/");
 };
 
@@ -39,6 +40,6 @@ export const addReply = async ({
       content,
     },
   });
-
+  revalidateTag("my-app-user");
   revalidatePath("/");
 };
