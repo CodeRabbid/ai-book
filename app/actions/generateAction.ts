@@ -6,6 +6,7 @@ import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import { ImagesResponse } from "openai/resources/images.mjs";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
+import { generate } from "random-words";
 
 const openai_api_key = process.env.OPENAI_API_KEY as string;
 const openai = new OpenAI({ apiKey: openai_api_key });
@@ -32,9 +33,7 @@ export async function handleGenerateStory({
   stage: string;
 }) {
   if (theme === "") {
-    theme = (
-      await model.generateContent("Generate one random word")
-    ).response.text();
+    theme = generate(1) as string;
   }
 
   const stageSpecification =
