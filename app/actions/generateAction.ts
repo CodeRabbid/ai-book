@@ -24,17 +24,26 @@ export async function handleGenerateStory({
   theme,
   form,
   wordCount,
+  stage,
 }: {
   theme: string;
   form: string;
   wordCount: number;
+  stage: string;
 }) {
   if (theme === "") {
     theme = (
       await model.generateContent("Generate one random word")
     ).response.text();
   }
-  const prompt = `Write the first chapter of about ${wordCount} words and not more than 3800 characters, with the theme: "${theme}". The chapter must be a ${form}.`;
+
+  const stageSpecification =
+    stage === "none"
+      ? ""
+      : `The stage within the story structure must be ${stage}.`;
+
+  const prompt = `Write the first chapter of approximately ${wordCount} words and not more than 3800 characters, with the theme: "${theme}". The chapter must be a ${form}. ${stageSpecification}`;
+  console.log(prompt);
   const result = await model.generateContent(prompt);
 
   return result.response.text();
@@ -45,11 +54,13 @@ export async function handleGenerateSequel({
   form,
   prequels,
   wordCount,
+  stage,
 }: {
   theme: string;
   form: string;
   prequels: { story: string }[];
   wordCount: number;
+  stage: string;
 }) {
   let chapters = "";
   prequels.forEach(
@@ -58,11 +69,16 @@ export async function handleGenerateSequel({
         chapters + "Chapter " + (index + 1) + ".:\n\n" + prequel.story + "\n\n")
   );
 
-  const prompt = `Write a sequel of about ${wordCount} words, but not more than 3800 characters, to this story:\n"${chapters}",\n with a theme "${theme.replace(
+  const stageSpecification =
+    stage === "none"
+      ? ""
+      : `The stage within the story structure must be ${stage}.`;
+
+  const prompt = `Write a sequel of approximately ${wordCount} words, but not more than 3800 characters, to this story:\n"${chapters}",\n with a theme "${theme.replace(
     '"',
     "'"
-  )}". The chapter must be a ${form}.`;
-
+  )}". The chapter must be a ${form}. ${stageSpecification}`;
+  console.log(prompt);
   const result = await model.generateContent(prompt);
 
   return result.response.text();

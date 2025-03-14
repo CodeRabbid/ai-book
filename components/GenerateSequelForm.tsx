@@ -27,6 +27,23 @@ import { useForm } from "react-hook-form";
 import { CustomSlider2 } from "./CustomSlider2";
 import { z, ZodType } from "zod";
 
+const formList = [
+  { value: "prose", label: "Prose" },
+  { value: "dialogue", label: "Dialogue" },
+  { value: "peom ", label: "Poem" },
+  { value: "hokku", label: "Hokku" },
+  { value: "song", label: "Song" },
+];
+
+const stageList = [
+  { value: "none", label: "None" },
+  { value: "exposition", label: "Exposition" },
+  { value: "rising-action", label: "Rising action" },
+  { value: "climax", label: "Climax" },
+  { value: "falling-action", label: "Falling action" },
+  { value: "resolution", label: "Resolution" },
+];
+
 const GenerateForm = ({
   question,
   placeholder,
@@ -47,12 +64,14 @@ const GenerateForm = ({
   type FormType = {
     theme: string;
     form: string;
+    stage: string;
   };
 
   const form = useForm({
     defaultValues: {
       theme: "",
       form: "prose",
+      stage: "none",
     },
   });
 
@@ -69,12 +88,14 @@ const GenerateForm = ({
             form: values.form,
             prequels,
             wordCount,
+            stage: values.stage,
           });
         } else {
           generatedStory = await handleGenerateStory({
             theme: values.theme,
             form: values.form,
             wordCount,
+            stage: values.stage,
           });
         }
         setStory(generatedStory);
@@ -136,38 +157,21 @@ const GenerateForm = ({
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      className="flex"
+                      className="flex flex-wrap"
                     >
-                      <FormItem className="flex items-center space-x-1 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="prose" />
-                        </FormControl>
-                        <FormLabel className="font-normal">Prose</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-1 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="dialogue" />
-                        </FormControl>
-                        <FormLabel className="font-normal">Dialogue</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-1 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="poem" />
-                        </FormControl>
-                        <FormLabel className="font-normal">Poem</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-1 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="hokku" />
-                        </FormControl>
-                        <FormLabel className="font-normal">Hokku</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-1 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="song" />
-                        </FormControl>
-                        <FormLabel className="font-normal">Song</FormLabel>
-                      </FormItem>
+                      {formList.map((f) => (
+                        <FormItem
+                          className="flex items-center space-x-1 space-y-0"
+                          key={f.value}
+                        >
+                          <FormControl>
+                            <RadioGroupItem value={f.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {f.label}
+                          </FormLabel>
+                        </FormItem>
+                      ))}
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
@@ -182,10 +186,44 @@ const GenerateForm = ({
                   setWordCount(value as number);
                 }}
                 min={3}
-                max={600}
+                max={300}
                 valueLabelDisplay="on"
               />
             </div>
+
+            <FormField
+              control={form.control}
+              name="stage"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>
+                    What stage within the whole story should it have?
+                  </FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex  flex-wrap"
+                    >
+                      {stageList.map((stage) => (
+                        <FormItem
+                          className="flex items-center space-x-1 space-y-0"
+                          key={stage.value}
+                        >
+                          <FormControl>
+                            <RadioGroupItem value={stage.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal whitespace-nowrap">
+                            {stage.label}
+                          </FormLabel>
+                        </FormItem>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <LoadingButton
               pending={form.formState.isSubmitting}
