@@ -62,22 +62,26 @@ const languageList = [
 ];
 
 const genreList = [
-  { value: "Children's fiction", label: "Children's fiction" },
-  { value: "Fratire fiction", label: "Fratire fiction" },
-  { value: "Lad lit fiction", label: "Lad lit fiction" },
-  { value: "New adult fiction", label: "New adult fiction" },
-  { value: "Young adult fiction", label: "Young adult fiction" },
-  { value: "Comedy", label: "Comedy" },
-  { value: "Burlesque", label: "Burlesque" },
-  { value: "Fantasy comedy", label: "Fantasy comedy" },
-  { value: "Comedy horror", label: "Comedy horror" },
-  { value: "Parody", label: "Parody" },
-  { value: "Metaparody", label: "Metaparody" },
-  { value: "Sci-fi comedy", label: "Sci-fi comedy" },
-  { value: "Surreal comedy", label: "Surreal comedy" },
-  { value: "Tall tale comedy", label: "Tall tale comedy" },
-  { value: "Tragicomedy", label: "Tragicomedy" },
-  { value: "Satire", label: "Satire" },
+  { group: "By Age", value: "Children's fiction", label: "Children's fiction" },
+  { group: "By Age", value: "Fratire fiction", label: "Fratire fiction" },
+  { group: "By Age", value: "Lad lit fiction", label: "Lad lit fiction" },
+  { group: "By Age", value: "New adult fiction", label: "New adult fiction" },
+  {
+    group: "By Age",
+    value: "Young adult fiction",
+    label: "Young adult fiction",
+  },
+  { group: "Comedy", value: "Comedy", label: "Comedy" },
+  { group: "Comedy", value: "Burlesque", label: "Burlesque" },
+  { group: "Comedy", value: "Fantasy comedy", label: "Fantasy comedy" },
+  { group: "Comedy", value: "Comedy horror", label: "Comedy horror" },
+  { group: "Comedy", value: "Parody", label: "Parody" },
+  { group: "Comedy", value: "Metaparody", label: "Metaparody" },
+  { group: "Comedy", value: "Sci-fi comedy", label: "Sci-fi comedy" },
+  { group: "Comedy", value: "Surreal comedy", label: "Surreal comedy" },
+  { group: "Comedy", value: "Tall tale comedy", label: "Tall tale comedy" },
+  { group: "Comedy", value: "Tragicomedy", label: "Tragicomedy" },
+  { group: "Comedy", value: "Satire", label: "Satire" },
 ];
 
 const levels = ["A0", "A1", "A2", "B1", "B2", "C1", "native"];
@@ -103,7 +107,11 @@ const GenerateForm = ({
   const [wordCount, setWordCount] = useState<number>(150);
   const router = useRouter();
   const [languageLevel, setLanguageLevel] = React.useState(levels.length - 1);
-  const [genre, setGenre] = useState("Comedy");
+  const [genre, setGenre] = useState({
+    group: "Comedy",
+    value: "Comedy",
+    label: "Comedy",
+  });
 
   type FormType = {
     theme: string;
@@ -139,7 +147,7 @@ const GenerateForm = ({
             stage: values.stage,
             lang: values.language,
             level: values.level,
-            genre,
+            genre: genre.value,
           });
         } else {
           generatedStory = await handleGenerateStory({
@@ -149,7 +157,7 @@ const GenerateForm = ({
             stage: values.stage,
             lang: values.language,
             level: values.level,
-            genre,
+            genre: genre.value,
           });
         }
         setStory(generatedStory);
@@ -257,12 +265,18 @@ const GenerateForm = ({
             <div className="">
               <Autocomplete
                 value={genre}
-                onChange={(event: any, newValue: any) => {
-                  setGenre(newValue.value);
+                onChange={(
+                  _event,
+                  newValue: { group: string; value: string; label: string }
+                ) => {
+                  setGenre(newValue);
                 }}
                 disablePortal
                 disableClearable
-                options={genreList}
+                options={genreList.sort(
+                  (a, b) => -b.group.localeCompare(a.group)
+                )}
+                groupBy={(option) => option.group}
                 sx={{
                   width: { sm: "100%", md: 340 },
 
