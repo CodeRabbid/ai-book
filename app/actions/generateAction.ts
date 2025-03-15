@@ -28,6 +28,7 @@ export async function handleGenerateStory({
   stage,
   lang,
   level,
+  genre,
 }: {
   theme: string;
   form: string;
@@ -35,6 +36,7 @@ export async function handleGenerateStory({
   stage: string;
   lang: string;
   level: string;
+  genre: string;
 }) {
   if (theme === "") {
     theme = generate(1) as string;
@@ -48,7 +50,7 @@ export async function handleGenerateStory({
   const levelSepcification =
     level === "native" ? "" : `The language level must be ${level}.`;
 
-  const prompt = `Write the first chapter of approximately ${wordCount} words and not more than 3800 characters, with the theme: "${theme}". The chapter must be a ${form}. ${stageSpecification} The language of the chapter must be ${lang}. ${levelSepcification}`;
+  const prompt = `Write the first chapter of approximately ${wordCount} words and not more than 3800 characters, with the theme: "${theme}". The genre of the chapter must be "${genre}". The chapter must be a ${form}. ${stageSpecification} The genre of the chapter must be "${genre}". The language of the chapter must be ${lang}. ${levelSepcification}`;
   console.log(prompt);
   const result = await model.generateContent(prompt);
 
@@ -63,6 +65,7 @@ export async function handleGenerateSequel({
   stage,
   lang,
   level,
+  genre,
 }: {
   theme: string;
   form: string;
@@ -71,6 +74,7 @@ export async function handleGenerateSequel({
   stage: string;
   lang: string;
   level: string;
+  genre: string;
 }) {
   let chapters = "";
   prequels.forEach(
@@ -90,7 +94,7 @@ export async function handleGenerateSequel({
   const prompt = `Write a sequel of approximately ${wordCount} words, but not more than 3800 characters, to this story:\n"${chapters}",\n with a theme "${theme.replace(
     '"',
     "'"
-  )}". The chapter must be a ${form}. ${stageSpecification} The language of the chapter must be ${lang}. ${levelSepcification}`;
+  )}". The genre of the chapter must be "${genre}". The chapter must be a ${form}. ${stageSpecification} The language of the chapter must be ${lang}. ${levelSepcification}`;
   console.log(prompt);
   const result = await model.generateContent(prompt);
 
@@ -106,6 +110,7 @@ export async function handleGeneratePicture({ story }: { story: string }) {
       model: "dall-e-3",
       prompt: `Create an picture without text to the story "${story}". Do not use any letters on image.`,
       n: 1,
+      style: "natural",
       size: "1024x1024",
     })) as ImagesResponse;
 

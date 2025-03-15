@@ -32,6 +32,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 
 const formList = [
   { value: "prose", label: "Prose" },
@@ -59,6 +61,25 @@ const languageList = [
   { value: "chinese", label: "中文" },
 ];
 
+const genreList = [
+  { value: "Children's fiction", label: "Children's fiction" },
+  { value: "Fratire fiction", label: "Fratire fiction" },
+  { value: "Lad lit fiction", label: "Lad lit fiction" },
+  { value: "New adult fiction", label: "New adult fiction" },
+  { value: "Young adult fiction", label: "Young adult fiction" },
+  { value: "Comedy", label: "Comedy" },
+  { value: "Burlesque", label: "Burlesque" },
+  { value: "Fantasy comedy", label: "Fantasy comedy" },
+  { value: "Comedy horror", label: "Comedy horror" },
+  { value: "Parody", label: "Parody" },
+  { value: "Metaparody", label: "Metaparody" },
+  { value: "Sci-fi comedy", label: "Sci-fi comedy" },
+  { value: "Surreal comedy", label: "Surreal comedy" },
+  { value: "Tall tale comedy", label: "Tall tale comedy" },
+  { value: "Tragicomedy", label: "Tragicomedy" },
+  { value: "Satire", label: "Satire" },
+];
+
 const levels = ["A0", "A1", "A2", "B1", "B2", "C1", "native"];
 
 function valueLabelFormat(value: number) {
@@ -82,6 +103,7 @@ const GenerateForm = ({
   const [wordCount, setWordCount] = useState<number>(150);
   const router = useRouter();
   const [languageLevel, setLanguageLevel] = React.useState(levels.length - 1);
+  const [genre, setGenre] = useState("Comedy");
 
   type FormType = {
     theme: string;
@@ -95,7 +117,7 @@ const GenerateForm = ({
     defaultValues: {
       theme: "",
       form: "prose",
-      stage: "none",
+      stage: "exposition",
       language: "english",
       level: "native",
     },
@@ -117,6 +139,7 @@ const GenerateForm = ({
             stage: values.stage,
             lang: values.language,
             level: values.level,
+            genre,
           });
         } else {
           generatedStory = await handleGenerateStory({
@@ -126,6 +149,7 @@ const GenerateForm = ({
             stage: values.stage,
             lang: values.language,
             level: values.level,
+            genre,
           });
         }
         setStory(generatedStory);
@@ -215,6 +239,7 @@ const GenerateForm = ({
             <FormLabel className="mb-6">
               About how many words should it have?
             </FormLabel>
+
             <div className="px-5 my-0 ">
               <CustomSlider2
                 value={wordCount}
@@ -226,7 +251,55 @@ const GenerateForm = ({
                 valueLabelDisplay="on"
               />
             </div>
+            <FormLabel className="mb-3 mt-3">
+              What genre should it have?
+            </FormLabel>
+            <div className="">
+              <Autocomplete
+                value={genre}
+                onChange={(event: any, newValue: any) => {
+                  setGenre(newValue.value);
+                }}
+                disablePortal
+                disableClearable
+                options={genreList}
+                sx={{
+                  width: { sm: "100%", md: 340 },
 
+                  "& .MuiSvgIcon-root": {
+                    color: "black",
+                  },
+                  ".MuiOutlinedInput-notchedOutline": {
+                    borderColor: "black",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "black",
+                    borderWidth: "thin",
+                  },
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "black",
+                    borderWidth: "thin",
+                  },
+                  "&.MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "black", // <------------------ outline-color by default
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "black", // <------------------ outline-color on hover
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "black", // <------------------ outline-color on focus
+                    },
+                    "&.MuiInputLabel-shrink": {
+                      color: "black",
+                    },
+                  },
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Genre" variant="standard" />
+                )}
+              />
+            </div>
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
                 <AccordionTrigger className="flex justify-center bg-gray-100 text-[15px]">
@@ -303,6 +376,7 @@ const GenerateForm = ({
                       )}
                     />
                   </div>
+
                   <FormLabel className=" mb-0  mt-6">
                     What language level should it have?
                   </FormLabel>
