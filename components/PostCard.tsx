@@ -1,81 +1,93 @@
+"use client";
+
 import { Card } from "@/components/ui/card";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import PostLikes from "@/components/PostLikes";
 import { dateToPeriod } from "@/lib/utils";
 import PostImage from "@/components/PostImage";
 import { Button } from "@/components/ui/button";
-import { PostInterface, SessionInterface } from "@/types/types";
+import { PostInterface, SessionInterface, UserInterface } from "@/types/types";
 import { FaCommentDots } from "react-icons/fa";
 import SequelsSection from "./SequelsSection";
+import CommentSection from "./CommentSection";
 
 const PostCard = ({
   post,
   session,
-  setShowComments,
-  setPost,
+  user,
 }: {
   post: PostInterface;
   session: SessionInterface;
-  setShowComments: (showComments: boolean) => void;
-  setPost: (post: PostInterface) => void;
+  user: UserInterface;
 }) => {
+  const [showComments, setShowComments] = useState<boolean>(false);
   return (
-    <Card className="px-8 block mb-3" key={post.id}>
-      <div className="flex  items-center gap-2">
-        <div className="rounded-full overflow-hidden h-10 w-10">
-          {post.author.image ? (
-            <Image
-              src={post.author.image as string}
-              width={40}
-              height={40}
-              alt=""
+    <>
+      <Card className="px-8 block mb-3" key={post.id}>
+        <div className="flex  items-center gap-2">
+          <div className="rounded-full overflow-hidden h-10 w-10">
+            {post.author.image ? (
+              <Image
+                src={post.author.image as string}
+                width={40}
+                height={40}
+                alt=""
+              />
+            ) : (
+              <div
+                className="flex items-center justify-center text-white  h-10 w-10"
+                style={{
+                  backgroundColor: post.author.randomColor as string,
+                }}
+              >
+                {post.author.name?.charAt(0)}
+              </div>
+            )}
+          </div>
+          <div>
+            <div className="text-[14px]">{post.author.name}</div>
+            <div className="text-[14px]">{dateToPeriod(post.createdAt)}</div>
+          </div>
+        </div>
+        <PostImage pictureUrl={post.picture_url} postId={post.id} />
+        <div className="mt-4">
+          {post.story
+            .split("\n")
+            .map((storyParagraph: string, index: number) => (
+              <div key={index}>{storyParagraph}</div>
+            ))}
+        </div>
+        <div className="flex justify-between items-center mt-3">
+          <div className="flex gap-4">
+            <PostLikes
+              userId={session?.user.id as string}
+              currentLikes={post.likes}
+              postId={post.id}
             />
-          ) : (
-            <div
-              className="flex items-center justify-center text-white  h-10 w-10"
-              style={{
-                backgroundColor: post.author.randomColor as string,
+            <FaCommentDots
+              className="cursor-pointer"
+              color="gray"
+              size={21.86}
+              onClick={() => {
+                setShowComments(true);
               }}
-            >
-              {post.author.name?.charAt(0)}
-            </div>
-          )}
+            />
+          </div>
+          <a href={`/create/sequel/${post.id}#${post.id}`}>
+            <Button>Generate Sequel</Button>
+          </a>
         </div>
-        <div>
-          <div className="text-[14px]">{post.author.name}</div>
-          <div className="text-[14px]">{dateToPeriod(post.createdAt)}</div>
-        </div>
-      </div>
-      <PostImage pictureUrl={post.picture_url} postId={post.id} />
-      <div className="mt-4">
-        {post.story.split("\n").map((storyParagraph: string, index: number) => (
-          <div key={index}>{storyParagraph}</div>
-        ))}
-      </div>
-      <div className="flex justify-between items-center mt-3">
-        <div className="flex gap-4">
-          <PostLikes
-            userId={session?.user.id as string}
-            currentLikes={post.likes}
-            postId={post.id}
-          />
-          <FaCommentDots
-            className="cursor-pointer"
-            color="gray"
-            size={21.86}
-            onClick={() => {
-              setShowComments(true);
-              setPost(post);
-            }}
-          />
-        </div>
-        <a href={`/create/sequel/${post.id}#${post.id}`}>
-          <Button>Generate Sequel</Button>
-        </a>
-      </div>
-      <SequelsSection sequels={post.sequels} />
-    </Card>
+        <SequelsSection sequels={post.sequels} />
+      </Card>
+      <CommentSection
+        post={post as PostInterface}
+        session={session}
+        user={user}
+        showComments={showComments}
+        setShowComments={setShowComments}
+      />
+    </>
   );
 };
 

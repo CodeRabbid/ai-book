@@ -8,7 +8,6 @@ const SequelsSection = ({
 }: {
   sequels: { likes: string[]; id: string; picture_url: string }[];
 }) => {
-  console.log(sequels);
   return (
     sequels.length > 0 && (
       <div className="mt-2 h-fit">

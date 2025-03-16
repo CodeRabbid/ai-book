@@ -17,8 +17,6 @@ const LoadMore = ({
 }) => {
   const { ref, inView } = useInView();
   const [posts, setPosts] = useState<PostInterface[]>([]);
-  const [showComments, setShowComments] = useState<boolean>(false);
-  const [post, setPost] = useState<PostInterface>();
 
   useEffect(() => {
     if (inView) {
@@ -32,22 +30,9 @@ const LoadMore = ({
   return (
     <>
       {posts.map((post) => (
-        <PostCard
-          post={post}
-          session={session}
-          key={post.id}
-          setShowComments={setShowComments}
-          setPost={setPost}
-        />
+        <PostCard post={post} session={session} key={post.id} user={user} />
       ))}
       <div ref={ref} />
-      <CommentSection
-        post={post as PostInterface}
-        session={session}
-        user={user}
-        showComments={showComments}
-        setShowComments={setShowComments}
-      />
     </>
   );
 };

@@ -26,6 +26,7 @@ export interface PostInterface {
   likes: string[];
   author: AuthorInterface;
   id: string;
+  prequelId: string | null;
   comments: CommentInterface[];
   sequels: { likes: string[]; id: string; picture_url: string }[];
 }
