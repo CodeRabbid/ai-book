@@ -3,11 +3,11 @@
 import React, { useState } from "react";
 import ReplyInput from "./CommentOrReplyInput";
 import CommentLikes from "./CommentLikes";
-import Image from "next/image";
 import { cn, dateToPeriod } from "@/lib/utils";
 import { FaChevronDown } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { CommentInterface } from "@/types/types";
+import ProfilePicture from "./ProfilePicture";
 
 const Comment = ({
   className,
@@ -48,52 +48,12 @@ const Comment = ({
   return (
     <div className={cn(className)}>
       <div className="flex w-full">
-        {size === "large" ? (
-          <div className="rounded-full overflow-hidden h-10 w-10 shrink-0">
-            {comment.author?.image ? (
-              <Image
-                src={comment.author?.image as string}
-                alt=""
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="h-10 w-10"
-              />
-            ) : (
-              <div
-                className="flex items-center justify-center text-white h-10 w-10"
-                style={{
-                  backgroundColor: comment.author?.randomColor as string,
-                }}
-              >
-                {comment?.author?.name?.charAt(0)}
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="rounded-full overflow-hidden h-6 w-6 shrink-0">
-            {comment.author?.image ? (
-              <Image
-                src={comment.author?.image as string}
-                alt=""
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="h-6 w-6"
-              />
-            ) : (
-              <div
-                className="flex items-center justify-center text-xs capitalize text-white h-6 w-6"
-                style={{
-                  backgroundColor: comment.author?.randomColor as string,
-                }}
-              >
-                {comment?.author?.name?.charAt(0)}
-              </div>
-            )}
-          </div>
-        )}
-
+        <ProfilePicture
+          size={size}
+          image={comment.author.image as string}
+          profileColor={comment.author.randomColor as string}
+          name={comment.author.name}
+        />
         <div className="ml-3 w-full">
           <div className="flex items-center">
             <div className="text-[13px]">{comment.author?.name}</div>

@@ -63,7 +63,8 @@ const CommentSection = ({
             profilePicture={session?.user.image as string}
             profileColor={user?.randomColor as string}
             authorId={session?.user.id as string}
-            authorName={post?.author.name as string}
+            authorName={session?.user.name as string}
+            size={"large"}
             updateComments={() =>
               fetchComments(post?.id as string).then((newComments) =>
                 setComments(newComments)

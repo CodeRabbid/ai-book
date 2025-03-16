@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import prisma from "@/lib/prisma";
+import ProfilePicture from "./ProfilePicture";
 
 const Header = async () => {
   const session = await auth();
@@ -39,27 +40,12 @@ const Header = async () => {
             </Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <div className="rounded-full overflow-hidden h-10 w-10 cursor-pointer">
-                  {user?.image ? (
-                    <Image
-                      src={user.image as string}
-                      alt=""
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="h-10 w-10"
-                    />
-                  ) : (
-                    <div
-                      className="flex items-center justify-center text-white  h-10 w-10"
-                      style={{
-                        backgroundColor: user?.randomColor as string,
-                      }}
-                    >
-                      {user?.name?.charAt(0)}
-                    </div>
-                  )}
-                </div>
+                <ProfilePicture
+                  size={"large"}
+                  image={session.user.image as string}
+                  profileColor={user?.randomColor as string}
+                  name={session.user.name as string}
+                />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>

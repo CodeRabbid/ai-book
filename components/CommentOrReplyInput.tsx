@@ -14,6 +14,7 @@ import LoadingButton from "./LoadingButton";
 import { Form } from "./ui/form";
 import { useForm } from "react-hook-form";
 import { CommentInterface } from "@/types/types";
+import ProfilePicture from "./ProfilePicture";
 
 const moodList = [
   { value: "rude", label: "Rude" },
@@ -33,6 +34,7 @@ const ReplyInput = ({
   profileColor,
   comment,
   postStory,
+  size,
   setShowReplies,
   updateComments,
 }: {
@@ -45,6 +47,7 @@ const ReplyInput = ({
   profileColor?: string;
   comment?: CommentInterface;
   postStory: string;
+  size?: string;
   postId?: string;
   setShowReplies?: (bool: boolean) => void;
   updateComments: () => void;
@@ -146,29 +149,12 @@ const ReplyInput = ({
             type === "comment" ? "h-10 w-10" : "h-6 w-6"
           } shrink-0`}
         >
-          {profilePicture ? (
-            <Image
-              src={profilePicture}
-              alt=""
-              width={0}
-              height={0}
-              sizes="100vw"
-              className={type === "comment" ? "h-10 w-10" : "h-6 w-6"}
-            />
-          ) : (
-            <div
-              className={`flex items-center ${
-                type === "comment" ? "text-l" : "text-xs"
-              }  capitalize justify-center text-white  ${
-                type === "comment" ? "h-10 w-10" : "h-6 w-6"
-              }`}
-              style={{
-                backgroundColor: profileColor as string,
-              }}
-            >
-              {authorName?.charAt(0)}
-            </div>
-          )}
+          <ProfilePicture
+            size={size as string}
+            image={profilePicture}
+            profileColor={profileColor}
+            name={authorName}
+          />
         </div>
         <div className="rounded-[20px] border-solid border-[1px] flex-col pl-4 pt-3 flex w-full">
           <div className="pr-4">
