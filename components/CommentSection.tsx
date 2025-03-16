@@ -36,8 +36,8 @@ const CommentSection = ({
 
   return (
     <div
-      className={`bg-white   rounded-t-xl  shadow-2xl  fixed h-[70vh] bottom-[-70vh] w-full m-w-inherit  ${
-        showComments ? "translate-y-[-70vh]" : "hide"
+      className={`bg-white rounded-t-xl  shadow-2xl  fixed h-[calc(70vh)] bottom-[calc(-70vh)] w-full m-w-inherit  ${
+        showComments ? "translate-y-[calc(-70vh)]" : "hide"
       } transition-all`}
     >
       <AiFillCloseCircle
@@ -52,7 +52,9 @@ const CommentSection = ({
       <div className="flex justify-center pt-4 font-bold text-[19px]">
         Comments
       </div>
-      <div className={`h-full no-scrollbar overscroll-contain overflow-scroll`}>
+      <div
+        className={`h-[calc(100%-44.5px)] no-scrollbar overscroll-none overflow-scroll`}
+      >
         <div className="p-4">
           <ReplyInput
             className="mt-5"

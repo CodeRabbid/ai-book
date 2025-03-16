@@ -40,12 +40,27 @@ const Header = async () => {
             </Link>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <ProfilePicture
-                  size={"large"}
-                  image={session.user.image as string}
-                  profileColor={user?.randomColor as string}
-                  name={session.user.name as string}
-                />
+                <div className="rounded-full overflow-hidden h-10 w-10 shrink-0 bg-amber-600 cursor-pointer">
+                  {session.user.image ? (
+                    <Image
+                      src={session.user.image as string}
+                      alt=""
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="h-10 w-10"
+                    />
+                  ) : (
+                    <div
+                      className="flex items-center justify-center text-white h-10 w-10"
+                      style={{
+                        backgroundColor: user?.randomColor as string,
+                      }}
+                    >
+                      {session.user.name?.charAt(0)}
+                    </div>
+                  )}
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>
