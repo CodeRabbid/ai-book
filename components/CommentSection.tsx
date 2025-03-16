@@ -55,7 +55,7 @@ const CommentSection = ({
       <div
         className={`h-[calc(100%-44.5px)] no-scrollbar overscroll-none overflow-scroll`}
       >
-        <div className="md:px-8 px-4">
+        <div className="md:px-8 px-4 pb-10">
           <ReplyInput
             className="mt-5"
             type="comment"

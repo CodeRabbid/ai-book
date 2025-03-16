@@ -20,15 +20,13 @@ const Header = async () => {
     where: { id: session?.user.id },
   });
   return (
-    <header className="fixed flex w-full m-w-inherit bg-white">
+    <header className="fixed flex w-full m-w-inherit bg-white z-(100000)">
       <div className="grow-0 p-3 cursor-pointer">
         <Link href={"/"}>
           <Image src={aiBookLogo} alt="logo" height={35} />
         </Link>
       </div>
-      <div className="flex items-center justify-center grow-100000 ">
-        {/* Searchbar */}
-      </div>
+      <div className="flex items-center justify-center grow-100000 "></div>
       <div className="flex items-center mx-3 grow-0">
         {session && session?.user ? (
           <>
