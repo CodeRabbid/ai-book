@@ -71,7 +71,6 @@ const PostCard = ({
             color="gray"
             size={21.86}
             onClick={() => {
-              console.log("click");
               setShowComments(true);
               setPost(post);
               fetchComments(post.id).then((newComments) =>
