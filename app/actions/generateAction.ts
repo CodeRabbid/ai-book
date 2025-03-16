@@ -110,7 +110,6 @@ export async function handleGeneratePicture({ story }: { story: string }) {
       model: "dall-e-3",
       prompt: `Create an picture without text to the story "${story}". Do not use any letters on image.`,
       n: 1,
-      style: "natural",
       size: "1024x1024",
     })) as ImagesResponse;
 
