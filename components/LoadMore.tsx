@@ -1,14 +1,9 @@
 "use client";
-import { fetchComments, fetchPosts } from "@/app/actions/fetchAction";
+import { fetchPosts } from "@/app/actions/fetchAction";
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import PostCard from "./PostCard";
-import {
-  CommentInterface,
-  PostInterface,
-  SessionInterface,
-  UserInterface,
-} from "@/types/types";
+import { PostInterface, SessionInterface, UserInterface } from "@/types/types";
 import CommentSection from "./CommentSection";
 
 let page = 0;
@@ -24,7 +19,6 @@ const LoadMore = ({
   const [posts, setPosts] = useState<PostInterface[]>([]);
   const [showComments, setShowComments] = useState<boolean>(false);
   const [post, setPost] = useState<PostInterface>();
-  const [comments, setComments] = useState<CommentInterface[]>([]);
 
   useEffect(() => {
     if (inView) {
@@ -44,7 +38,6 @@ const LoadMore = ({
           key={post.id}
           setShowComments={setShowComments}
           setPost={setPost}
-          setComments={setComments}
         />
       ))}
       <div ref={ref} />

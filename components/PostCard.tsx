@@ -5,11 +5,7 @@ import PostLikes from "@/components/PostLikes";
 import { dateToPeriod } from "@/lib/utils";
 import PostImage from "@/components/PostImage";
 import { Button } from "@/components/ui/button";
-import {
-  CommentInterface,
-  PostInterface,
-  SessionInterface,
-} from "@/types/types";
+import { PostInterface, SessionInterface } from "@/types/types";
 import { FaCommentDots } from "react-icons/fa";
 
 const PostCard = ({
@@ -17,13 +13,11 @@ const PostCard = ({
   session,
   setShowComments,
   setPost,
-  setComments,
 }: {
   post: PostInterface;
   session: SessionInterface;
   setShowComments: (showComments: boolean) => void;
   setPost: (post: PostInterface) => void;
-  setComments: (newComments: CommentInterface[]) => void;
 }) => {
   return (
     <Card className="px-8 block mb-3" key={post.id}>

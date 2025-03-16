@@ -32,11 +32,11 @@ const CommentSection = ({
         setComments(newComments)
       );
     }
-  }, [showComments]);
+  }, [showComments, post?.id]);
 
   return (
     <div
-      className={`bg-white fixed h-[500px] bottom-[-500px] w-full m-w-inherit  ${
+      className={`bg-white shadow-black shadow-xl fixed h-[500px] bottom-[-500px] w-full m-w-inherit  ${
         showComments ? "translate-y-[-500px]" : "hide"
       } transition-all`}
     >
