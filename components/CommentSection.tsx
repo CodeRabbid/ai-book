@@ -36,7 +36,7 @@ const CommentSection = ({
 
   return (
     <div
-      className={`bg-white shadow-black shadow-xl fixed h-[500px] bottom-[-500px] w-full m-w-inherit  ${
+      className={`bg-white rounded-t-xl  shadow-2xl  fixed h-[500px] bottom-[-500px] w-full m-w-inherit  ${
         showComments ? "translate-y-[-500px]" : "hide"
       } transition-all`}
     >
