@@ -88,6 +88,73 @@ const genreList = [
     value: "Science fiction comedy ",
     label: "Science fiction comedy",
   },
+
+  { group: "Mystery", value: "Mystery ", label: "Mystery " },
+  {
+    group: "Mystery",
+    value: "Historical mystery",
+    label: "Historical mystery",
+  },
+  {
+    group: "Mystery",
+    value: "Locked-room mystery",
+    label: "Locked-room mystery",
+  },
+  { group: "Mystery", value: "Crime fiction ", label: "Crime fiction " },
+  { group: "Mystery", value: "Detective", label: "Detective" },
+  { group: "Mystery", value: "Occult detective", label: "Occult detective" },
+
+  {
+    group: "Fantasy",
+    value: "Action-adventure fiction",
+    label: "Action-adventure fiction",
+  },
+  {
+    group: "Fantasy",
+    value: "Contemporary fantasy",
+    label: "Contemporary fantasy",
+  },
+  {
+    group: "Fantasy",
+    value: "Occult detective fiction",
+    label: "Occult detective fiction",
+  },
+  {
+    group: "Fantasy",
+    value: "Paranormal romance",
+    label: "Paranormal romance",
+  },
+  { group: "Fantasy", value: "Urban fantasy", label: "Urban fantasy" },
+  { group: "Fantasy", value: "Cozy fantasy ", label: "Cozy fantasy " },
+  { group: "Fantasy", value: "Dark fiction", label: "Dark fiction" },
+  { group: "Fantasy", value: "Fairytale", label: "Fairytale" },
+  { group: "Fantasy", value: "Fantastique", label: "Fantastique" },
+  { group: "Fantasy", value: "Fantasy comedy ", label: "Fantasy comedy " },
+  {
+    group: "Fantasy",
+    value: "Fantasy of manners",
+    label: "Fantasy of manners",
+  },
+  { group: "Fantasy", value: "Gaslamp fiction", label: "Gaslamp fiction" },
+  { group: "Fantasy", value: "Gothic fiction", label: "Gothic fiction" },
+  { group: "Fantasy", value: "Grimdark fiction", label: "Grimdark fiction" },
+  { group: "Fantasy", value: "Hard fantasy ", label: "Hard fantasy " },
+  { group: "Fantasy", value: "High fantasy", label: "High fantasy" },
+  { group: "Fantasy", value: "Historical ", label: "Historical " },
+  { group: "Fantasy", value: "Juvenile fantasy", label: "Juvenile fantasy" },
+  { group: "Fantasy", value: "Low fantasy", label: "Low fantasy" },
+  { group: "Fantasy", value: "Magic realism ", label: "Magic realism " },
+  { group: "Fantasy", value: "Mythic fiction ", label: "Mythic fiction " },
+  { group: "Fantasy", value: "Romantic fantasy", label: "Romantic fantasy" },
+  { group: "Fantasy", value: "Science fiction ", label: "Science fiction " },
+  { group: "Fantasy", value: "Superhero fiction", label: "Superhero fiction" },
+  {
+    group: "Fantasy",
+    value: "Supernatural fiction",
+    label: "Supernatural fiction",
+  },
+  { group: "Fantasy", value: "Weird fiction ", label: "Weird fiction " },
+  { group: "Fantasy", value: "Weird Western", label: "Weird Western" },
 ];
 
 const levels = ["A0", "A1", "A2", "B1", "B2", "C1", "native"];
