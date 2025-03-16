@@ -90,17 +90,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       const isLoggedIn = !!auth?.user;
       const { pathname } = nextUrl;
 
-      // Allow access to public routes for all users
-      if (pathname.match(publicRoutesRegex)) {
-        return true;
-      }
-
       // Redirect logged-in users away from auth routes
       if (authRoutes.includes(pathname)) {
         if (isLoggedIn) {
           return Response.redirect(new URL("/", nextUrl));
         }
         return true; // Allow access to auth pages if not logged in
+      }
+      // Allow access to public routes for all users
+      if (pathname.match(publicRoutesRegex)) {
+        return true;
       }
 
       // Allow access if the user is authenticated
