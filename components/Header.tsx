@@ -20,7 +20,7 @@ const Header = async () => {
     where: { id: session?.user.id },
   });
   return (
-    <header className="fixed flex w-full m-w-inherit bg-white z-(100000)">
+    <header className="fixed flex w-full m-w-inherit bg-white z-10000">
       <div className="grow-0 p-3 cursor-pointer">
         <Link href={"/"}>
           <Image src={aiBookLogo} alt="logo" height={35} />
