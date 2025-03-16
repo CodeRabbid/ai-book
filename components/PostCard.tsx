@@ -16,15 +16,17 @@ const PostCard = ({
   post,
   session,
   user,
+  id,
 }: {
   post: PostInterface;
   session: SessionInterface;
   user: UserInterface;
+  id: string;
 }) => {
   const [showComments, setShowComments] = useState<boolean>(false);
   return (
     <>
-      <Card className="px-8 block mb-3" key={post.id}>
+      <Card className="px-8 block mb-3" key={post.id} id={id}>
         <div className="flex  items-center gap-2">
           <div className="rounded-full overflow-hidden h-10 w-10">
             {post.author.image ? (

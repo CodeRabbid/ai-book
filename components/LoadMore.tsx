@@ -30,7 +30,13 @@ const LoadMore = ({
   return (
     <>
       {posts.map((post) => (
-        <PostCard post={post} session={session} key={post.id} user={user} />
+        <PostCard
+          post={post}
+          session={session}
+          key={post.id}
+          user={user}
+          id={post.id}
+        />
       ))}
       <div ref={ref} />
     </>

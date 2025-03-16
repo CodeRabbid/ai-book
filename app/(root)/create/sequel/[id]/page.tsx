@@ -138,6 +138,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                 session={session as SessionInterface}
                 user={user as UserInterface}
                 key={prequel.id}
+                id={prequel.id}
               />
             )
         )}
