@@ -13,7 +13,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import prisma from "@/lib/prisma";
-import ProfilePicture from "./ProfilePicture";
 
 const Header = async () => {
   const session = await auth();
