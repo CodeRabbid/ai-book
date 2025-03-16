@@ -7,6 +7,7 @@ import PostImage from "@/components/PostImage";
 import { Button } from "@/components/ui/button";
 import { PostInterface, SessionInterface } from "@/types/types";
 import { FaCommentDots } from "react-icons/fa";
+import SequelsSection from "./SequelsSection";
 
 const PostCard = ({
   post,
@@ -73,6 +74,7 @@ const PostCard = ({
           <Button>Generate Sequel</Button>
         </a>
       </div>
+      <SequelsSection sequels={post.sequels} />
     </Card>
   );
 };

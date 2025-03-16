@@ -55,6 +55,7 @@ export const fetchPosts = async (page: number) => {
           },
         },
       },
+      sequels: true,
     },
     take: PAGE_SIZE,
     skip: PAGE_SIZE * page,
