@@ -7,6 +7,7 @@ import { ImagesResponse } from "openai/resources/images.mjs";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { generate } from "random-words";
+import { generateRandomMood } from "@/lib/utils";
 
 const openai_api_key = process.env.OPENAI_API_KEY as string;
 const openai = new OpenAI({ apiKey: openai_api_key });
@@ -159,9 +160,14 @@ export const generateComment = async ({
 }) => {
   postStory = postStory.replace('"', "'");
 
+  if (moods.length === 0) {
+    moods = [generateRandomMood()];
+  }
+  postStory = postStory.replace('"', "'");
   const prompt = `Generate a single ${moods.join(
     ", "
   )} comment of about ${wordCount} words to this story: "${postStory}".`;
+  console.log(prompt);
   const result = await model.generateContent(prompt);
   return result.response.text();
 };
@@ -177,6 +183,9 @@ export const generateReply = async ({
   moods: string[];
   wordCount: number;
 }) => {
+  if (moods.length === 0) {
+    moods = [generateRandomMood()];
+  }
   postStory = postStory.replace('"', "'");
   let prompt = `This is the post: "${postStory}". These were the consecutive comments:\n`;
   previousComments.forEach((comment, index) => {
