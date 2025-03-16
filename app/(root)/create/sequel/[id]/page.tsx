@@ -1,11 +1,7 @@
 import GenerateForm from "@/components/GenerateSequelForm";
-import { Card } from "@/components/ui/card";
 import prisma from "@/lib/prisma";
 import React from "react";
-import Image from "next/image";
-import PostLikes from "@/components/PostLikes";
 import { auth } from "@/auth";
-import { dateToPeriod } from "@/lib/utils";
 import { User } from "@prisma/client";
 import PostCard from "@/components/PostCard";
 import { PostInterface, SessionInterface, UserInterface } from "@/types/types";

@@ -1,10 +1,10 @@
 "use client";
+
 import { fetchPosts } from "@/app/actions/fetchAction";
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import PostCard from "./PostCard";
 import { PostInterface, SessionInterface, UserInterface } from "@/types/types";
-import CommentSection from "./CommentSection";
 
 let page = 0;
 
