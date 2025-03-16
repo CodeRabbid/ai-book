@@ -41,7 +41,7 @@ const CommentSection = ({
       } transition-all`}
     >
       <AiFillCloseCircle
-        className="absolute top-2 right-2"
+        className="absolute top-3 right-3"
         size={30}
         color={"gray"}
         onClick={() => {
@@ -49,13 +49,13 @@ const CommentSection = ({
           setShowComments(false);
         }}
       />
-      <div className="flex justify-center pt-4 font-bold text-[19px]">
+      <div className="flex justify-center py-4 font-bold text-[19px]">
         Comments
       </div>
       <div
         className={`h-[calc(100%-44.5px)] no-scrollbar overscroll-none overflow-scroll`}
       >
-        <div className="p-4">
+        <div className="md:p-8 p-4">
           <ReplyInput
             className="mt-5"
             type="comment"
