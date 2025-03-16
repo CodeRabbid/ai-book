@@ -82,6 +82,12 @@ const genreList = [
   { group: "Comedy", value: "Tall tale comedy", label: "Tall tale comedy" },
   { group: "Comedy", value: "Tragicomedy", label: "Tragicomedy" },
   { group: "Comedy", value: "Satire", label: "Satire" },
+  { group: "Comedy", value: "Romantic Comedy", label: "Romantic Comedy" },
+  {
+    group: "Comedy",
+    value: "Science fiction comedy ",
+    label: "Science fiction comedy",
+  },
 ];
 
 const levels = ["A0", "A1", "A2", "B1", "B2", "C1", "native"];
