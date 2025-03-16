@@ -91,7 +91,11 @@ export default function SignUp() {
                               ? "email"
                               : "text"
                           }
-                          placeholder={`Enter your ${field}`}
+                          placeholder={
+                            field === "confirmPassword"
+                              ? "Re-enter your password"
+                              : `Enter your ${field}`
+                          }
                           {...fieldProps}
                           autoComplete="off"
                         />
