@@ -36,7 +36,7 @@ const CommentSection = ({
 
   return (
     <div
-      className={`bg-white rounded-t-xl  shadow-2xl  fixed h-[500px] bottom-[-500px] w-full m-w-inherit  ${
+      className={`bg-white   rounded-t-xl  shadow-2xl  fixed h-[500px] bottom-[-500px] w-full m-w-inherit  ${
         showComments ? "translate-y-[-500px]" : "hide"
       } transition-all`}
     >
@@ -52,45 +52,47 @@ const CommentSection = ({
       <div className="flex justify-center pt-4 font-bold text-[19px]">
         Comments
       </div>
-      <div className="p-4">
-        <ReplyInput
-          className="mt-5"
-          type="comment"
-          previousComments={[]}
-          postStory={post?.story as string}
-          postId={post?.id as string}
-          profilePicture={session?.user.image as string}
-          profileColor={user?.randomColor as string}
-          authorId={session?.user.id as string}
-          authorName={post?.author.name as string}
-          updateComments={() =>
-            fetchComments(post?.id as string).then((newComments) =>
-              setComments(newComments)
-            )
-          }
-        />
-        {comments.map(
-          (comment) =>
-            showComments && (
-              <Comment
-                className="mt-3"
-                previousComments={[]}
-                comment={comment}
-                userId={user.id}
-                authorName={comment.author.name}
-                profileColor={comment.author.randomColor as string}
-                profilePicture={comment.author.image as string}
-                postStory={post?.story as string}
-                size={"large"}
-                key={comment.id}
-                updateComments={() =>
-                  fetchComments(post?.id as string).then((newComments) =>
-                    setComments(newComments)
-                  )
-                }
-              />
-            )
-        )}
+      <div className={`h-full no-scrollbar overscroll-contain overflow-scroll`}>
+        <div className="p-4">
+          <ReplyInput
+            className="mt-5"
+            type="comment"
+            previousComments={[]}
+            postStory={post?.story as string}
+            postId={post?.id as string}
+            profilePicture={session?.user.image as string}
+            profileColor={user?.randomColor as string}
+            authorId={session?.user.id as string}
+            authorName={post?.author.name as string}
+            updateComments={() =>
+              fetchComments(post?.id as string).then((newComments) =>
+                setComments(newComments)
+              )
+            }
+          />
+          {comments.map(
+            (comment) =>
+              showComments && (
+                <Comment
+                  className="mt-3"
+                  previousComments={[]}
+                  comment={comment}
+                  userId={user.id}
+                  authorName={comment.author.name}
+                  profileColor={comment.author.randomColor as string}
+                  profilePicture={comment.author.image as string}
+                  postStory={post?.story as string}
+                  size={"large"}
+                  key={comment.id}
+                  updateComments={() =>
+                    fetchComments(post?.id as string).then((newComments) =>
+                      setComments(newComments)
+                    )
+                  }
+                />
+              )
+          )}
+        </div>
       </div>
     </div>
   );
