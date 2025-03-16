@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import { CommentInterface } from "@/types/types";
 
 const ProfilePicture = ({
   size,

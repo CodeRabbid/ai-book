@@ -1,7 +1,6 @@
 "use client";
 import React, { ChangeEvent, useRef, useState } from "react";
 
-import Image from "next/image";
 import { addCommentToPost, addReply } from "@/app/actions/commentAction";
 import { generateComment, generateReply } from "@/app/actions/generateAction";
 import { DropdownMenu, DropdownMenuContent } from "./ui/dropdown-menu";
