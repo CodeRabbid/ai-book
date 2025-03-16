@@ -11,7 +11,6 @@ import {
   SessionInterface,
 } from "@/types/types";
 import { FaCommentDots } from "react-icons/fa";
-import { fetchComments } from "@/app/actions/fetchAction";
 
 const PostCard = ({
   post,
@@ -73,9 +72,6 @@ const PostCard = ({
             onClick={() => {
               setShowComments(true);
               setPost(post);
-              fetchComments(post.id).then((newComments) =>
-                setComments(newComments)
-              );
             }}
           />
         </div>
