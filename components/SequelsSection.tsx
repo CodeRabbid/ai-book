@@ -17,16 +17,18 @@ const SequelsSection = ({
           <div className="absolute mt-2 w-fit  gap-2 flex  ">
             {sequels.map((sequel) => (
               <div key={sequel.id} className="shrink-0">
-                <Image
-                  src={sequel.picture_url}
-                  alt={""}
-                  width={100}
-                  height={100}
-                />
-                <div className="flex gap-2 mt-2">
-                  <FaHeart color={"gray"} className="w-5 h-5" />
-                  {sequel.likes.length}
-                </div>
+                <a href={`/create/sequel/${sequel.id}#${sequel.id}`}>
+                  <Image
+                    src={sequel.picture_url}
+                    alt={""}
+                    width={100}
+                    height={100}
+                  />
+                  <div className="flex gap-2 mt-2">
+                    <FaHeart color={"gray"} className="w-5 h-5" />
+                    {sequel.likes.length}
+                  </div>
+                </a>
               </div>
             ))}
           </div>
