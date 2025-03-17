@@ -27,6 +27,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { FcGoogle } from "react-icons/fc";
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 export default function SignUp() {
   const [globalError, setGlobalError] = useState("");
@@ -54,7 +55,11 @@ export default function SignUp() {
         setGlobalError(result.message);
       }
     } catch (error) {
-      setGlobalError("An unexpected error occurred. Please try again." + error);
+      if (!isRedirectError(error)) {
+        setGlobalError(
+          "An unexpected error occurred. Please try again." + error
+        );
+      }
     }
   };
 
