@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { User } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomSlider2 } from "./CustomSlider2";
 import { z, ZodType } from "zod";
@@ -35,131 +35,13 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { postStory } from "@/app/actions/postAction";
 import { PostInterface } from "@/types/types";
-
-const formList = [
-  { value: "prose", label: "Prose" },
-  { value: "dialogue", label: "Dialogue" },
-  { value: "peom ", label: "Poem" },
-  { value: "hokku", label: "Hokku" },
-  { value: "song", label: "Song" },
-];
-
-const stageList = [
-  { value: "none", label: "None" },
-  { value: "exposition", label: "Exposition" },
-  { value: "rising-action", label: "Rising action" },
-  { value: "climax", label: "Climax" },
-  { value: "falling-action", label: "Falling action" },
-  { value: "resolution", label: "Resolution" },
-];
-
-const languageList = [
-  { value: "english", label: "English" },
-  { value: "german", label: "Deutsch" },
-  { value: "french", label: "Française" },
-  { value: "spanish", label: "Español" },
-  { value: "russian", label: "Русский" },
-  { value: "chinese", label: "中文" },
-];
-
-const genreList = [
-  { group: "", value: "none", label: "None" },
-  { group: "By Age", value: "Children's fiction", label: "Children's fiction" },
-  { group: "By Age", value: "Fratire fiction", label: "Fratire fiction" },
-  { group: "By Age", value: "Lad lit fiction", label: "Lad lit fiction" },
-  { group: "By Age", value: "New adult fiction", label: "New adult fiction" },
-  {
-    group: "By Age",
-    value: "Young adult fiction",
-    label: "Young adult fiction",
-  },
-  { group: "Comedy", value: "Comedy", label: "Comedy" },
-  { group: "Comedy", value: "Burlesque", label: "Burlesque" },
-  { group: "Comedy", value: "Fantasy comedy", label: "Fantasy comedy" },
-  { group: "Comedy", value: "Comedy horror", label: "Comedy horror" },
-  { group: "Comedy", value: "Parody", label: "Parody" },
-  { group: "Comedy", value: "Metaparody", label: "Metaparody" },
-  { group: "Comedy", value: "Sci-fi comedy", label: "Sci-fi comedy" },
-  { group: "Comedy", value: "Surreal comedy", label: "Surreal comedy" },
-  { group: "Comedy", value: "Tall tale comedy", label: "Tall tale comedy" },
-  { group: "Comedy", value: "Tragicomedy", label: "Tragicomedy" },
-  { group: "Comedy", value: "Satire", label: "Satire" },
-  { group: "Comedy", value: "Romantic Comedy", label: "Romantic Comedy" },
-  {
-    group: "Comedy",
-    value: "Science fiction comedy ",
-    label: "Science fiction comedy",
-  },
-
-  { group: "Mystery", value: "Mystery ", label: "Mystery " },
-  {
-    group: "Mystery",
-    value: "Historical mystery",
-    label: "Historical mystery",
-  },
-  {
-    group: "Mystery",
-    value: "Locked-room mystery",
-    label: "Locked-room mystery",
-  },
-  { group: "Mystery", value: "Crime fiction ", label: "Crime fiction " },
-  { group: "Mystery", value: "Detective", label: "Detective" },
-  { group: "Mystery", value: "Occult detective", label: "Occult detective" },
-
-  {
-    group: "Fantasy",
-    value: "Action-adventure fiction",
-    label: "Action-adventure fiction",
-  },
-  {
-    group: "Fantasy",
-    value: "Contemporary fantasy",
-    label: "Contemporary fantasy",
-  },
-  {
-    group: "Fantasy",
-    value: "Occult detective fiction",
-    label: "Occult detective fiction",
-  },
-  {
-    group: "Fantasy",
-    value: "Paranormal romance",
-    label: "Paranormal romance",
-  },
-  { group: "Fantasy", value: "Urban fantasy", label: "Urban fantasy" },
-  { group: "Fantasy", value: "Cozy fantasy ", label: "Cozy fantasy " },
-  { group: "Fantasy", value: "Dark fiction", label: "Dark fiction" },
-  { group: "Fantasy", value: "Fairytale", label: "Fairytale" },
-  { group: "Fantasy", value: "Fantastique", label: "Fantastique" },
-  { group: "Fantasy", value: "Fantasy comedy ", label: "Fantasy comedy " },
-  {
-    group: "Fantasy",
-    value: "Fantasy of manners",
-    label: "Fantasy of manners",
-  },
-  { group: "Fantasy", value: "Gaslamp fiction", label: "Gaslamp fiction" },
-  { group: "Fantasy", value: "Gothic fiction", label: "Gothic fiction" },
-  { group: "Fantasy", value: "Grimdark fiction", label: "Grimdark fiction" },
-  { group: "Fantasy", value: "Hard fantasy ", label: "Hard fantasy " },
-  { group: "Fantasy", value: "High fantasy", label: "High fantasy" },
-  { group: "Fantasy", value: "Historical ", label: "Historical " },
-  { group: "Fantasy", value: "Juvenile fantasy", label: "Juvenile fantasy" },
-  { group: "Fantasy", value: "Low fantasy", label: "Low fantasy" },
-  { group: "Fantasy", value: "Magic realism ", label: "Magic realism " },
-  { group: "Fantasy", value: "Mythic fiction ", label: "Mythic fiction " },
-  { group: "Fantasy", value: "Romantic fantasy", label: "Romantic fantasy" },
-  { group: "Fantasy", value: "Science fiction ", label: "Science fiction " },
-  { group: "Fantasy", value: "Superhero fiction", label: "Superhero fiction" },
-  {
-    group: "Fantasy",
-    value: "Supernatural fiction",
-    label: "Supernatural fiction",
-  },
-  { group: "Fantasy", value: "Weird fiction ", label: "Weird fiction " },
-  { group: "Fantasy", value: "Weird Western", label: "Weird Western" },
-];
-
-const levels = ["A0", "A1", "A2", "B1", "B2", "C1", "native"];
+import {
+  formList,
+  genreList,
+  languageList,
+  levels,
+  stageList,
+} from "@/lib/options";
 
 function valueLabelFormat(value: number) {
   return levels[value];
@@ -201,6 +83,7 @@ const GenerateForm = ({
   const [languageLevel, setLanguageLevel] =
     React.useState(defaultLanguageLevel);
   const [genre, setGenre] = useState(defaultGenre);
+  const focusHereAfterLoading = useRef<HTMLDivElement>(null);
 
   type FormType = {
     theme: string;
@@ -248,11 +131,13 @@ const GenerateForm = ({
           });
         }
         setStory(generatedStory);
+        focusHereAfterLoading.current?.focus();
 
         const generatedPicture = (await handleGeneratePicture({
           story: generatedStory,
         })) as string;
         setPicture(generatedPicture);
+        focusHereAfterLoading.current?.focus();
       } catch (error) {
         setGenerationError("An unexpected error occurred. Please try again.");
         console.error(error);
@@ -528,6 +413,8 @@ const GenerateForm = ({
                 <div key={index}>{story_paragraph}</div>
               ))}
             </div>
+
+            <div ref={focusHereAfterLoading} tabIndex={-1}></div>
           </Card>
         )}
         <div className="flex justify-end mt-3 w-full">
