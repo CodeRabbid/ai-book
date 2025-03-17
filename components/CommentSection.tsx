@@ -36,9 +36,10 @@ const CommentSection = ({
 
   return (
     <div
-      className={`bg-white rounded-t-xl shadow-3xl fixed h-[calc(70vh)] bottom-[calc(-70vh)] w-full m-w-inherit  ${
+      className={`bg-white   rounded-t-xl   fixed h-[calc(70vh)] bottom-[calc(-70vh)] w-full m-w-inherit  ${
         showComments ? "translate-y-[calc(-70vh)] " : "invisible"
       } transition-all`}
+      style={{ boxShadow: "0px 0px 3px 3px #ccc" }}
     >
       <AiFillCloseCircle
         className="absolute top-3 right-3"

@@ -158,7 +158,7 @@ const ReplyInput = ({
         <div className="rounded-[20px] border-solid border-[1px] flex-col pl-4 pt-3 flex w-full">
           <div className="pr-4">
             <textarea
-              className="w-full text-[14px] focus:outline-none resize-none"
+              className="w-full text-[14px] focus:outline-none resize-none h-[16px]"
               name="comment"
               ref={textInput}
               placeholder={`Add a ${type}...`}
