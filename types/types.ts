@@ -4,6 +4,7 @@ export interface CommentInterface {
   content: string;
   likes: string[];
   id: string;
+  originalPostId: string;
   comments?: CommentInterface[];
 }
 

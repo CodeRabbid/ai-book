@@ -49,6 +49,8 @@ model Comment{
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
   post            Post?     @relation(fields: [postId], references: [id])
   postId          String?   @db.ObjectId
+  originalPostId  String    @db.ObjectId @default("")
+  commentsCount   Int       @default(0)
   author          User      @relation(fields: [authorId], references: [id])
   authorId        String    @db.ObjectId
   content         String

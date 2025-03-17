@@ -112,7 +112,7 @@ const ReplyInput = ({
     if (inputValue !== "") {
       if (type === "reply" && comment && setShowReplies) {
         await addReply({
-          commentId: comment.id,
+          comment,
           content: inputValue,
           authorId,
         });
