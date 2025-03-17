@@ -3,7 +3,6 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   handleGeneratePicture,
-  postStory,
   handleGenerateSequel,
   handleGenerateStory,
 } from "@/app/actions/generateAction";
@@ -34,6 +33,8 @@ import {
 } from "@/components/ui/accordion";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import { postStory } from "@/app/actions/postAction";
+import { PostInterface } from "@/types/types";
 
 const formList = [
   { value: "prose", label: "Prose" },
@@ -62,6 +63,7 @@ const languageList = [
 ];
 
 const genreList = [
+  { group: "", value: "none", label: "None" },
   { group: "By Age", value: "Children's fiction", label: "Children's fiction" },
   { group: "By Age", value: "Fratire fiction", label: "Fratire fiction" },
   { group: "By Age", value: "Lad lit fiction", label: "Lad lit fiction" },
@@ -168,39 +170,51 @@ const GenerateForm = ({
   placeholder,
   prequels,
   user,
+  post,
 }: {
   question: string;
   placeholder: string;
   user?: User;
   prequels?: { id: string; story: string }[];
+  post?: PostInterface;
 }) => {
+  const defaultGenre = post
+    ? {
+        group: "",
+        value: post.genre,
+        label: post.genre,
+      }
+    : {
+        group: "",
+        value: "none",
+        label: "None",
+      };
+  const defaultLanguageLevel = post
+    ? levels.indexOf(post.languageLevel)
+    : levels.length - 1;
+
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [story, setStory] = useState<string>("");
   const [picture, setPicture] = useState("");
   const [wordCount, setWordCount] = useState<number>(150);
   const router = useRouter();
-  const [languageLevel, setLanguageLevel] = React.useState(levels.length - 1);
-  const [genre, setGenre] = useState({
-    group: "Comedy",
-    value: "Comedy",
-    label: "Comedy",
-  });
+  const [languageLevel, setLanguageLevel] =
+    React.useState(defaultLanguageLevel);
+  const [genre, setGenre] = useState(defaultGenre);
 
   type FormType = {
     theme: string;
     form: string;
     stage: string;
     language: string;
-    level: string;
   };
 
   const form = useForm({
     defaultValues: {
       theme: "",
       form: "prose",
-      stage: "exposition",
-      language: "english",
-      level: "native",
+      stage: post ? post.stage : "exposition",
+      language: post ? post.language : "english",
     },
   });
 
@@ -219,7 +233,7 @@ const GenerateForm = ({
             wordCount,
             stage: values.stage,
             lang: values.language,
-            level: values.level,
+            level: levels[languageLevel],
             genre: genre.value,
           });
         } else {
@@ -229,7 +243,7 @@ const GenerateForm = ({
             wordCount,
             stage: values.stage,
             lang: values.language,
-            level: values.level,
+            level: levels[languageLevel],
             genre: genre.value,
           });
         }
@@ -246,8 +260,12 @@ const GenerateForm = ({
     }
   };
 
-  const handlePost = async () => {
+  const handlePost = async (values: z.infer<ZodType<FormType>>) => {
     const post = await postStory({
+      stage: values.stage,
+      lang: values.language,
+      languageLevel: levels[languageLevel],
+      genre: genre.value,
       story,
       picture,
       prequelId: prequels ? prequels[prequels.length - 1].id : undefined,

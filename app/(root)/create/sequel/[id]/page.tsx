@@ -152,6 +152,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
               placeholder='e.g. "come back" or "ironic twist", leave blank to keep it random'
               prequels={prequels as { id: string; story: string }[]}
               user={session?.user as User}
+              post={prequels[prequels.length - 1] as PostInterface}
             />
           </div>
         </div>

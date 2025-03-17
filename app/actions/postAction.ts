@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { CommentInterface, PostInterface } from "@/types/types";
 
@@ -124,3 +125,38 @@ export const deletePostAction = async ({ postId }: { postId: string }) => {
     where: { id: postId },
   });
 };
+
+export async function postStory({
+  prequelId,
+  story,
+  picture,
+  genre,
+  lang,
+  stage,
+  languageLevel,
+}: {
+  prequelId?: string;
+  story: string;
+  picture: string;
+  genre: string;
+  lang: string;
+  stage: string;
+  languageLevel: string;
+}) {
+  const session = await auth();
+
+  const post = await prisma.post.create({
+    data: {
+      prequelId,
+      story,
+      genre,
+      language: lang,
+      stage,
+      languageLevel,
+      picture_url: picture,
+      authorId: session?.user.id as string,
+    },
+  });
+
+  return post;
+}

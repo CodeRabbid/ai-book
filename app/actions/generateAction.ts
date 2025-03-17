@@ -4,8 +4,6 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import OpenAI from "openai";
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import { ImagesResponse } from "openai/resources/images.mjs";
-import prisma from "@/lib/prisma";
-import { auth } from "@/auth";
 import { generate } from "random-words";
 import { generateRandomMood } from "@/lib/utils";
 
@@ -51,7 +49,10 @@ export async function handleGenerateStory({
   const levelSepcification =
     level === "native" ? "" : `The language level must be ${level}.`;
 
-  const prompt = `Write the first chapter of approximately ${wordCount} words and not more than 3800 characters, with the theme: "${theme}". The genre of the chapter must be "${genre}". The chapter must be a ${form}. ${stageSpecification} The genre of the chapter must be "${genre}". The language of the chapter must be ${lang}. ${levelSepcification}`;
+  const genreSepcification =
+    genre === "none" ? "" : `The genre of the chapter must be "${genre}".`;
+
+  const prompt = `Write the first chapter of approximately ${wordCount} words and not more than 3800 characters, with the theme: "${theme}". ${genreSepcification} The chapter must be a ${form}. ${stageSpecification} The genre of the chapter must be "${genre}". The language of the chapter must be ${lang}. ${levelSepcification}`;
   console.log(prompt);
   const result = await model.generateContent(prompt);
 
@@ -92,10 +93,13 @@ export async function handleGenerateSequel({
   const levelSepcification =
     level === "native" ? "" : `The language level must be ${level}.`;
 
+  const genreSepcification =
+    genre === "none" ? "" : `The genre of the chapter must be "${genre}".`;
+
   const prompt = `Write a sequel of approximately ${wordCount} words, but not more than 3800 characters, to this story:\n"${chapters}",\n with a theme "${theme.replace(
     '"',
     "'"
-  )}". The genre of the chapter must be "${genre}". The chapter must be a ${form}. ${stageSpecification} The language of the chapter must be ${lang}. ${levelSepcification}`;
+  )}". ${genreSepcification} The chapter must be a ${form}. ${stageSpecification} The language of the chapter must be ${lang}. ${levelSepcification}`;
   console.log(prompt);
   const result = await model.generateContent(prompt);
 
@@ -124,29 +128,6 @@ export async function handleGeneratePicture({ story }: { story: string }) {
 
     return uploadResult.url;
   }
-}
-
-export async function postStory({
-  prequelId,
-  story,
-  picture,
-}: {
-  prequelId?: string;
-  story: string;
-  picture: string;
-}) {
-  const session = await auth();
-
-  const post = await prisma.post.create({
-    data: {
-      prequelId,
-      story: story,
-      picture_url: picture,
-      authorId: session?.user.id as string,
-    },
-  });
-
-  return post;
 }
 
 export const generateComment = async ({

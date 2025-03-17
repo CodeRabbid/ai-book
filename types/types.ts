@@ -24,6 +24,10 @@ export interface PostInterface {
   createdAt: Date;
   picture_url: string;
   story: string;
+  genre: string;
+  language: string;
+  stage: string;
+  languageLevel: string;
   likes: string[];
   commentsCount: number;
   author: AuthorInterface;

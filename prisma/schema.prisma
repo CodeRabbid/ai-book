@@ -34,6 +34,10 @@ model Post{
   author          User      @relation(fields: [authorId], references: [id])
   authorId        String    @db.ObjectId
   story           String
+  genre           String    @default("none")
+  language        String    @default("english")
+  stage           String    @default("none")
+  languageLevel   String    @default("native")
   picture_url     String
   likes           String[]  @default([])
   commentsCount   Int       @default(0)
