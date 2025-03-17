@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import PostCard from "./PostCard";
 import { PostInterface, SessionInterface, UserInterface } from "@/types/types";
+import { Spinner } from "./ui/spinner";
 
 let page = 0;
 
@@ -38,7 +39,10 @@ const LoadMore = ({
           id={post.id}
         />
       ))}
-      <div ref={ref} />
+
+      <div ref={ref}>
+        <Spinner size={"small"} />
+      </div>
     </>
   );
 };

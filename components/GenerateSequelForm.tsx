@@ -335,7 +335,7 @@ const GenerateForm = ({
             <FormLabel className="mb-3 mt-3">
               What genre should it have?
             </FormLabel>
-            <div className="">
+            <div className="mt-5">
               <Autocomplete
                 value={genre}
                 onChange={(
@@ -367,23 +367,24 @@ const GenerateForm = ({
                     borderColor: "black",
                     borderWidth: "thin",
                   },
-                  "&.MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "black", // <------------------ outline-color by default
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "black", // <------------------ outline-color on hover
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "black", // <------------------ outline-color on focus
-                    },
-                    "&.MuiInputLabel-shrink": {
-                      color: "black",
-                    },
-                  },
                 }}
                 renderInput={(params) => (
-                  <TextField {...params} label="Genre" variant="standard" />
+                  <TextField
+                    {...params}
+                    label="Genre"
+                    // variant="standard"
+                    slotProps={{
+                      inputLabel: { style: { color: "black" } },
+                    }}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        color: "black",
+                        "& fieldset": { borderColor: "black" },
+                        "&:hover fieldset": { borderColor: "black" },
+                        "&.Mui-focused fieldset": { borderColor: "black" },
+                      },
+                    }}
+                  />
                 )}
               />
             </div>
