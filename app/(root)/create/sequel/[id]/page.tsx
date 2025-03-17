@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { User } from "@prisma/client";
 import PostCard from "@/components/PostCard";
 import { PostInterface, SessionInterface, UserInterface } from "@/types/types";
+import { Spinner } from "@/components/ui/spinner";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const session = await auth();
@@ -128,28 +129,34 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   prequels.reverse();
 
   return (
-    <div className="flex grow justify-center">
-      <div className="max-w-xl grow">
-        {prequels.map(
-          (prequel) =>
-            prequel && (
-              <PostCard
-                post={prequel}
-                session={session as SessionInterface}
-                user={user as UserInterface}
-                key={prequel.id}
-                id={prequel.id}
-              />
-            )
-        )}
-        <GenerateForm
-          question="What should be the theme for the sequel?"
-          placeholder='e.g. "come back" or "ironic twist", leave blank to keep it random'
-          prequels={prequels as { id: string; story: string }[]}
-          user={session?.user as User}
-        />
-      </div>
-    </div>
+    <>
+      {prequels.length === 0 ? (
+        <Spinner size={"small"} />
+      ) : (
+        <div className="flex grow justify-center">
+          <div className="max-w-xl grow">
+            {prequels.map(
+              (prequel) =>
+                prequel && (
+                  <PostCard
+                    post={prequel}
+                    session={session as SessionInterface}
+                    user={user as UserInterface}
+                    key={prequel.id}
+                    id={prequel.id}
+                  />
+                )
+            )}
+            <GenerateForm
+              question="What should be the theme for the sequel?"
+              placeholder='e.g. "come back" or "ironic twist", leave blank to keep it random'
+              prequels={prequels as { id: string; story: string }[]}
+              user={session?.user as User}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
