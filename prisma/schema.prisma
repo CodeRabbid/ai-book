@@ -36,6 +36,7 @@ model Post{
   story           String
   picture_url     String
   likes           String[]  @default([])
+  commentsCount   Int       @default(0)
   comments        Comment[]  
   prequel         Post?     @relation("PrequelSequel", fields: [prequelId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   prequelId       String?   @db.ObjectId

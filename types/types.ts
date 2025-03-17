@@ -24,6 +24,7 @@ export interface PostInterface {
   picture_url: string;
   story: string;
   likes: string[];
+  commentsCount: number;
   author: AuthorInterface;
   id: string;
   prequelId: string | null;

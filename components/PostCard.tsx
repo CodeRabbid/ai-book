@@ -83,14 +83,17 @@ const PostCard = ({
               currentLikes={post.likes}
               postId={post.id}
             />
-            <FaCommentDots
-              className="cursor-pointer"
-              color="gray"
-              size={21.86}
-              onClick={() => {
-                setShowComments(true);
-              }}
-            />
+            <div className="flex gap-1.5">
+              <FaCommentDots
+                className="cursor-pointer"
+                color="gray"
+                size={21.86}
+                onClick={() => {
+                  setShowComments(true);
+                }}
+              />
+              {post.commentsCount}
+            </div>
           </div>
           {post.author.id === user.id ? (
             <DropdownMenu>
