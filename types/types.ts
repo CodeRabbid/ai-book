@@ -30,7 +30,12 @@ export interface PostInterface {
   id: string;
   prequelId: string | null;
   comments: CommentInterface[];
-  sequels: { likes: string[]; id: string; picture_url: string }[];
+  sequels: {
+    likes: string[];
+    id: string;
+    picture_url: string;
+    commentsCount: number;
+  }[];
 }
 
 export interface AuthorInterface {

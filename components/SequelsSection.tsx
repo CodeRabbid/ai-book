@@ -1,12 +1,17 @@
 import React from "react";
 
 import Image from "next/image";
-import { FaHeart } from "react-icons/fa";
+import { FaCommentDots, FaHeart } from "react-icons/fa";
 
 const SequelsSection = ({
   sequels,
 }: {
-  sequels: { likes: string[]; id: string; picture_url: string }[];
+  sequels: {
+    likes: string[];
+    id: string;
+    picture_url: string;
+    commentsCount: number;
+  }[];
 }) => {
   return (
     sequels.length > 0 && (
@@ -23,9 +28,19 @@ const SequelsSection = ({
                     width={100}
                     height={100}
                   />
-                  <div className="flex gap-2 mt-2">
-                    <FaHeart color={"gray"} className="w-5 h-5" />
-                    {sequel.likes.length}
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 mt-2">
+                      <FaHeart color={"gray"} size={20} />
+                      {sequel.likes.length}
+                    </div>
+                    <div className="flex items-center gap-2 mt-2">
+                      <FaCommentDots
+                        className="cursor-pointer"
+                        color="gray"
+                        size={20}
+                      />
+                      {sequel.commentsCount}
+                    </div>
                   </div>
                 </a>
               </div>
