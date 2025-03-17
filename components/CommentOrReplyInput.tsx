@@ -16,10 +16,10 @@ import { CommentInterface } from "@/types/types";
 import ProfilePicture from "./ProfilePicture";
 
 const moodList = [
-  { value: "rude", label: "Rude" },
-  { value: "dad-joke", label: "Dad joke" },
   { value: "deep", label: "Deep" },
   { value: "silly", label: "Silly" },
+  { value: "dad-joke", label: "Dad joke" },
+  { value: "rude", label: "Rude" },
 ];
 
 const ReplyInput = ({
