@@ -118,3 +118,9 @@ export const fetchComments = async (postId: string) => {
   });
   return comments;
 };
+
+export const deletePostAction = async ({ postId }: { postId: string }) => {
+  await prisma.post.delete({
+    where: { id: postId },
+  });
+};

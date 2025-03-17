@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchPosts } from "@/app/actions/fetchAction";
+import { fetchPosts } from "@/app/actions/postAction";
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import PostCard from "./PostCard";

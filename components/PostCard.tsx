@@ -11,6 +11,16 @@ import { PostInterface, SessionInterface, UserInterface } from "@/types/types";
 import { FaCommentDots } from "react-icons/fa";
 import SequelsSection from "./SequelsSection";
 import CommentSection from "./CommentSection";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { HiDotsHorizontal } from "react-icons/hi";
+import { deletePostAction } from "@/app/actions/postAction";
+import { useRouter } from "next/navigation";
 
 const PostCard = ({
   post,
@@ -23,7 +33,13 @@ const PostCard = ({
   user: UserInterface;
   id: string;
 }) => {
+  const router = useRouter();
   const [showComments, setShowComments] = useState<boolean>(false);
+  const deletePost = async () => {
+    await deletePostAction({ postId: post.id });
+    router.push("/");
+  };
+
   return (
     <>
       <Card className="px-8 block mb-3" key={post.id} id={id}>
@@ -76,9 +92,34 @@ const PostCard = ({
               }}
             />
           </div>
-          <a href={`/create/sequel/${post.id}#${post.id}`}>
-            <Button>Generate Sequel</Button>
-          </a>
+          {post.author.id === user.id ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button>
+                  <HiDotsHorizontal />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-36">
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <a href={`/create/sequel/${post.id}#${post.id}`}>
+                      Generate Sequel
+                    </a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="text-red-500"
+                    onClick={deletePost}
+                  >
+                    Delete Post
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <a href={`/create/sequel/${post.id}#${post.id}`}>
+              <Button>Generate Sequel</Button>
+            </a>
+          )}
         </div>
         <SequelsSection sequels={post.sequels} />
       </Card>

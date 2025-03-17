@@ -1,5 +1,5 @@
 "use client";
-import { fetchComments } from "@/app/actions/fetchAction";
+import { fetchComments } from "@/app/actions/postAction";
 import React, { useEffect, useState } from "react";
 import {
   CommentInterface,
