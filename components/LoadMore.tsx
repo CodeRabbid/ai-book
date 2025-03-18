@@ -7,8 +7,6 @@ import PostCard from "./PostCard";
 import { PostInterface, SessionInterface, UserInterface } from "@/types/types";
 import { Spinner } from "./ui/spinner";
 
-let page = 0;
-
 const LoadMore = ({
   session,
   user,
@@ -18,12 +16,13 @@ const LoadMore = ({
 }) => {
   const { ref, inView } = useInView();
   const [posts, setPosts] = useState<PostInterface[]>([]);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     if (inView) {
       fetchPosts(page).then((newPosts) => {
         setPosts([...posts, ...newPosts]);
-        page++;
+        setPage(page + 1);
       });
     }
   }, [inView, posts]);
