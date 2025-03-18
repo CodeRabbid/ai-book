@@ -34,6 +34,7 @@ const ReplyInput = ({
   comment,
   postStory,
   size,
+  postLanguage,
   setShowReplies,
   updateComments,
 }: {
@@ -48,6 +49,7 @@ const ReplyInput = ({
   postStory: string;
   size?: string;
   postId?: string;
+  postLanguage: string;
   setShowReplies?: (bool: boolean) => void;
   updateComments: () => void;
 }) => {
@@ -64,6 +66,7 @@ const ReplyInput = ({
     let generatedComment;
     if (type === "comment") {
       generatedComment = await generateComment({
+        postLanguage,
         postStory,
         moods: moodList
           .map((mood, index) => {
@@ -76,6 +79,7 @@ const ReplyInput = ({
       });
     } else {
       generatedComment = await generateReply({
+        postLanguage,
         postStory,
         previousComments,
         moods: moodList

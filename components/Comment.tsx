@@ -19,6 +19,7 @@ const Comment = ({
   authorName,
   postStory,
   size,
+  postLanguage,
   updateComments,
 }: {
   className?: string;
@@ -30,6 +31,7 @@ const Comment = ({
   profilePicture?: string;
   postStory: string;
   size: string;
+  postLanguage: string;
   updateComments: () => void;
 }) => {
   const [showCommentIntut, setShowCommentIntut] = useState(false);
@@ -87,6 +89,7 @@ const Comment = ({
             postStory={postStory}
             setShowReplies={setShowReplies}
             updateComments={updateComments}
+            postLanguage={postLanguage}
           />
           <button
             className={`text-[13px] flex items-center cursor-pointer rounded-full px-3 py-2 hover:bg-blue-100 ${
@@ -115,6 +118,7 @@ const Comment = ({
                     profilePicture={profilePicture}
                     profileColor={profileColor}
                     postStory={postStory}
+                    postLanguage={postLanguage}
                     size={"small"}
                     updateComments={updateComments}
                   />

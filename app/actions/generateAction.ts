@@ -131,10 +131,12 @@ export async function handleGeneratePicture({ story }: { story: string }) {
 }
 
 export const generateComment = async ({
+  postLanguage,
   postStory,
   moods,
   wordCount,
 }: {
+  postLanguage: string;
   postStory: string;
   moods: string[];
   wordCount: number;
@@ -147,18 +149,20 @@ export const generateComment = async ({
   postStory = postStory.replace('"', "'");
   const prompt = `Generate a single ${moods.join(
     ", "
-  )} comment of about ${wordCount} words to this story: "${postStory}".`;
+  )} comment of about ${wordCount} words to this story: "${postStory}". The language of the comment must be ${postLanguage}.`;
   console.log(prompt);
   const result = await model.generateContent(prompt);
   return result.response.text();
 };
 
 export const generateReply = async ({
+  postLanguage,
   postStory,
   previousComments,
   moods,
   wordCount,
 }: {
+  postLanguage: string;
   postStory: string;
   previousComments: string[];
   moods: string[];
@@ -174,7 +178,7 @@ export const generateReply = async ({
   });
   prompt = `${prompt}\n Come up with a single ${moods.join(
     ", "
-  )} comment of about ${wordCount} words commenting on the lastest comment.`;
+  )} comment of about ${wordCount} words replying to the lastest comment. The language of the comment must be ${postLanguage}.`;
 
   console.log(prompt);
   const result = await model.generateContent(prompt);
