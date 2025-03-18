@@ -53,7 +53,7 @@ export async function handleGenerateStory({
     genre === "none" ? "" : `The genre of the chapter must be "${genre}".`;
 
   const prompt = `Write the first chapter of approximately ${wordCount} words and not more than 3800 characters, with the theme: "${theme}". ${genreSepcification} The chapter must be a ${form}. ${stageSpecification} The genre of the chapter must be "${genre}". The language of the chapter must be ${lang}. ${levelSepcification}`;
-  console.log(prompt);
+
   const result = await model.generateContent(prompt);
 
   return result.response.text();
@@ -100,7 +100,7 @@ export async function handleGenerateSequel({
     '"',
     "'"
   )}". ${genreSepcification} The chapter must be a ${form}. ${stageSpecification} The language of the chapter must be ${lang}. ${levelSepcification}`;
-  console.log(prompt);
+
   const result = await model.generateContent(prompt);
 
   return result.response.text();
@@ -150,7 +150,6 @@ export const generateComment = async ({
   const prompt = `Generate a single ${moods.join(
     ", "
   )} comment of about ${wordCount} words to this story: "${postStory}". The language of the comment must be ${postLanguage}.`;
-  console.log(prompt);
   const result = await model.generateContent(prompt);
   return result.response.text();
 };
@@ -180,7 +179,6 @@ export const generateReply = async ({
     ", "
   )} comment of about ${wordCount} words replying to the lastest comment. The language of the comment must be ${postLanguage}.`;
 
-  console.log(prompt);
   const result = await model.generateContent(prompt);
 
   return result.response.text();
