@@ -191,7 +191,7 @@ const ReplyInput = ({
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <div className="flex flex-col  px-4 pt-4 pb-2">
+                <div className="flex flex-col  px-4 pt-4 pb-2 z-50000000000000">
                   <div className="grid grid-cols-2 gap-3">
                     {moodList.map((mood, index) => (
                       <div className="flex items-center" key={mood.value}>
